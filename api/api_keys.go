@@ -54,7 +54,6 @@ func (c *Client) ListApiKey() (*ListApiKeyResponse, error) {
 	}
 
 	return response, nil
-
 }
 
 func (c *Client) GenerateApiKey() (*GenerateApiKeyResponse, error) {
@@ -86,7 +85,6 @@ func (c *Client) GenerateApiKey() (*GenerateApiKeyResponse, error) {
 	}
 
 	return response, nil
-
 }
 
 func (c *Client) DeleteApiKey(request DeleteApiKeyRequest) (*DeleteApiKeyResponse, error) {
@@ -121,5 +119,4 @@ func (c *Client) DeleteApiKey(request DeleteApiKeyRequest) (*DeleteApiKeyRespons
 	}
 
 	return response, nil
-
 }
