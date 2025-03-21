@@ -1,10 +1,5 @@
 package api
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 type ListRealServerResponse struct {
 	*LoadMasterResponse
 	Rs []RealServer `json:"Rs"`
@@ -42,24 +37,10 @@ func (c *Client) AddRealServer(vs_identifier string, params RealServerParameters
 		VS:                   vs_identifier,
 	}
 
-	http, err := c.newRequest(payload)
+	response, err := sendRequest(c, payload, ListRealServerResponse{})
+
 	if err != nil {
 		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &ListRealServerResponse{}
-	err = json.Unmarshal(http_response, response)
-	if err != nil {
-		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
 	}
 
 	return response, nil

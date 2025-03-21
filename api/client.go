@@ -50,6 +50,19 @@ func (r *LoadMasterRequest) injectAuth(c *Client) (err error) {
 	return fmt.Errorf("missing authentication")
 }
 
+type HTTPWithResponseCode interface {
+	getResponseCode() int
+	getResponseMessage() string
+}
+
+func (r LoadMasterResponse) getResponseCode() int {
+	return r.Code
+}
+
+func (r LoadMasterResponse) getResponseMessage() string {
+	return r.Message
+}
+
 func NewClient(apiKey string, apiUser string, apiPass string, restUrl string) *Client {
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 
@@ -81,6 +94,30 @@ func NewClientWithApiKey(apiKey string, restUrl string) *Client {
 		apiKey:     apiKey,
 		restUrl:    restUrl,
 	}
+}
+
+func sendRequest[T HTTPWithResponseCode](c *Client, payload AuthInjectable, response T) (*T, error) {
+
+	http, err := c.newRequest(payload)
+	if err != nil {
+		return nil, err
+	}
+
+	http_response, err := c.doRequest(http)
+	if err != nil {
+		return nil, err
+	}
+
+	err = json.Unmarshal(http_response, response)
+	if err != nil {
+		return nil, err
+	}
+
+	if response.getResponseCode() >= 400 {
+		return nil, fmt.Errorf("error: %s", response.getResponseMessage())
+	}
+
+	return &response, nil
 }
 
 func (c *Client) newRequest(payload AuthInjectable) (*http.Request, error) {

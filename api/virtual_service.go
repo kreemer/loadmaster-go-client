@@ -1,10 +1,5 @@
 package api
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 type VirtualService struct {
 	Index    int    `json:"Index"`
 	Protocol string `json:"Protocol"`
@@ -225,25 +220,9 @@ func (c *Client) ListVirtualService() (*ListVirtualServiceResponse, error) {
 			Command: "listvs",
 		},
 	}
-
-	http, err := c.newRequest(payload)
+	response, err := sendRequest(c, payload, ListVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &ListVirtualServiceResponse{}
-	err = json.Unmarshal(http_response, response)
-	if err != nil {
-		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
 	}
 
 	return response, nil
@@ -260,24 +239,9 @@ func (c *Client) ShowVirtualService(vs_identifier int) (*ShowVirtualServiceRespo
 		VS: vs_identifier,
 	}
 
-	http, err := c.newRequest(payload)
+	response, err := sendRequest(c, payload, ShowVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &ShowVirtualServiceResponse{}
-	err = json.Unmarshal(http_response, response)
-	if err != nil {
-		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
 	}
 
 	return response, nil
@@ -300,24 +264,9 @@ func (c *Client) AddVirtualService(address string, port int, protocol string, pa
 		VirtualServiceParameters: &parameters,
 	}
 
-	http, err := c.newRequest(payload)
+	response, err := sendRequest(c, payload, AddVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &AddVirtualServiceResponse{}
-	err = json.Unmarshal(http_response, response)
-	if err != nil {
-		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
 	}
 
 	return response, nil
@@ -334,24 +283,9 @@ func (c *Client) DeleteVirtualService(vs_identifier int) (*DeleteVirtualServiceR
 		VS: vs_identifier,
 	}
 
-	http, err := c.newRequest(payload)
+	response, err := sendRequest(c, payload, DeleteVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &DeleteVirtualServiceResponse{}
-	err = json.Unmarshal(http_response, response)
-	if err != nil {
-		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
 	}
 
 	return response, nil
@@ -370,24 +304,9 @@ func (c *Client) ModifyVirtualService(vs_identifier int, parameters VirtualServi
 		VirtualServiceParameters: &parameters,
 	}
 
-	http, err := c.newRequest(payload)
+	response, err := sendRequest(c, payload, ModifyVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &ModifyVirtualServiceResponse{}
-	err = json.Unmarshal(http_response, response)
-	if err != nil {
-		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
 	}
 
 	return response, nil

@@ -1,10 +1,5 @@
 package api
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 type SubVirtualService struct {
 	*VirtualService
 	Name    string `json:"Name"`
@@ -27,24 +22,9 @@ func (c *Client) ShowSubVirtualService(identifier int) (*ShowSubVirtualServiceRe
 		VS: identifier,
 	}
 
-	http, err := c.newRequest(payload)
+	response, err := sendRequest(c, payload, ShowSubVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &ShowSubVirtualServiceResponse{}
-	err = json.Unmarshal(http_response, response)
-	if err != nil {
-		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
 	}
 
 	return response, nil
@@ -63,24 +43,9 @@ func (c *Client) AddSubVirtualService(vs_identifier int, parameters VirtualServi
 		CreateSubVS: "",
 	}
 
-	http, err := c.newRequest(payload)
+	response, err := sendRequest(c, payload, ShowSubVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &ShowSubVirtualServiceResponse{}
-	err = json.Unmarshal(http_response, response)
-	if err != nil {
-		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
 	}
 
 	return response, nil
@@ -99,24 +64,9 @@ func (c *Client) ModifySubVirtualService(identifier int, parameters VirtualServi
 		Persist: "super",
 	}
 
-	http, err := c.newRequest(payload)
+	response, err := sendRequest(c, payload, ShowSubVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &ShowSubVirtualServiceResponse{}
-	err = json.Unmarshal(http_response, response)
-	if err != nil {
-		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
 	}
 
 	return response, nil
@@ -133,24 +83,9 @@ func (c *Client) DeleteSubVirtualService(identifier int) (*LoadMasterResponse, e
 		VS: identifier,
 	}
 
-	http, err := c.newRequest(payload)
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 	if err != nil {
 		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &LoadMasterResponse{}
-	err = json.Unmarshal(http_response, response)
-	if err != nil {
-		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
 	}
 
 	return response, nil
