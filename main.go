@@ -3,16 +3,19 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"os"
 	"strconv"
 
 	_ "github.com/joho/godotenv/autoload"
 	"github.com/kreemer/loadmaster-go-client/v2/api"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"github.com/urfave/cli/v2"
 )
 
 func main() {
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+	zerolog.SetGlobalLevel(zerolog.TraceLevel)
 
 	api_key := os.Getenv("KEMP_API_KEY")
 	ip := os.Getenv("KEMP_IP")
@@ -62,9 +65,47 @@ func main() {
 							&cli.StringFlag{Name: "address", Aliases: []string{"a"}, Required: true},
 							&cli.IntFlag{Name: "port", Aliases: []string{"p"}, Required: true},
 							&cli.StringFlag{Name: "protocol", Aliases: []string{"t"}},
+							&cli.StringFlag{Name: "data", Aliases: []string{"d"}},
 						},
 						Action: func(c *cli.Context) error {
-							response, err := client.AddVirtualService(c.String("address"), c.Int("port"), c.String("protocol"), api.VirtualServiceParameters{})
+							log.Info().Msg("Adding virtual service")
+
+							bytes := []byte(c.String("data"))
+							params := api.VirtualServiceParameters{}
+							json.Unmarshal(bytes, &params)
+							log.Trace().Interface("params", params).Msg("Params")
+
+							response, err := client.AddVirtualService(c.String("address"), c.Int("port"), c.String("protocol"), params)
+
+							if err != nil {
+								return err
+							}
+
+							fmt.Println(prettyPrint(response))
+							return nil
+						},
+					},
+					{
+						Name:  "mod",
+						Usage: "Modify a virtual service",
+						Flags: []cli.Flag{
+							&cli.StringFlag{Name: "data", Aliases: []string{"d"}},
+						},
+						Action: func(c *cli.Context) error {
+							log.Info().Msg("Modifying virtual service")
+							vs_identifier := c.Args().First()
+							if vs_identifier == "" {
+								return fmt.Errorf("missing virtual service identifier")
+							}
+							id, _ := strconv.Atoi(vs_identifier)
+
+							bytes := []byte(c.String("data"))
+							params := api.VirtualServiceParameters{}
+							json.Unmarshal(bytes, &params)
+							log.Trace().Interface("params", params).Msg("Params")
+
+							response, err := client.ModifyVirtualService(id, params)
+
 							if err != nil {
 								return err
 							}
@@ -117,6 +158,9 @@ func main() {
 					{
 						Name:  "add",
 						Usage: "add a sub virtual service",
+						Flags: []cli.Flag{
+							&cli.StringFlag{Name: "data", Aliases: []string{"d"}},
+						},
 						Action: func(c *cli.Context) error {
 							vs_identifier := c.Args().First()
 							if vs_identifier == "" {
@@ -124,7 +168,12 @@ func main() {
 							}
 							id, _ := strconv.Atoi(vs_identifier)
 
-							response, err := client.AddSubVirtualService(id, api.VirtualServiceParameters{})
+							bytes := []byte(c.String("data"))
+							params := api.VirtualServiceParameters{}
+							json.Unmarshal(bytes, &params)
+							log.Trace().Interface("params", params).Msg("Params")
+
+							response, err := client.AddSubVirtualService(id, params)
 							if err != nil {
 								return err
 							}
@@ -156,7 +205,7 @@ func main() {
 	}
 
 	if err := app.Run(os.Args); err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err)
 	}
 }
 

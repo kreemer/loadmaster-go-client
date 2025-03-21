@@ -2,8 +2,8 @@ package api
 
 type SubVirtualService struct {
 	*VirtualService
-	Name    string `json:"Name"`
-	Forward string `json:"Forward"`
+	Name    string `json:"Name,omitempty"`
+	Forward string `json:"Forward,omitempty"`
 }
 
 type ShowSubVirtualServiceResponse struct {
@@ -22,7 +22,7 @@ func (c *Client) ShowSubVirtualService(identifier int) (*ShowSubVirtualServiceRe
 		VS: identifier,
 	}
 
-	response, err := sendRequest(c, payload, ShowSubVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, &ShowSubVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +43,7 @@ func (c *Client) AddSubVirtualService(vs_identifier int, parameters VirtualServi
 		CreateSubVS: "",
 	}
 
-	response, err := sendRequest(c, payload, ShowSubVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, &ShowSubVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +64,7 @@ func (c *Client) ModifySubVirtualService(identifier int, parameters VirtualServi
 		Persist: "super",
 	}
 
-	response, err := sendRequest(c, payload, ShowSubVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, &ShowSubVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -73,6 +73,7 @@ func (c *Client) ModifySubVirtualService(identifier int, parameters VirtualServi
 }
 
 func (c *Client) DeleteSubVirtualService(identifier int) (*LoadMasterResponse, error) {
+
 	payload := struct {
 		*LoadMasterRequest
 		VS int `json:"vs"`
@@ -82,8 +83,7 @@ func (c *Client) DeleteSubVirtualService(identifier int) (*LoadMasterResponse, e
 		},
 		VS: identifier,
 	}
-
-	response, err := sendRequest(c, payload, LoadMasterResponse{})
+	response, err := sendRequest(c, payload, &LoadMasterResponse{})
 	if err != nil {
 		return nil, err
 	}

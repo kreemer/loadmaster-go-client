@@ -21,19 +21,19 @@ type VirtualServiceParameters struct {
 }
 
 type VirtualServiceParametersBasicProperties struct {
-	Enable   bool   `json:"Enable"`
+	Enable   *bool  `json:"Enable,omitempty"`
 	VSType   string `json:"VStype,omitempty"`
 	NickName string `json:"NickName,omitempty"`
 }
 
 type VirtualServiceParametersStandardOptions struct {
 	Cookie             string `json:"Cookie,omitempty"`
-	ForceL7            bool   `json:"ForceL7"`
+	ForceL7            *bool  `json:"ForceL7"`
 	Idletime           int    `json:"Idletime,omitempty"`
 	Persist            string `json:"Persist,omitempty"`
-	SubnetOriginating  bool   `json:"SubnetOriginating"`
+	SubnetOriginating  *bool  `json:"SubnetOriginating"`
 	PersistTimeout     string `json:"PersistTimeout,omitempty"`
-	Refreshpersist     bool   `json:"Refreshpersist"`
+	Refreshpersist     *bool  `json:"Refreshpersist"`
 	QueryTag           string `json:"QueryTag,omitempty"`
 	Schedule           string `json:"Schedule,omitempty"`
 	Showadaptive       string `json:"showadaptive,omitempty"`
@@ -42,8 +42,8 @@ type VirtualServiceParametersStandardOptions struct {
 	AdaptivePort       int    `json:"AdaptivePort,omitempty"`
 	AdaptiveMinPercent int    `json:"AdaptiveMinPercent,omitempty"`
 	ServerInit         int    `json:"ServerInit,omitempty"`
-	Transparent        bool   `json:"Transparent"`
-	UseForSnat         bool   `json:"UseForSnat"`
+	Transparent        *bool  `json:"Transparent,omitempty"`
+	UseForSnat         *bool  `json:"UseForSnat,omitempty"`
 	QoS                int    `json:"QoS,omitempty"`
 	StartTLSMode       int    `json:"StartTLSMode,omitempty"`
 	ExtraPorts         string `json:"ExtraPorts,omitempty"`
@@ -55,28 +55,28 @@ type VirtualServiceParametersSSLProperties struct {
 	CipherSet             string `json:"CipherSet,omitempty"`
 	Tls13CipherSet        string `json:"Tls13CipherSet,omitempty"`
 	ClientCert            int    `json:"ClientCert,omitempty"`
-	PassCipher            bool   `json:"PassCipher"`
-	SSLReencrypt          bool   `json:"SSLReencrypt"`
-	PassSNI               bool   `json:"PassSNI"`
-	SSLReverse            bool   `json:"SSLReverse"`
+	PassCipher            *bool  `json:"PassCipher,omitempty"`
+	SSLReencrypt          *bool  `json:"SSLReencrypt,omitempty"`
+	PassSNI               *bool  `json:"PassSNI,omitempty"`
+	SSLReverse            *bool  `json:"SSLReverse,omitempty"`
 	SSLRewrite            string `json:"SSLRewrite,omitempty"`
 	ReverseSNIHostname    string `json:"ReverseSNIHostname,omitempty"`
 	SecurityHeaderOptions int    `json:"SecurityHeaderOptions,omitempty"`
-	SSLAcceleration       bool   `json:"SSLAcceleration"`
-	OCSPVerify            bool   `json:"OCSPVerify"`
+	SSLAcceleration       *bool  `json:"SSLAcceleration,omitempty"`
+	OCSPVerify            *bool  `json:"OCSPVerify,omitempty"`
 	TLSType               string `json:"TLSType,omitempty"`
-	NeedHostName          bool   `json:"NeedHostName"`
+	NeedHostName          *bool  `json:"NeedHostName,omitempty"`
 	IntermediateCerts     string `json:"IntermediateCerts,omitempty"`
 }
 
 type VirtualServiceParametersAdvancedProperties struct {
-	HTTPReschedule         bool     `json:"HTTPReschedule"`
+	HTTPReschedule         *bool    `json:"HTTPReschedule,omitempty"`
 	CopyHdrFrom            string   `json:"CopyHdrFrom,omitempty"`
 	CopyHdrTo              string   `json:"CopyHdrTo,omitempty"`
 	AddVia                 int      `json:"AddVia,omitempty"`
-	AllowHTTP2             bool     `json:"AllowHTTP2"`
-	Cache                  bool     `json:"Cache"`
-	Compress               bool     `json:"Compress"`
+	AllowHTTP2             *bool    `json:"AllowHTTP2,omitempty"`
+	Cache                  *bool    `json:"Cache,omitempty"`
+	Compress               *bool    `json:"Compress,omitempty"`
 	CachePercent           int      `json:"CachePercent,omitempty"`
 	DefaultGW              string   `json:"DefaultGW,omitempty"`
 	ErrorCode              string   `json:"ErrorCode,omitempty"`
@@ -90,7 +90,7 @@ type VirtualServiceParametersAdvancedProperties struct {
 	ResponseRules          []string `json:"ResponseRules,omitempty"`
 	StandbyAddr            string   `json:"StandbyAddr,omitempty"`
 	StandbyPort            int      `json:"StandbyPort,omitempty"`
-	NonLocalSorryServer    bool     `json:"NonLocalSorryServer"`
+	NonLocalSorryServer    *bool    `json:"NonLocalSorryServer,omitempty"`
 	Verify                 int      `json:"Verify,omitempty"`
 	AltAddress             string   `json:"AltAddress,omitempty"`
 	PreProcPrecedence      string   `json:"PreProcPrecedence,omitempty"`
@@ -101,14 +101,14 @@ type VirtualServiceParametersAdvancedProperties struct {
 	ResponsePrecedencePos  int      `json:"ResponsePrecedencePos,omitempty"`
 	MatchBodyPrecedence    string   `json:"MatchBodyPrecedence,omitempty"`
 	MatchBodyPrecedencePos int      `json:"MatchBodyPrecedencePos,omitempty"`
-	ResponseStatusRemap    bool     `json:"ResponseStatusRemap"`
+	ResponseStatusRemap    *bool    `json:"ResponseStatusRemap,omitempty"`
 	ResponseRemapMsgMap    string   `json:"ResponseRemapMsgMap,omitempty"`
 	ResponseRemapMsgFormat int      `json:"ResponseRemapMsgFormat,omitempty"`
 	ResponseRemapCodeMap   string   `json:"ResponseRemapCodeMap,omitempty"`
 }
 
 type VirtualServiceParametersWAFSettings struct {
-	Intercept                      bool     `json:"Intercept"`
+	Intercept                      *bool    `json:"Intercept,omitempty"`
 	InterceptMode                  int      `json:"InterceptMode,omitempty"`
 	InterceptOpts                  []string `json:"InterceptOpts,omitempty"`
 	InterceptPOSTOtherContentTypes string   `json:"InterceptPOSTOtherContentTypes,omitempty"`
@@ -121,40 +121,40 @@ type VirtualServiceParametersESPOptions struct {
 	Domain                string `json:"Domain,omitempty"`
 	Logoff                string `json:"Logoff,omitempty"`
 	AddAuthHeader         string `json:"AddAuthHeader,omitempty"`
-	DisplayPubPriv        bool   `json:"DisplayPubPriv"`
-	DisablePasswordForm   bool   `json:"DisablePasswordForm"`
-	Captcha               bool   `json:"Captcha"`
+	DisplayPubPriv        *bool  `json:"DisplayPubPriv,omitempty"`
+	DisablePasswordForm   *bool  `json:"DisablePasswordForm,omitempty"`
+	Captcha               *bool  `json:"Captcha,omitempty"`
 	CaptchaPublicKey      string `json:"CaptchaPublicKey,omitempty"`
 	CaptchaPrivateKey     string `json:"CaptchaPrivateKey,omitempty"`
 	CaptchaAccessUrl      string `json:"CaptchaAccessUrl,omitempty"`
 	CaptchaVerifyUrl      string `json:"CaptchaVerifyUrl,omitempty"`
-	ESPLogs               int    `json:"ESPLogs"`
+	ESPLogs               int    `json:"ESPLogs,omitempty"`
 	SMTPAllowedDomains    string `json:"SMTPAllowedDomains,omitempty"`
 	ExcludedDirectories   string `json:"ExcludedDirectories,omitempty"`
-	EspEnabled            bool   `json:"EspEnabled"`
-	InputAuthMode         int    `json:"InputAuthMode"`
-	OutputAuthMode        int    `json:"OutputAuthMode"`
+	EspEnabled            *bool  `json:"EspEnabled,omitempty"`
+	InputAuthMode         int    `json:"InputAuthMode,omitempty"`
+	OutputAuthMode        int    `json:"OutputAuthMode,omitempty"`
 	TokenServerFQDN       string `json:"TokenServerFQDN,omitempty"`
 	ServerFbaPath         string `json:"ServerFbaPath,omitempty"`
 	ServerFBAPost         string `json:"ServerFBAPost,omitempty"`
-	ServerFbaUsernameOnly bool   `json:"ServerFbaUsernameOnly"`
+	ServerFbaUsernameOnly *bool  `json:"ServerFbaUsernameOnly,omitempty"`
 	OutConf               string `json:"OutConf,omitempty"`
 	SingleSignOnDir       string `json:"SingleSignOnDir,omitempty"`
 	SingleSignOnMessage   string `json:"SingleSignOnMessage,omitempty"`
 	AllowedGroups         string `json:"AllowedGroups,omitempty"`
 	GroupSIDs             string `json:"GroupSIDs,omitempty"`
-	IncludeNestedGroups   bool   `json:"IncludeNestedGroups"`
+	IncludeNestedGroups   *bool  `json:"IncludeNestedGroups,omitempty"`
 	SteeringGroups        string `json:"SteeringGroups,omitempty"`
-	VerifyBearer          bool   `json:"VerifyBearer"`
+	VerifyBearer          *bool  `json:"VerifyBearer,omitempty"`
 	BearerCertificateName string `json:"BearerCertificateName,omitempty"`
 	BearerText            string `json:"BearerText,omitempty"`
 	ExcludedDomains       string `json:"ExcludedDomains,omitempty"`
 	AltDomains            string `json:"AltDomains,omitempty"`
-	SameSite              int    `json:"SameSite"`
+	SameSite              int    `json:"SameSite,omitempty"`
 	UserPwdChangeURL      string `json:"UserPwdChangeURL,omitempty"`
 	UserPwdChangeMsg      string `json:"UserPwdChangeMsg,omitempty"`
-	UserPwdExpiryWarn     bool   `json:"UserPwdExpiryWarn"`
-	UserPwdExpiryWarnDays int    `json:"UserPwdExpiryWarnDays"`
+	UserPwdExpiryWarn     *bool  `json:"UserPwdExpiryWarn,omitempty"`
+	UserPwdExpiryWarnDays int    `json:"UserPwdExpiryWarnDays,omitempty"`
 }
 
 type VirtualServiceParametersRealServers struct {
@@ -166,7 +166,7 @@ type VirtualServiceParametersRealServers struct {
 	CheckCodes           string              `json:"CheckCodes,omitempty"`
 	CheckHeaders         string              `json:"CheckHeaders,omitempty"`
 	MatchLen             int                 `json:"MatchLen,omitempty"`
-	CheckUse1_1          bool                `json:"CheckUse1.1"`
+	CheckUse1_1          *bool               `json:"CheckUse1.1,omitempty"`
 	CheckPort            string              `json:"CheckPort,omitempty"`
 	NumberOfRSs          int                 `json:"NumberOfRSs,omitempty"`
 	NRules               int                 `json:"NRules,omitempty"`
@@ -178,14 +178,14 @@ type VirtualServiceParametersRealServers struct {
 	CheckPostData        string              `json:"CheckPostData,omitempty"`
 	RSRulePrecedence     string              `json:"RSRulePrecedence,omitempty"`
 	RSRulePrecedencePos  int                 `json:"RSRulePrecedencePos,omitempty"`
-	EnhancedHealthchecks bool                `json:"EnhancedHealthchecks"`
+	EnhancedHealthchecks *bool               `json:"EnhancedHealthchecks,omitempty"`
 	RsMinimum            int                 `json:"RsMinimum,omitempty"`
 }
 
 type VirtualServiceParametersMiscellaneous struct {
 	Adaptive     string `json:"Adaptive,omitempty"`
-	MultiConnect bool   `json:"MultiConnect"`
-	NonLocal     bool   `json:"non_local"`
+	MultiConnect *bool  `json:"MultiConnect,omitempty"`
+	NonLocal     *bool  `json:"non_local,omitempty"`
 }
 
 type ListVirtualServiceResponse struct {
@@ -220,7 +220,7 @@ func (c *Client) ListVirtualService() (*ListVirtualServiceResponse, error) {
 			Command: "listvs",
 		},
 	}
-	response, err := sendRequest(c, payload, ListVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, &ListVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -239,7 +239,7 @@ func (c *Client) ShowVirtualService(vs_identifier int) (*ShowVirtualServiceRespo
 		VS: vs_identifier,
 	}
 
-	response, err := sendRequest(c, payload, ShowVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, &ShowVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -264,7 +264,7 @@ func (c *Client) AddVirtualService(address string, port int, protocol string, pa
 		VirtualServiceParameters: &parameters,
 	}
 
-	response, err := sendRequest(c, payload, AddVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, &AddVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -283,7 +283,7 @@ func (c *Client) DeleteVirtualService(vs_identifier int) (*DeleteVirtualServiceR
 		VS: vs_identifier,
 	}
 
-	response, err := sendRequest(c, payload, DeleteVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, &DeleteVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -304,7 +304,7 @@ func (c *Client) ModifyVirtualService(vs_identifier int, parameters VirtualServi
 		VirtualServiceParameters: &parameters,
 	}
 
-	response, err := sendRequest(c, payload, ModifyVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, &ModifyVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
 	}

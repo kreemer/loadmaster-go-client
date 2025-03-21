@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+
+	"github.com/rs/zerolog/log"
 )
 
 type Client struct {
@@ -96,28 +98,30 @@ func NewClientWithApiKey(apiKey string, restUrl string) *Client {
 	}
 }
 
-func sendRequest[T HTTPWithResponseCode](c *Client, payload AuthInjectable, response T) (*T, error) {
+func sendRequest[T HTTPWithResponseCode](c *Client, payload AuthInjectable, response *T) (*T, error) {
+
+	log.Debug().Msg("Sending request")
+	log.Trace().Interface("payload", payload).Msg("Payload")
 
 	http, err := c.newRequest(payload)
 	if err != nil {
+		log.Error().Err(err).Msg("Error creating request")
 		return nil, err
 	}
 
 	http_response, err := c.doRequest(http)
 	if err != nil {
+		log.Error().Err(err).Msg("Error sending request")
 		return nil, err
 	}
 
+	log.Trace().Interface("response", http_response).Msg("Response")
 	err = json.Unmarshal(http_response, response)
 	if err != nil {
 		return nil, err
 	}
 
-	if response.getResponseCode() >= 400 {
-		return nil, fmt.Errorf("error: %s", response.getResponseMessage())
-	}
-
-	return &response, nil
+	return response, nil
 }
 
 func (c *Client) newRequest(payload AuthInjectable) (*http.Request, error) {
