@@ -1,4 +1,4 @@
-module github.com/kreemer/loadmaster-go-client/v2
+module github.com/kreemer/loadmaster-go-client
 
 go 1.24.1
 

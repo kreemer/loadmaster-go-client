@@ -7,7 +7,7 @@ import (
 	"strconv"
 
 	_ "github.com/joho/godotenv/autoload"
-	"github.com/kreemer/loadmaster-go-client/v2/api"
+	"github.com/kreemer/loadmaster-go-client/api"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/urfave/cli/v2"
