@@ -65,7 +65,7 @@ func (r LoadMasterResponse) getResponseMessage() string {
 	return r.Message
 }
 
-func NewClient(apiKey string, apiUser string, apiPass string, restUrl string) *Client {
+func NewClient(restUrl string, apiKey string, apiUser string, apiPass string) *Client {
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 
 	return &Client{
@@ -77,7 +77,7 @@ func NewClient(apiKey string, apiUser string, apiPass string, restUrl string) *C
 	}
 }
 
-func NewClientWithUsernamePassword(apiUser string, apiPass string, restUrl string) *Client {
+func NewClientWithUsernamePassword(restUrl string, apiUser string, apiPass string) *Client {
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 
 	return &Client{
@@ -88,7 +88,7 @@ func NewClientWithUsernamePassword(apiUser string, apiPass string, restUrl strin
 	}
 }
 
-func NewClientWithApiKey(apiKey string, restUrl string) *Client {
+func NewClientWithApiKey(restUrl string, apiKey string) *Client {
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 
 	return &Client{

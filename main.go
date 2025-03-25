@@ -20,7 +20,7 @@ func main() {
 	api_key := os.Getenv("KEMP_API_KEY")
 	ip := os.Getenv("KEMP_IP")
 
-	client := api.NewClientWithApiKey(api_key, "https://"+ip)
+	client := api.NewClientWithApiKey("https://"+ip, api_key)
 
 	app := &cli.App{
 		Commands: []*cli.Command{

@@ -26,7 +26,6 @@ func TestLoadMasterRequest_injectAuth(t *testing.T) {
 		{"Error if no authentication", fields{}, args{&Client{}}, true},
 		{"Error if no username but password", fields{}, args{&Client{apiPass: "pass"}}, true},
 		{"Error if no password but username", fields{}, args{&Client{apiUser: "user"}}, true},
-		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
