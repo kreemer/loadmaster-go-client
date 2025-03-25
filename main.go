@@ -187,6 +187,33 @@ func main() {
 							return nil
 						},
 					},
+					{
+						Name:  "mod",
+						Usage: "Modify a sub virtual service",
+						Flags: []cli.Flag{
+							&cli.StringFlag{Name: "data", Aliases: []string{"d"}},
+						},
+						Action: func(c *cli.Context) error {
+							vs_identifier := c.Args().First()
+							if vs_identifier == "" {
+								return fmt.Errorf("missing sub virtual service identifier")
+							}
+							id, _ := strconv.Atoi(vs_identifier)
+
+							bytes := []byte(c.String("data"))
+							params := api.VirtualServiceParameters{}
+							json.Unmarshal(bytes, &params)
+
+							response, err := client.ModifySubVirtualService(id, params)
+
+							if err != nil {
+								return err
+							}
+
+							fmt.Println(prettyPrint(response))
+							return nil
+						},
+					},
 				},
 			},
 			{

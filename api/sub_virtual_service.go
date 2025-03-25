@@ -55,14 +55,16 @@ func (c *Client) AddSubVirtualService(vs_identifier int, parameters VirtualServi
 func (c *Client) ModifySubVirtualService(identifier int, parameters VirtualServiceParameters) (*ShowSubVirtualServiceResponse, error) {
 	payload := struct {
 		*LoadMasterRequest
+		*VirtualServiceParameters
 		VS      int    `json:"vs"`
 		Persist string `json:"persist"`
 	}{
 		LoadMasterRequest: &LoadMasterRequest{
 			Command: "modvs",
 		},
-		VS:      identifier,
-		Persist: "super",
+		VS:                       identifier,
+		Persist:                  "super",
+		VirtualServiceParameters: &parameters,
 	}
 
 	response, err := sendRequest(c, payload, &ShowSubVirtualServiceResponse{})
