@@ -2,8 +2,9 @@ package api
 
 type SubVirtualService struct {
 	*VirtualService
-	Name    string `json:"Name,omitempty"`
-	Forward string `json:"Forward,omitempty"`
+	Name       string `json:"Name,omitempty"`
+	Forward    string `json:"Forward,omitempty"`
+	MasterVSID int    `json:"MasterVSID,omitempty"`
 }
 
 type ShowSubVirtualServiceResponse struct {
