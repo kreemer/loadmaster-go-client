@@ -1,10 +1,15 @@
 package api
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 type SubVirtualService struct {
 	*VirtualService
-	Name       string `json:"Name,omitempty"`
-	Forward    string `json:"Forward,omitempty"`
-	MasterVSID int    `json:"MasterVSID,omitempty"`
+	Name    string `json:"Name,omitempty"`
+	Forward string `json:"Forward,omitempty"`
+	VSIndex int    `json:"VSIndex,omitempty"`
 }
 
 type ShowSubVirtualServiceResponse struct {
@@ -48,6 +53,8 @@ func (c *Client) AddSubVirtualService(vs_identifier int, parameters VirtualServi
 	if err != nil {
 		return nil, err
 	}
+	a, _ := json.Marshal(response)
+	fmt.Println("response", string(a))
 
 	return response, nil
 }
