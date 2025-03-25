@@ -8,15 +8,10 @@ import (
 
 	_ "github.com/joho/godotenv/autoload"
 	"github.com/kreemer/loadmaster-go-client/api"
-	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
 	"github.com/urfave/cli/v2"
 )
 
 func main() {
-	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
-	zerolog.SetGlobalLevel(zerolog.TraceLevel)
-
 	api_key := os.Getenv("KEMP_API_KEY")
 	ip := os.Getenv("KEMP_IP")
 
@@ -68,12 +63,9 @@ func main() {
 							&cli.StringFlag{Name: "data", Aliases: []string{"d"}},
 						},
 						Action: func(c *cli.Context) error {
-							log.Info().Msg("Adding virtual service")
-
 							bytes := []byte(c.String("data"))
 							params := api.VirtualServiceParameters{}
 							json.Unmarshal(bytes, &params)
-							log.Trace().Interface("params", params).Msg("Params")
 
 							response, err := client.AddVirtualService(c.String("address"), c.String("port"), c.String("protocol"), params)
 
@@ -92,7 +84,6 @@ func main() {
 							&cli.StringFlag{Name: "data", Aliases: []string{"d"}},
 						},
 						Action: func(c *cli.Context) error {
-							log.Info().Msg("Modifying virtual service")
 							vs_identifier := c.Args().First()
 							if vs_identifier == "" {
 								return fmt.Errorf("missing virtual service identifier")
@@ -102,7 +93,6 @@ func main() {
 							bytes := []byte(c.String("data"))
 							params := api.VirtualServiceParameters{}
 							json.Unmarshal(bytes, &params)
-							log.Trace().Interface("params", params).Msg("Params")
 
 							response, err := client.ModifyVirtualService(id, params)
 
@@ -171,7 +161,6 @@ func main() {
 							bytes := []byte(c.String("data"))
 							params := api.VirtualServiceParameters{}
 							json.Unmarshal(bytes, &params)
-							log.Trace().Interface("params", params).Msg("Params")
 
 							response, err := client.AddSubVirtualService(id, params)
 							if err != nil {
@@ -262,7 +251,8 @@ func main() {
 	}
 
 	if err := app.Run(os.Args); err != nil {
-		log.Fatal().Err(err)
+		fmt.Fprintf(os.Stderr, "error: %v\n", err)
+		os.Exit(1)
 	}
 }
 
