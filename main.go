@@ -6,7 +6,6 @@ import (
 	"os"
 	"strconv"
 
-	_ "github.com/joho/godotenv/autoload"
 	"github.com/kreemer/loadmaster-go-client/api"
 	"github.com/urfave/cli/v2"
 )
