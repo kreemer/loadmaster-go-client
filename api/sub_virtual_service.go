@@ -1,10 +1,5 @@
 package api
 
-import (
-	"encoding/json"
-	"fmt"
-)
-
 type SubVirtualService struct {
 	*VirtualService
 	Name    string `json:"Name,omitempty"`
@@ -53,8 +48,6 @@ func (c *Client) AddSubVirtualService(vs_identifier int, parameters VirtualServi
 	if err != nil {
 		return nil, err
 	}
-	a, _ := json.Marshal(response)
-	fmt.Println("response", string(a))
 
 	return response, nil
 }

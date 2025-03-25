@@ -1,11 +1,11 @@
 package api
 
 type VirtualService struct {
-	Index    int    `json:"Index"`
-	Protocol string `json:"Protocol"`
-	Address  string `json:"VSAddress"`
-	Port     string `json:"VSPort"`
-
+	Index      int    `json:"Index"`
+	Protocol   string `json:"Protocol"`
+	Address    string `json:"VSAddress"`
+	Port       string `json:"VSPort"`
+	MasterVSID int    `json:"MasterVSID,omitempty"`
 	*VirtualServiceParameters
 }
 
