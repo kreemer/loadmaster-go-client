@@ -247,11 +247,11 @@ func (c *Client) ShowVirtualService(vs_identifier int) (*ShowVirtualServiceRespo
 	return response, nil
 }
 
-func (c *Client) AddVirtualService(address string, port int, protocol string, parameters VirtualServiceParameters) (*AddVirtualServiceResponse, error) {
+func (c *Client) AddVirtualService(address string, port string, protocol string, parameters VirtualServiceParameters) (*AddVirtualServiceResponse, error) {
 	payload := struct {
 		*LoadMasterRequest
 		VS       string `json:"vs"`
-		Port     int    `json:"port"`
+		Port     string `json:"port"`
 		Protocol string `json:"prot"`
 		*VirtualServiceParameters
 	}{

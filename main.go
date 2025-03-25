@@ -63,7 +63,7 @@ func main() {
 						Usage: "add a virtual service",
 						Flags: []cli.Flag{
 							&cli.StringFlag{Name: "address", Aliases: []string{"a"}, Required: true},
-							&cli.IntFlag{Name: "port", Aliases: []string{"p"}, Required: true},
+							&cli.StringFlag{Name: "port", Aliases: []string{"p"}, Required: true},
 							&cli.StringFlag{Name: "protocol", Aliases: []string{"t"}},
 							&cli.StringFlag{Name: "data", Aliases: []string{"d"}},
 						},
@@ -75,7 +75,7 @@ func main() {
 							json.Unmarshal(bytes, &params)
 							log.Trace().Interface("params", params).Msg("Params")
 
-							response, err := client.AddVirtualService(c.String("address"), c.Int("port"), c.String("protocol"), params)
+							response, err := client.AddVirtualService(c.String("address"), c.String("port"), c.String("protocol"), params)
 
 							if err != nil {
 								return err
