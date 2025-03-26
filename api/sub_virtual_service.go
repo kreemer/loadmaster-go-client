@@ -23,7 +23,7 @@ func (c *Client) ShowSubVirtualService(identifier int) (*ShowSubVirtualServiceRe
 		VS: identifier,
 	}
 
-	response, err := sendRequest(c, payload, &ShowSubVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, ShowSubVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +44,7 @@ func (c *Client) AddSubVirtualService(vs_identifier int, parameters VirtualServi
 		CreateSubVS: "",
 	}
 
-	response, err := sendRequest(c, payload, &ShowSubVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, ShowSubVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +67,7 @@ func (c *Client) ModifySubVirtualService(identifier int, parameters VirtualServi
 		VirtualServiceParameters: &parameters,
 	}
 
-	response, err := sendRequest(c, payload, &ShowSubVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, ShowSubVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +86,7 @@ func (c *Client) DeleteSubVirtualService(identifier int) (*LoadMasterResponse, e
 		},
 		VS: identifier,
 	}
-	response, err := sendRequest(c, payload, &LoadMasterResponse{})
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 	if err != nil {
 		return nil, err
 	}

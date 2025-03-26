@@ -37,7 +37,7 @@ func (c *Client) AddRealServer(vs_identifier string, params RealServerParameters
 		VS:                   vs_identifier,
 	}
 
-	response, err := sendRequest(c, payload, &ListRealServerResponse{})
+	response, err := sendRequest(c, payload, ListRealServerResponse{})
 
 	if err != nil {
 		return nil, err
@@ -59,7 +59,7 @@ func (c *Client) ModifyRealServer(vs_identifier string, params RealServerParamet
 		VS:                   vs_identifier,
 	}
 
-	response, err := sendRequest(c, payload, &ListRealServerResponse{})
+	response, err := sendRequest(c, payload, ListRealServerResponse{})
 
 	if err != nil {
 		return nil, err
@@ -81,7 +81,7 @@ func (c *Client) DeleteRealServer(vs_identifier string, params RealServerParamet
 		VS:                   vs_identifier,
 	}
 
-	response, err := sendRequest(c, payload, &ListRealServerResponse{})
+	response, err := sendRequest(c, payload, ListRealServerResponse{})
 
 	if err != nil {
 		return nil, err

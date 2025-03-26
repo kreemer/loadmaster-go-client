@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strconv"
 )
 
 type Client struct {
@@ -28,6 +29,15 @@ type LoadMasterRequest struct {
 	ApiUser string `json:"apiuser,omitempty"`
 	ApiPass string `json:"apipass,omitempty"`
 	ApiKey  string `json:"apikey,omitempty"`
+}
+
+type LoadMasterError struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+}
+
+func (e *LoadMasterError) Error() string {
+	return "Code: " + strconv.Itoa(e.Code) + ", Message: " + e.Message
 }
 
 type AuthInjectable interface {
@@ -96,23 +106,30 @@ func NewClientWithApiKey(restUrl string, apiKey string) *Client {
 	}
 }
 
-func sendRequest[T HTTPWithResponseCode](c *Client, payload AuthInjectable, response *T) (*T, error) {
-	http, err := c.newRequest(payload)
+func sendRequest[T HTTPWithResponseCode](c *Client, payload AuthInjectable, response T) (*T, error) {
+	request, err := c.newRequest(payload)
 	if err != nil {
 		return nil, err
 	}
 
-	http_response, err := c.doRequest(http)
+	http_response, err := c.doRequest(request)
 	if err != nil {
 		return nil, err
 	}
 
-	err = json.Unmarshal(http_response, response)
+	err = json.Unmarshal(http_response, &response)
 	if err != nil {
 		return nil, err
 	}
 
-	return response, nil
+	if response.getResponseCode() != http.StatusOK && response.getResponseCode() != http.StatusNoContent {
+		return nil, &LoadMasterError{
+			Code:    response.getResponseCode(),
+			Message: response.getResponseMessage(),
+		}
+	}
+
+	return &response, nil
 }
 
 func (c *Client) newRequest(payload AuthInjectable) (*http.Request, error) {

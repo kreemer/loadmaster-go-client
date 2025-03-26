@@ -220,7 +220,7 @@ func (c *Client) ListVirtualService() (*ListVirtualServiceResponse, error) {
 			Command: "listvs",
 		},
 	}
-	response, err := sendRequest(c, payload, &ListVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, ListVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -239,7 +239,7 @@ func (c *Client) ShowVirtualService(vs_identifier int) (*ShowVirtualServiceRespo
 		VS: vs_identifier,
 	}
 
-	response, err := sendRequest(c, payload, &ShowVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, ShowVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -264,7 +264,7 @@ func (c *Client) AddVirtualService(address string, port string, protocol string,
 		VirtualServiceParameters: &parameters,
 	}
 
-	response, err := sendRequest(c, payload, &AddVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, AddVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -283,7 +283,7 @@ func (c *Client) DeleteVirtualService(vs_identifier int) (*DeleteVirtualServiceR
 		VS: vs_identifier,
 	}
 
-	response, err := sendRequest(c, payload, &DeleteVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, DeleteVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -304,7 +304,7 @@ func (c *Client) ModifyVirtualService(vs_identifier int, parameters VirtualServi
 		VirtualServiceParameters: &parameters,
 	}
 
-	response, err := sendRequest(c, payload, &ModifyVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, ModifyVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
 	}

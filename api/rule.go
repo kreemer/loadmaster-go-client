@@ -92,7 +92,7 @@ func (c *Client) ListRule() (*RuleResponse, error) {
 		},
 	}
 
-	response, err := sendRequest(c, payload, &RuleResponse{})
+	response, err := sendRequest(c, payload, RuleResponse{})
 
 	if err != nil {
 		return nil, err
@@ -116,7 +116,7 @@ func (c *Client) AddRule(rule_type string, name string, params GeneralRule) (*Ru
 		GeneralRule: &params,
 	}
 
-	response, err := sendRequest(c, payload, &RuleResponse{})
+	response, err := sendRequest(c, payload, RuleResponse{})
 
 	if err != nil {
 		return nil, err
@@ -136,7 +136,7 @@ func (c *Client) DeleteRule(name string) (*LoadMasterResponse, error) {
 		Name: name,
 	}
 
-	response, err := sendRequest(c, payload, &LoadMasterResponse{})
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 
 	if err != nil {
 		return nil, err

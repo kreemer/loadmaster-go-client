@@ -13,7 +13,7 @@ func (c *Client) AddRealServerRule(rs_index string, rule_name string) (*LoadMast
 		RealServer: rs_index,
 	}
 
-	response, err := sendRequest(c, payload, &LoadMasterResponse{})
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (c *Client) DeleteRealServerRule(rs_index string, rule_name string) (*LoadM
 		RealServer: rs_index,
 	}
 
-	response, err := sendRequest(c, payload, &LoadMasterResponse{})
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 
 	if err != nil {
 		return nil, err
