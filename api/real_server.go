@@ -61,7 +61,7 @@ func (c *Client) AddRealServer(vs_identifier string, address string, port string
 	return response, nil
 }
 
-func (c *Client) Show(vs_identifier string, rs_identifier string) (*ListRealServerResponse, error) {
+func (c *Client) ShowRealServer(vs_identifier string, rs_identifier string) (*ListRealServerResponse, error) {
 	payload := struct {
 		*LoadMasterRequest
 		*RealServerParameters
