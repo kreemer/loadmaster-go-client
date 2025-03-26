@@ -6,8 +6,10 @@ type ListRealServerResponse struct {
 }
 
 type RealServer struct {
-	VSIndex int `json:"VSIndex,omitempty"`
-	RsIndex int `json:"RSIndex,omitempty"`
+	VSIndex int    `json:"VSIndex,omitempty"`
+	RsIndex int    `json:"RSIndex,omitempty"`
+	Address string `json:"Addr,omitempty"`
+	Port    int    `json:"Port,omitempty"`
 }
 
 type RealServerParameters struct {
@@ -24,17 +26,21 @@ type RealServerParameters struct {
 	Nrules    int    `json:"Nrules,omitempty"`
 }
 
-func (c *Client) AddRealServer(vs_identifier string, params RealServerParameters) (*ListRealServerResponse, error) {
+func (c *Client) AddRealServer(vs_identifier string, address string, port string, params RealServerParameters) (*ListRealServerResponse, error) {
 	payload := struct {
 		*LoadMasterRequest
 		*RealServerParameters
-		VS string `json:"vs"`
+		VS        string `json:"vs"`
+		RSAddress string `json:"rs"`
+		RSPort    string `json:"rsport"`
 	}{
 		LoadMasterRequest: &LoadMasterRequest{
 			Command: "addrs",
 		},
 		RealServerParameters: &params,
 		VS:                   vs_identifier,
+		RSAddress:            address,
+		RSPort:               port,
 	}
 
 	response, err := sendRequest(c, payload, ListRealServerResponse{})
@@ -46,17 +52,18 @@ func (c *Client) AddRealServer(vs_identifier string, params RealServerParameters
 	return response, nil
 }
 
-func (c *Client) ModifyRealServer(vs_identifier string, params RealServerParameters) (*ListRealServerResponse, error) {
+func (c *Client) Show(vs_identifier string, rs_identifier string) (*ListRealServerResponse, error) {
 	payload := struct {
 		*LoadMasterRequest
 		*RealServerParameters
 		VS string `json:"vs"`
+		RS string `json:"rs"`
 	}{
 		LoadMasterRequest: &LoadMasterRequest{
-			Command: "modrs",
+			Command: "showrs",
 		},
-		RealServerParameters: &params,
-		VS:                   vs_identifier,
+		VS: vs_identifier,
+		RS: rs_identifier,
 	}
 
 	response, err := sendRequest(c, payload, ListRealServerResponse{})
@@ -68,17 +75,42 @@ func (c *Client) ModifyRealServer(vs_identifier string, params RealServerParamet
 	return response, nil
 }
 
-func (c *Client) DeleteRealServer(vs_identifier string, params RealServerParameters) (*ListRealServerResponse, error) {
+func (c *Client) ModifyRealServer(vs_identifier string, rs_identifier string, params RealServerParameters) (*ListRealServerResponse, error) {
 	payload := struct {
 		*LoadMasterRequest
 		*RealServerParameters
 		VS string `json:"vs"`
+		RS string `json:"rs"`
 	}{
 		LoadMasterRequest: &LoadMasterRequest{
 			Command: "modrs",
 		},
 		RealServerParameters: &params,
 		VS:                   vs_identifier,
+		RS:                   rs_identifier,
+	}
+
+	response, err := sendRequest(c, payload, ListRealServerResponse{})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
+}
+
+func (c *Client) DeleteRealServer(vs_identifier string, rs_identifier string) (*ListRealServerResponse, error) {
+	payload := struct {
+		*LoadMasterRequest
+		*RealServerParameters
+		VS string `json:"vs"`
+		RS string `json:"rs"`
+	}{
+		LoadMasterRequest: &LoadMasterRequest{
+			Command: "delrs",
+		},
+		VS: vs_identifier,
+		RS: rs_identifier,
 	}
 
 	response, err := sendRequest(c, payload, ListRealServerResponse{})

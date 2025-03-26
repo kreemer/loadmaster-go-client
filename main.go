@@ -217,6 +217,72 @@ func main() {
 				},
 			},
 			{
+				Name:    "real-server",
+				Aliases: []string{"rs"},
+				Usage:   "Manage realserver",
+				Subcommands: []*cli.Command{
+					{
+						Name:  "add",
+						Usage: "add real server",
+						Flags: []cli.Flag{
+							&cli.StringFlag{Name: "data", Aliases: []string{"d"}},
+							&cli.StringFlag{Name: "vs", Aliases: []string{"v"}},
+							&cli.StringFlag{Name: "address", Aliases: []string{"a"}},
+							&cli.StringFlag{Name: "port", Aliases: []string{"p"}},
+						},
+						Action: func(c *cli.Context) error {
+
+							bytes := []byte(c.String("data"))
+							params := api.RealServerParameters{}
+							json.Unmarshal(bytes, &params)
+
+							response, err := client.AddRealServer(c.String("vs"), c.String("address"), c.String("port"), params)
+							if err != nil {
+								return err
+							}
+							fmt.Println(prettyPrint(response))
+							return nil
+						},
+					},
+					{
+						Name:  "del",
+						Usage: "delete a real server",
+						Flags: []cli.Flag{
+							&cli.StringFlag{Name: "vs", Aliases: []string{"v"}},
+							&cli.StringFlag{Name: "rs", Aliases: []string{"r"}},
+						},
+						Action: func(c *cli.Context) error {
+							response, err := client.DeleteRealServer(c.String("vs"), c.String("rs"))
+							if err != nil {
+								return err
+							}
+							fmt.Println(prettyPrint(response))
+							return nil
+						},
+					},
+					{
+						Name:  "mod",
+						Usage: "modifies a real server",
+						Flags: []cli.Flag{
+							&cli.StringFlag{Name: "vs", Aliases: []string{"v"}},
+							&cli.StringFlag{Name: "rs", Aliases: []string{"r"}},
+							&cli.StringFlag{Name: "data", Aliases: []string{"d"}},
+						},
+						Action: func(c *cli.Context) error {
+							bytes := []byte(c.String("data"))
+							params := api.RealServerParameters{}
+							json.Unmarshal(bytes, &params)
+							response, err := client.ModifyRealServer(c.String("vs"), c.String("rs"), params)
+							if err != nil {
+								return err
+							}
+							fmt.Println(prettyPrint(response))
+							return nil
+						},
+					},
+				},
+			},
+			{
 				Name:    "rule",
 				Aliases: []string{"r"},
 				Usage:   "Manage rules",
