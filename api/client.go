@@ -144,7 +144,7 @@ func (c *Client) doRequest(req *http.Request) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	if res.StatusCode == http.StatusOK || res.StatusCode == http.StatusNoContent {
+	if res.StatusCode == http.StatusOK || res.StatusCode == http.StatusNoContent || res.StatusCode == http.StatusUnprocessableEntity {
 		return body, err
 	} else {
 		return body, fmt.Errorf("status: %d, body: %s", res.StatusCode, body)
