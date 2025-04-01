@@ -101,6 +101,25 @@ func (c *Client) ListRule() (*RuleResponse, error) {
 	return response, nil
 }
 
+func (c *Client) ShowRule(name string) (*RuleResponse, error) {
+	payload := struct {
+		*LoadMasterRequest
+		Name string `json:"name"`
+	}{
+		LoadMasterRequest: &LoadMasterRequest{
+			Command: "showrule",
+		},
+		Name: name,
+	}
+
+	response, err := sendRequest(c, payload, RuleResponse{})
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
+}
+
 func (c *Client) AddRule(rule_type string, name string, params GeneralRule) (*RuleResponse, error) {
 	payload := struct {
 		*LoadMasterRequest
@@ -118,6 +137,27 @@ func (c *Client) AddRule(rule_type string, name string, params GeneralRule) (*Ru
 
 	response, err := sendRequest(c, payload, RuleResponse{})
 
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
+}
+
+func (c *Client) ModifyRule(name string, params GeneralRule) (*RuleResponse, error) {
+	payload := struct {
+		*LoadMasterRequest
+		*GeneralRule
+		Name string `json:"name"`
+	}{
+		LoadMasterRequest: &LoadMasterRequest{
+			Command: "modrule",
+		},
+		Name:        name,
+		GeneralRule: &params,
+	}
+
+	response, err := sendRequest(c, payload, RuleResponse{})
 	if err != nil {
 		return nil, err
 	}
