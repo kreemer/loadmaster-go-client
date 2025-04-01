@@ -11,43 +11,43 @@ type RuleResponse struct {
 }
 
 type GeneralRule struct {
-	Replacement     string `json:"replacement,omitempty"`
-	Pattern         string `json:"pattern,omitempty"`
-	Onlyonflag      int    `json:"onlyonflag,omitempty"`
-	Onlyonnoflag    int    `json:"onlyonnoflag,omitempty"`
-	Caseindependent *bool  `json:"caseindependent,omitempty"`
-	Matchtype       string `json:"matchtype,omitempty"`
-	Inchost         *bool  `json:"inchost,omitempty"`
-	Nocase          *bool  `json:"nocase,omitempty"`
-	Negate          *bool  `json:"negate,omitempty"`
-	Incquery        *bool  `json:"incquery,omitempty"`
-	Header          string `json:"header,omitempty"`
-	Setonmatch      int    `json:"setonmatch,omitempty"`
-	Mustfail        *bool  `json:"mustfail,omitempty"`
+	Replacement     string  `json:"replacement,omitempty"`
+	Pattern         string  `json:"pattern,omitempty"`
+	Onlyonflag      int     `json:"onlyonflag,omitempty"`
+	Onlyonnoflag    int     `json:"onlyonnoflag,omitempty"`
+	Caseindependent *bool   `json:"caseindependent,omitempty"`
+	Matchtype       string  `json:"matchtype,omitempty"`
+	Inchost         *bool   `json:"inchost,omitempty"`
+	Nocase          *bool   `json:"nocase,omitempty"`
+	Negate          *bool   `json:"negate,omitempty"`
+	Incquery        *bool   `json:"incquery,omitempty"`
+	Header          *string `json:"header,omitempty"`
+	Setonmatch      int     `json:"setonmatch,omitempty"`
+	Mustfail        *bool   `json:"mustfail,omitempty"`
 }
 
 type MatchContentRule struct {
-	Name         string `json:"name,omitempty"`
-	Matchtype    string `json:"matchtype,omitempty"`
-	Inchost      *bool  `json:"inchost,omitempty"`
-	Nocase       *bool  `json:"nocase,omitempty"`
-	Negate       *bool  `json:"negate,omitempty"`
-	Incquery     *bool  `json:"incquery,omitempty"`
-	Header       string `json:"header,omitempty"`
-	Pattern      string `json:"pattern,omitempty"`
-	Setonmatch   int    `json:"setonmatch,omitempty"`
-	Onlyonflag   int    `json:"onlyonflag,omitempty"`
-	Onlyonnoflag int    `json:"onlyonnoflag,omitempty"`
-	Mustfail     *bool  `json:"mustfail,omitempty"`
+	Name         string  `json:"name,omitempty"`
+	Matchtype    string  `json:"matchtype,omitempty"`
+	Inchost      *bool   `json:"inchost,omitempty"`
+	Nocase       *bool   `json:"nocase,omitempty"`
+	Negate       *bool   `json:"negate,omitempty"`
+	Incquery     *bool   `json:"incquery,omitempty"`
+	Header       *string `json:"header,omitempty"`
+	Pattern      string  `json:"pattern,omitempty"`
+	Setonmatch   int     `json:"setonmatch,omitempty"`
+	Onlyonflag   int     `json:"onlyonflag,omitempty"`
+	Onlyonnoflag int     `json:"onlyonnoflag,omitempty"`
+	Mustfail     *bool   `json:"mustfail,omitempty"`
 }
 
 type AddHeaderRule struct {
-	Name         string `json:"name,omitempty"`
-	Header       string `json:"header,omitempty"`
-	Replacement  string `json:"replacement,omitempty"`
-	Onlyonflag   int    `json:"onlyonflag,omitempty"`
-	Onlyonnoflag int    `json:"onlyonnoflag,omitempty"`
-	HeaderValue  string `json:"HeaderValue,omitempty"`
+	Name         string  `json:"name,omitempty"`
+	Header       *string `json:"header,omitempty"`
+	Replacement  string  `json:"replacement,omitempty"`
+	Onlyonflag   int     `json:"onlyonflag,omitempty"`
+	Onlyonnoflag int     `json:"onlyonnoflag,omitempty"`
+	HeaderValue  string  `json:"HeaderValue,omitempty"`
 }
 
 type DeleteHeaderRule struct {
@@ -58,12 +58,12 @@ type DeleteHeaderRule struct {
 }
 
 type ReplaceHeaderRule struct {
-	Name         string `json:"name,omitempty"`
-	Header       string `json:"header,omitempty"`
-	Replacement  string `json:"replacement,omitempty"`
-	Pattern      string `json:"pattern,omitempty"`
-	Onlyonflag   int    `json:"onlyonflag,omitempty"`
-	Onlyonnoflag int    `json:"onlyonnoflag,omitempty"`
+	Name         string  `json:"name,omitempty"`
+	Header       *string `json:"header,omitempty"`
+	Replacement  string  `json:"replacement,omitempty"`
+	Pattern      string  `json:"pattern,omitempty"`
+	Onlyonflag   int     `json:"onlyonflag,omitempty"`
+	Onlyonnoflag int     `json:"onlyonnoflag,omitempty"`
 }
 
 type ModifyURLRule struct {
