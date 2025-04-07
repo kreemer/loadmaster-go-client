@@ -1,5 +1,7 @@
 package api
 
+import "log/slog"
+
 type ListRealServerResponse struct {
 	*LoadMasterResponse
 	Rs []RealServer `json:"Rs"`
@@ -36,6 +38,7 @@ type RealServerParameters struct {
 }
 
 func (c *Client) AddRealServer(vs_identifier string, address string, port string, params RealServerParameters) (*ListRealServerResponse, error) {
+	slog.Debug("Adding real server", "vs_identifier", vs_identifier, "address", address, "port", port)
 	payload := struct {
 		*LoadMasterRequest
 		*RealServerParameters
@@ -62,6 +65,7 @@ func (c *Client) AddRealServer(vs_identifier string, address string, port string
 }
 
 func (c *Client) ShowRealServer(vs_identifier string, rs_identifier string) (*ListRealServerResponse, error) {
+	slog.Debug("Showing real server", "vs_identifier", vs_identifier, "rs_identifier", rs_identifier)
 	payload := struct {
 		*LoadMasterRequest
 		*RealServerParameters
@@ -85,6 +89,7 @@ func (c *Client) ShowRealServer(vs_identifier string, rs_identifier string) (*Li
 }
 
 func (c *Client) ModifyRealServer(vs_identifier string, rs_identifier string, params RealServerParameters) (*ListRealServerResponse, error) {
+	slog.Debug("Modifying real server", "vs_identifier", vs_identifier, "rs_identifier", rs_identifier)
 	payload := struct {
 		*LoadMasterRequest
 		*RealServerParameters
@@ -109,6 +114,7 @@ func (c *Client) ModifyRealServer(vs_identifier string, rs_identifier string, pa
 }
 
 func (c *Client) DeleteRealServer(vs_identifier string, rs_identifier string) (*ListRealServerResponse, error) {
+	slog.Debug("Deleting real server", "vs_identifier", vs_identifier, "rs_identifier", rs_identifier)
 	payload := struct {
 		*LoadMasterRequest
 		*RealServerParameters

@@ -1,5 +1,7 @@
 package api
 
+import "log/slog"
+
 type VirtualService struct {
 	Index      int    `json:"Index"`
 	Protocol   string `json:"Protocol"`
@@ -214,6 +216,8 @@ type ModifyVirtualServiceResponse struct {
 }
 
 func (c *Client) ListVirtualService() (*ListVirtualServiceResponse, error) {
+	slog.Debug("Listing virtual services")
+
 	payload := struct {
 		*LoadMasterRequest
 	}{
@@ -230,6 +234,8 @@ func (c *Client) ListVirtualService() (*ListVirtualServiceResponse, error) {
 }
 
 func (c *Client) ShowVirtualService(vs_identifier int) (*ShowVirtualServiceResponse, error) {
+	slog.Debug("Showing virtual service", "vs_identifier", vs_identifier)
+
 	payload := struct {
 		*LoadMasterRequest
 		VS int `json:"vs"`
@@ -249,6 +255,7 @@ func (c *Client) ShowVirtualService(vs_identifier int) (*ShowVirtualServiceRespo
 }
 
 func (c *Client) AddVirtualService(address string, port string, protocol string, parameters VirtualServiceParameters) (*AddVirtualServiceResponse, error) {
+	slog.Debug("Adding virtual service", "address", address, "port", port, "protocol", protocol)
 	payload := struct {
 		*LoadMasterRequest
 		VS       string `json:"vs"`
@@ -274,6 +281,7 @@ func (c *Client) AddVirtualService(address string, port string, protocol string,
 }
 
 func (c *Client) DeleteVirtualService(vs_identifier int) (*DeleteVirtualServiceResponse, error) {
+	slog.Debug("Deleting virtual service", "vs_identifier", vs_identifier)
 	payload := struct {
 		*LoadMasterRequest
 		VS int `json:"vs"`
@@ -293,6 +301,7 @@ func (c *Client) DeleteVirtualService(vs_identifier int) (*DeleteVirtualServiceR
 }
 
 func (c *Client) ModifyVirtualService(vs_identifier int, parameters VirtualServiceParameters) (*ModifyVirtualServiceResponse, error) {
+	slog.Debug("Modifying virtual service", "vs_identifier", vs_identifier)
 	payload := struct {
 		*LoadMasterRequest
 		VS int `json:"vs"`

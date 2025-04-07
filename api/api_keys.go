@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"log/slog"
 )
 
 type DeleteApiKeyRequest struct {
@@ -25,6 +26,7 @@ type DeleteApiKeyResponse struct {
 }
 
 func (c *Client) ListApiKey() (*ListApiKeyResponse, error) {
+	slog.Debug("Listing API keys")
 	payload := struct {
 		*LoadMasterRequest
 	}{
@@ -57,6 +59,7 @@ func (c *Client) ListApiKey() (*ListApiKeyResponse, error) {
 }
 
 func (c *Client) GenerateApiKey() (*GenerateApiKeyResponse, error) {
+	slog.Debug("Generating API key")
 	payload := struct {
 		*LoadMasterRequest
 	}{
@@ -88,6 +91,7 @@ func (c *Client) GenerateApiKey() (*GenerateApiKeyResponse, error) {
 }
 
 func (c *Client) DeleteApiKey(request DeleteApiKeyRequest) (*DeleteApiKeyResponse, error) {
+	slog.Debug("Deleting API key")
 	payload := struct {
 		*LoadMasterRequest
 		Key string `json:"key"`

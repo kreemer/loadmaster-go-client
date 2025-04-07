@@ -1,6 +1,9 @@
 package api
 
+import "log/slog"
+
 func (c *Client) AddRealServerRule(rs_index string, rule_name string) (*LoadMasterResponse, error) {
+	slog.Debug("Adding real server rule", "rs_index", rs_index, "rule_name", rule_name)
 	payload := struct {
 		*LoadMasterRequest
 		Name       string `json:"name"`
@@ -23,6 +26,7 @@ func (c *Client) AddRealServerRule(rs_index string, rule_name string) (*LoadMast
 }
 
 func (c *Client) DeleteRealServerRule(rs_index string, rule_name string) (*LoadMasterResponse, error) {
+	slog.Debug("Deleting real server rule", "rs_index", rs_index, "rule_name", rule_name)
 	payload := struct {
 		*LoadMasterRequest
 		Name       string `json:"name"`

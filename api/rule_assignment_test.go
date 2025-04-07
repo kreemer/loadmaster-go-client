@@ -28,7 +28,7 @@ func TestClient_AddRealServerRuleAssignment(t *testing.T) {
 			}))
 
 			defer server.Close()
-			client := Client{server.Client(), "bar", "foo", "baz", server.URL}
+			client := Client{server.Client(), "bar", "foo", "baz", server.URL, 0}
 
 			rs, err := client.AddRealServerRule("test", "test")
 

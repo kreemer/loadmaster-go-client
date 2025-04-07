@@ -1,5 +1,7 @@
 package api
 
+import "log/slog"
+
 type SubVirtualService struct {
 	*VirtualService
 	Name    string `json:"Name,omitempty"`
@@ -13,6 +15,7 @@ type ShowSubVirtualServiceResponse struct {
 }
 
 func (c *Client) ShowSubVirtualService(identifier int) (*ShowSubVirtualServiceResponse, error) {
+	slog.Debug("Showing sub virtual service", "identifier", identifier)
 	payload := struct {
 		*LoadMasterRequest
 		VS int `json:"vs"`
@@ -32,6 +35,7 @@ func (c *Client) ShowSubVirtualService(identifier int) (*ShowSubVirtualServiceRe
 }
 
 func (c *Client) AddSubVirtualService(vs_identifier int, parameters VirtualServiceParameters) (*ShowSubVirtualServiceResponse, error) {
+	slog.Debug("Adding sub virtual service", "vs_identifier", vs_identifier)
 	payload := struct {
 		*LoadMasterRequest
 		*VirtualServiceParameters
@@ -55,6 +59,7 @@ func (c *Client) AddSubVirtualService(vs_identifier int, parameters VirtualServi
 }
 
 func (c *Client) ModifySubVirtualService(identifier int, parameters VirtualServiceParameters) (*ShowSubVirtualServiceResponse, error) {
+	slog.Debug("Modifying sub virtual service", "identifier", identifier)
 	payload := struct {
 		*LoadMasterRequest
 		*VirtualServiceParameters
@@ -76,6 +81,7 @@ func (c *Client) ModifySubVirtualService(identifier int, parameters VirtualServi
 }
 
 func (c *Client) DeleteSubVirtualService(identifier int) (*LoadMasterResponse, error) {
+	slog.Debug("Deleting sub virtual service", "identifier", identifier)
 
 	payload := struct {
 		*LoadMasterRequest

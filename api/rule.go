@@ -1,5 +1,7 @@
 package api
 
+import "log/slog"
+
 type RuleResponse struct {
 	*LoadMasterResponse
 	AddHeaderRules     []AddHeaderRule     `json:"AddHeaderRule,omitempty"`
@@ -84,6 +86,7 @@ type ReplaceBodyRule struct {
 }
 
 func (c *Client) ListRule() (*RuleResponse, error) {
+	slog.Debug("Listing rules")
 	payload := struct {
 		*LoadMasterRequest
 	}{
@@ -102,6 +105,7 @@ func (c *Client) ListRule() (*RuleResponse, error) {
 }
 
 func (c *Client) ShowRule(name string) (*RuleResponse, error) {
+	slog.Debug("Showing rule", "name", name)
 	payload := struct {
 		*LoadMasterRequest
 		Name string `json:"name"`
@@ -121,6 +125,7 @@ func (c *Client) ShowRule(name string) (*RuleResponse, error) {
 }
 
 func (c *Client) AddRule(rule_type string, name string, params GeneralRule) (*RuleResponse, error) {
+	slog.Debug("Adding rule", "name", name, "type", rule_type)
 	payload := struct {
 		*LoadMasterRequest
 		*GeneralRule
@@ -145,6 +150,7 @@ func (c *Client) AddRule(rule_type string, name string, params GeneralRule) (*Ru
 }
 
 func (c *Client) ModifyRule(name string, params GeneralRule) (*RuleResponse, error) {
+	slog.Debug("Modifying rule", "name", name)
 	payload := struct {
 		*LoadMasterRequest
 		*GeneralRule
@@ -166,6 +172,7 @@ func (c *Client) ModifyRule(name string, params GeneralRule) (*RuleResponse, err
 }
 
 func (c *Client) DeleteRule(name string) (*LoadMasterResponse, error) {
+	slog.Debug("Deleting rule", "name", name)
 	payload := struct {
 		*LoadMasterRequest
 		Name string `json:"name"`

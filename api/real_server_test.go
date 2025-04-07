@@ -29,7 +29,7 @@ func TestClient_ShowRealServer(t *testing.T) {
 			}))
 
 			defer server.Close()
-			client := Client{server.Client(), "bar", "foo", "baz", server.URL}
+			client := Client{server.Client(), "bar", "foo", "baz", server.URL, 0}
 
 			rs, err := client.ShowRealServer("test", "test")
 

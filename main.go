@@ -1,32 +1,62 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
+	"log"
+	"log/slog"
 	"os"
 	"strconv"
 
 	"github.com/kreemer/loadmaster-go-client/api"
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 )
 
 func main() {
 	api_key := os.Getenv("LOADMASTER_API_KEY")
 	ip := os.Getenv("LOADMASTER_IP")
 
+	slog.SetLogLoggerLevel(slog.LevelError)
+	var count int
 	client := api.NewClientWithApiKey("https://"+ip, api_key)
+	app := &cli.Command{
+		UseShortOptionHandling: true,
+		Flags: []cli.Flag{
+			&cli.BoolFlag{
+				Name:    "verbose",
+				Aliases: []string{"v"},
+				Usage:   "Show verbose output",
+				Config: cli.BoolConfig{
+					Count: &count,
+				},
+				Action: func(ctx context.Context, cmd *cli.Command, _ bool) error {
+					if count == 1 {
+						slog.SetLogLoggerLevel(slog.LevelWarn)
+					} else if count == 2 {
+						slog.SetLogLoggerLevel(slog.LevelInfo)
+					} else if count == 3 {
+						slog.SetLogLoggerLevel(slog.LevelDebug)
+					}
 
-	app := &cli.App{
+					slog.Info("Verbose mode enabled", "Level", count)
+
+					client.SetDebugLevel(uint8(count))
+
+					return nil
+				},
+			},
+		},
 		Commands: []*cli.Command{
 			{
 				Name:    "virtual-service",
 				Aliases: []string{"vs"},
 				Usage:   "Manage virtual services",
-				Subcommands: []*cli.Command{
+				Commands: []*cli.Command{
 					{
 						Name:  "list",
 						Usage: "list virtual service",
-						Action: func(c *cli.Context) error {
+						Action: func(c context.Context, cmd *cli.Command) error {
 							response, err := client.ListVirtualService()
 							if err != nil {
 								return err
@@ -38,8 +68,8 @@ func main() {
 					{
 						Name:  "show",
 						Usage: "show a virtual service",
-						Action: func(c *cli.Context) error {
-							vs_identifier := c.Args().First()
+						Action: func(c context.Context, cmd *cli.Command) error {
+							vs_identifier := cmd.Args().First()
 							if vs_identifier == "" {
 								return fmt.Errorf("missing virtual service identifier")
 							}
@@ -61,12 +91,12 @@ func main() {
 							&cli.StringFlag{Name: "protocol", Aliases: []string{"t"}},
 							&cli.StringFlag{Name: "data", Aliases: []string{"d"}},
 						},
-						Action: func(c *cli.Context) error {
-							bytes := []byte(c.String("data"))
+						Action: func(c context.Context, cmd *cli.Command) error {
+							bytes := []byte(cmd.String("data"))
 							params := api.VirtualServiceParameters{}
 							json.Unmarshal(bytes, &params)
 
-							response, err := client.AddVirtualService(c.String("address"), c.String("port"), c.String("protocol"), params)
+							response, err := client.AddVirtualService(cmd.String("address"), cmd.String("port"), cmd.String("protocol"), params)
 
 							if err != nil {
 								return err
@@ -82,14 +112,14 @@ func main() {
 						Flags: []cli.Flag{
 							&cli.StringFlag{Name: "data", Aliases: []string{"d"}},
 						},
-						Action: func(c *cli.Context) error {
-							vs_identifier := c.Args().First()
+						Action: func(c context.Context, cmd *cli.Command) error {
+							vs_identifier := cmd.Args().First()
 							if vs_identifier == "" {
 								return fmt.Errorf("missing virtual service identifier")
 							}
 							id, _ := strconv.Atoi(vs_identifier)
 
-							bytes := []byte(c.String("data"))
+							bytes := []byte(cmd.String("data"))
 							params := api.VirtualServiceParameters{}
 							json.Unmarshal(bytes, &params)
 
@@ -106,8 +136,8 @@ func main() {
 					{
 						Name:  "del",
 						Usage: "delete a virtual service",
-						Action: func(c *cli.Context) error {
-							vs_identifier := c.Args().First()
+						Action: func(c context.Context, cmd *cli.Command) error {
+							vs_identifier := cmd.Args().First()
 							if vs_identifier == "" {
 								return fmt.Errorf("missing virtual service identifier")
 							}
@@ -126,12 +156,12 @@ func main() {
 				Name:    "sub-virtual-service",
 				Aliases: []string{"subvs"},
 				Usage:   "Manage sub virtual services",
-				Subcommands: []*cli.Command{
+				Commands: []*cli.Command{
 					{
 						Name:  "show",
 						Usage: "show a sub virtual service",
-						Action: func(c *cli.Context) error {
-							vs_identifier := c.Args().First()
+						Action: func(c context.Context, cmd *cli.Command) error {
+							vs_identifier := cmd.Args().First()
 							if vs_identifier == "" {
 								return fmt.Errorf("missing sub virtual service identifier")
 							}
@@ -150,14 +180,14 @@ func main() {
 						Flags: []cli.Flag{
 							&cli.StringFlag{Name: "data", Aliases: []string{"d"}},
 						},
-						Action: func(c *cli.Context) error {
-							vs_identifier := c.Args().First()
+						Action: func(c context.Context, cmd *cli.Command) error {
+							vs_identifier := cmd.Args().First()
 							if vs_identifier == "" {
 								return fmt.Errorf("missing sub virtual service identifier")
 							}
 							id, _ := strconv.Atoi(vs_identifier)
 
-							bytes := []byte(c.String("data"))
+							bytes := []byte(cmd.String("data"))
 							params := api.VirtualServiceParameters{}
 							json.Unmarshal(bytes, &params)
 
@@ -173,8 +203,8 @@ func main() {
 					{
 						Name:  "del",
 						Usage: "delete a sub virtual service",
-						Action: func(c *cli.Context) error {
-							vs_identifier := c.Args().First()
+						Action: func(c context.Context, cmd *cli.Command) error {
+							vs_identifier := cmd.Args().First()
 							if vs_identifier == "" {
 								return fmt.Errorf("missing sub virtual service identifier")
 							}
@@ -193,14 +223,14 @@ func main() {
 						Flags: []cli.Flag{
 							&cli.StringFlag{Name: "data", Aliases: []string{"d"}},
 						},
-						Action: func(c *cli.Context) error {
-							vs_identifier := c.Args().First()
+						Action: func(c context.Context, cmd *cli.Command) error {
+							vs_identifier := cmd.Args().First()
 							if vs_identifier == "" {
 								return fmt.Errorf("missing sub virtual service identifier")
 							}
 							id, _ := strconv.Atoi(vs_identifier)
 
-							bytes := []byte(c.String("data"))
+							bytes := []byte(cmd.String("data"))
 							params := api.VirtualServiceParameters{}
 							json.Unmarshal(bytes, &params)
 
@@ -220,7 +250,7 @@ func main() {
 				Name:    "real-server",
 				Aliases: []string{"rs"},
 				Usage:   "Manage realserver",
-				Subcommands: []*cli.Command{
+				Commands: []*cli.Command{
 					{
 						Name:  "add",
 						Usage: "add real server",
@@ -230,13 +260,13 @@ func main() {
 							&cli.StringFlag{Name: "address", Aliases: []string{"a"}},
 							&cli.StringFlag{Name: "port", Aliases: []string{"p"}},
 						},
-						Action: func(c *cli.Context) error {
+						Action: func(c context.Context, cmd *cli.Command) error {
 
-							bytes := []byte(c.String("data"))
+							bytes := []byte(cmd.String("data"))
 							params := api.RealServerParameters{}
 							json.Unmarshal(bytes, &params)
 
-							response, err := client.AddRealServer(c.String("vs"), c.String("address"), c.String("port"), params)
+							response, err := client.AddRealServer(cmd.String("vs"), cmd.String("address"), cmd.String("port"), params)
 							if err != nil {
 								return err
 							}
@@ -251,8 +281,8 @@ func main() {
 							&cli.StringFlag{Name: "vs", Aliases: []string{"v"}},
 							&cli.StringFlag{Name: "rs", Aliases: []string{"r"}},
 						},
-						Action: func(c *cli.Context) error {
-							response, err := client.DeleteRealServer(c.String("vs"), c.String("rs"))
+						Action: func(c context.Context, cmd *cli.Command) error {
+							response, err := client.DeleteRealServer(cmd.String("vs"), cmd.String("rs"))
 							if err != nil {
 								return err
 							}
@@ -268,11 +298,11 @@ func main() {
 							&cli.StringFlag{Name: "rs", Aliases: []string{"r"}},
 							&cli.StringFlag{Name: "data", Aliases: []string{"d"}},
 						},
-						Action: func(c *cli.Context) error {
-							bytes := []byte(c.String("data"))
+						Action: func(c context.Context, cmd *cli.Command) error {
+							bytes := []byte(cmd.String("data"))
 							params := api.RealServerParameters{}
 							json.Unmarshal(bytes, &params)
-							response, err := client.ModifyRealServer(c.String("vs"), c.String("rs"), params)
+							response, err := client.ModifyRealServer(cmd.String("vs"), cmd.String("rs"), params)
 							if err != nil {
 								return err
 							}
@@ -286,11 +316,11 @@ func main() {
 				Name:    "rule",
 				Aliases: []string{"r"},
 				Usage:   "Manage rules",
-				Subcommands: []*cli.Command{
+				Commands: []*cli.Command{
 					{
 						Name:  "list",
 						Usage: "list rule",
-						Action: func(c *cli.Context) error {
+						Action: func(c context.Context, cmd *cli.Command) error {
 							response, err := client.ListRule()
 							if err != nil {
 								return err
@@ -307,13 +337,13 @@ func main() {
 							&cli.StringFlag{Name: "type", Aliases: []string{"t"}},
 							&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
 						},
-						Action: func(c *cli.Context) error {
+						Action: func(c context.Context, cmd *cli.Command) error {
 
-							bytes := []byte(c.String("data"))
+							bytes := []byte(cmd.String("data"))
 							params := api.GeneralRule{}
 							json.Unmarshal(bytes, &params)
 
-							response, err := client.AddRule(c.String("type"), c.String("name"), params)
+							response, err := client.AddRule(cmd.String("type"), cmd.String("name"), params)
 							if err != nil {
 								return err
 							}
@@ -324,8 +354,8 @@ func main() {
 					{
 						Name:  "del",
 						Usage: "delete a rule",
-						Action: func(c *cli.Context) error {
-							name := c.Args().First()
+						Action: func(c context.Context, cmd *cli.Command) error {
+							name := cmd.Args().First()
 							if name == "" {
 								return fmt.Errorf("missing rule name")
 							}
@@ -341,11 +371,10 @@ func main() {
 			},
 		},
 	}
-
-	if err := app.Run(os.Args); err != nil {
-		fmt.Fprintf(os.Stderr, "error: %v\n", err)
-		os.Exit(1)
+	if err := app.Run(context.Background(), os.Args); err != nil {
+		log.Fatal(err)
 	}
+
 }
 
 func prettyPrint(i any) string {
