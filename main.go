@@ -11,8 +11,8 @@ import (
 )
 
 func main() {
-	api_key := os.Getenv("KEMP_API_KEY")
-	ip := os.Getenv("KEMP_IP")
+	api_key := os.Getenv("LOADMASTER_API_KEY")
+	ip := os.Getenv("LOADMASTER_IP")
 
 	client := api.NewClientWithApiKey("https://"+ip, api_key)
 
