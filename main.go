@@ -849,6 +849,154 @@ func main() {
 					},
 				},
 			},
+			{
+				Name:    "certificate",
+				Aliases: []string{"c"},
+				Usage:   "Manage certificates",
+				Commands: []*cli.Command{
+					{
+						Name:  "add",
+						Usage: "add certificate",
+						Flags: []cli.Flag{
+							&cli.StringFlag{Name: "data", Aliases: []string{"d"}},
+							&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+							&cli.StringFlag{Name: "password", Aliases: []string{"p"}},
+						},
+						Action: func(c context.Context, cmd *cli.Command) error {
+							data := cmd.String("data")
+							name := cmd.String("name")
+
+							var password *string
+							if cmd.IsSet("password") {
+								p := cmd.String("password")
+								password = &p
+							}
+
+							if data == "" || name == "" {
+								return fmt.Errorf("missing certificate data or name")
+							}
+
+							response, err := client.AddCertificate(name, password, data)
+							if err != nil {
+								return err
+							}
+							fmt.Println(prettyPrint(response))
+							return nil
+						},
+					},
+					{
+						Name:  "del",
+						Usage: "delete certificate",
+						Flags: []cli.Flag{
+							&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+						},
+						Action: func(c context.Context, cmd *cli.Command) error {
+							name := cmd.String("name")
+							if name == "" {
+								return fmt.Errorf("missing certificate name")
+							}
+
+							response, err := client.DeleteCertificate(name)
+							if err != nil {
+								return err
+							}
+							fmt.Println(prettyPrint(response))
+							return nil
+						},
+					},
+					{
+						Name:  "show",
+						Usage: "show a certificate",
+						Flags: []cli.Flag{
+							&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+						},
+						Action: func(c context.Context, cmd *cli.Command) error {
+							name := cmd.String("name")
+							if name == "" {
+								return fmt.Errorf("missing certificate name")
+							}
+
+							response, err := client.ShowCertificate(name)
+							if err != nil {
+								return err
+							}
+							fmt.Println(prettyPrint(response))
+							return nil
+						},
+					},
+				},
+			},
+
+			{
+				Name:    "intermediate-certificate",
+				Aliases: []string{"ic"},
+				Usage:   "Manage intermediate certificates",
+				Commands: []*cli.Command{
+					{
+						Name:  "add",
+						Usage: "add intermediate certificate",
+						Flags: []cli.Flag{
+							&cli.StringFlag{Name: "data", Aliases: []string{"d"}},
+							&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+						},
+						Action: func(c context.Context, cmd *cli.Command) error {
+							data := cmd.String("data")
+							name := cmd.String("name")
+
+							if data == "" || name == "" {
+								return fmt.Errorf("missing certificate data or name")
+							}
+
+							response, err := client.AddIntermediateCertificate(name, data)
+							if err != nil {
+								return err
+							}
+							fmt.Println(prettyPrint(response))
+							return nil
+						},
+					},
+					{
+						Name:  "del",
+						Usage: "delete intermediate certificate",
+						Flags: []cli.Flag{
+							&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+						},
+						Action: func(c context.Context, cmd *cli.Command) error {
+							name := cmd.String("name")
+							if name == "" {
+								return fmt.Errorf("missing certificate name")
+							}
+
+							response, err := client.DeleteIntermediateCertificate(name)
+							if err != nil {
+								return err
+							}
+							fmt.Println(prettyPrint(response))
+							return nil
+						},
+					},
+					{
+						Name:  "show",
+						Usage: "show a intermediate certificate",
+						Flags: []cli.Flag{
+							&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+						},
+						Action: func(c context.Context, cmd *cli.Command) error {
+							name := cmd.String("name")
+							if name == "" {
+								return fmt.Errorf("missing certificate name")
+							}
+
+							response, err := client.ShowIntermediateCertificate(name)
+							if err != nil {
+								return err
+							}
+							fmt.Println(prettyPrint(response))
+							return nil
+						},
+					},
+				},
+			},
 		},
 	}
 	if err := app.Run(context.Background(), os.Args); err != nil {
