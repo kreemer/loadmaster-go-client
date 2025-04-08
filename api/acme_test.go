@@ -8,15 +8,17 @@ import (
 	"testing"
 )
 
-func TestClient_ListCert(t *testing.T) {
+func TestClient_RegisterLetsEncryptAccount(t *testing.T) {
 	testCases := []struct {
-		name     string
-		response string
-		want     *ListCertResponse
-		wantErr  bool
+		name      string
+		arguments []any
+		response  string
+		want      *LoadMasterResponse
+		wantErr   bool
 	}{
-		{"success response", `{"code": 200, "message": "OK", "status": "success", "cert": [{ "name": "name", "type": "RSA", "modulus": "Example" }]}`, &ListCertResponse{LoadMasterResponse: &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, Cert: []CertInfo{{Name: "name", Type: "RSA", Modulus: "Example"}}}, false},
-		{"fail response", `{"code": 400, "message": "NOK", "message": "error"}`, nil, true},
+		{"success response", []any{func(i string) *string { return &i }("mail")}, `{"code": 200, "message": "OK", "status": "success"}`, &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, false},
+		{"success response", []any{nil}, `{"code": 200, "message": "OK", "status": "success"}`, &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, false},
+		{"fail response", []any{func(i string) *string { return &i }("mail")}, `{"code": 400, "message": "NOK", "message": "error"}`, nil, true},
 	}
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
@@ -30,14 +32,213 @@ func TestClient_ListCert(t *testing.T) {
 			defer server.Close()
 			client := Client{server.Client(), "bar", "foo", "baz", server.URL, 0}
 
-			rs, err := client.ListCertificate()
+			email, _ := tt.arguments[0].(*string)
+
+			rs, err := client.RegisterLetsEncryptAccount(email)
 
 			if (err != nil) != tt.wantErr {
-				t.Errorf("Client.ListCertificate() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("Client.RegisterLetsEncryptAccount() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(rs, tt.want) {
-				t.Errorf("Client.ListCertificate() = %v, want %v", rs, tt.want)
+				t.Errorf("Client.RegisterLetsEncryptAccount() = %v, want %v", rs, tt.want)
+			}
+		})
+	}
+}
+
+func TestClient_FetchLetsEncryptAccount(t *testing.T) {
+	testCases := []struct {
+		name      string
+		arguments []any
+		response  string
+		want      *LoadMasterResponse
+		wantErr   bool
+	}{
+		{"success response", []any{"password", "data"}, `{"code": 200, "message": "OK", "status": "success"}`, &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, false},
+		{"fail response", []any{"password", "data"}, `{"code": 400, "message": "NOK", "message": "error"}`, nil, true},
+	}
+	for _, tt := range testCases {
+		t.Run(tt.name, func(t *testing.T) {
+			server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+				_, err := rw.Write([]byte(tt.response))
+				if err != nil {
+					fmt.Printf("Write failed: %v", err)
+				}
+			}))
+
+			defer server.Close()
+			client := Client{server.Client(), "bar", "foo", "baz", server.URL, 0}
+
+			password, _ := tt.arguments[0].(string)
+			data, _ := tt.arguments[1].(string)
+
+			rs, err := client.FetchLetsEncryptAccount(password, data)
+
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Client.FetchLetsEncryptAccount() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(rs, tt.want) {
+				t.Errorf("Client.FetchLetsEncryptAccount() = %v, want %v", rs, tt.want)
+			}
+		})
+	}
+}
+
+func TestClient_SetDigicertKeyId(t *testing.T) {
+	testCases := []struct {
+		name      string
+		arguments []any
+		response  string
+		want      *LoadMasterResponse
+		wantErr   bool
+	}{
+		{"success response", []any{"key"}, `{"code": 200, "message": "OK", "status": "success"}`, &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, false},
+		{"fail response", []any{"key"}, `{"code": 400, "message": "NOK", "message": "error"}`, nil, true},
+	}
+	for _, tt := range testCases {
+		t.Run(tt.name, func(t *testing.T) {
+			server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+				_, err := rw.Write([]byte(tt.response))
+				if err != nil {
+					fmt.Printf("Write failed: %v", err)
+				}
+			}))
+
+			defer server.Close()
+			client := Client{server.Client(), "bar", "foo", "baz", server.URL, 0}
+
+			key, _ := tt.arguments[0].(string)
+
+			rs, err := client.SetDigicertKeyId(key)
+
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Client.SetDigicertKeyId() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(rs, tt.want) {
+				t.Errorf("Client.SetDigicertKeyId() = %v, want %v", rs, tt.want)
+			}
+		})
+	}
+}
+
+func TestClient_SetDigicertHMAC(t *testing.T) {
+	testCases := []struct {
+		name      string
+		arguments []any
+		response  string
+		want      *LoadMasterResponse
+		wantErr   bool
+	}{
+		{"success response", []any{"hmac"}, `{"code": 200, "message": "OK", "status": "success"}`, &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, false},
+		{"fail response", []any{"hmac"}, `{"code": 400, "message": "NOK", "message": "error"}`, nil, true},
+	}
+	for _, tt := range testCases {
+		t.Run(tt.name, func(t *testing.T) {
+			server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+				_, err := rw.Write([]byte(tt.response))
+				if err != nil {
+					fmt.Printf("Write failed: %v", err)
+				}
+			}))
+
+			defer server.Close()
+			client := Client{server.Client(), "bar", "foo", "baz", server.URL, 0}
+
+			hmac, _ := tt.arguments[0].(string)
+
+			rs, err := client.SetDigicertHMAC(hmac)
+
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Client.SetDigicertHMAC() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(rs, tt.want) {
+				t.Errorf("Client.SetDigicertHMAC() = %v, want %v", rs, tt.want)
+			}
+		})
+	}
+}
+
+func TestClient_RequestACMECertificate(t *testing.T) {
+	testCases := []struct {
+		name      string
+		arguments []any
+		response  string
+		want      *LoadMasterResponse
+		wantErr   bool
+	}{
+		{"success response", []any{"name", "common", "1", "1", nil}, `{"code": 200, "message": "OK", "status": "success"}`, &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, false},
+		{"success response with params", []any{"name", "common", "1", "1", &RequestACMECertificateParameters{KeySize: 2048}}, `{"code": 200, "message": "OK", "status": "success"}`, &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, false},
+		{"fail response", []any{"name", "common", "1", "1", nil}, `{"code": 400, "message": "NOK", "message": "error"}`, nil, true},
+	}
+	for _, tt := range testCases {
+		t.Run(tt.name, func(t *testing.T) {
+			server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+				_, err := rw.Write([]byte(tt.response))
+				if err != nil {
+					fmt.Printf("Write failed: %v", err)
+				}
+			}))
+
+			defer server.Close()
+			client := Client{server.Client(), "bar", "foo", "baz", server.URL, 0}
+
+			name, _ := tt.arguments[0].(string)
+			common_name, _ := tt.arguments[1].(string)
+			vs_identifier, _ := tt.arguments[2].(string)
+			acme_type, _ := tt.arguments[3].(string)
+			params, _ := tt.arguments[4].(*RequestACMECertificateParameters)
+
+			rs, err := client.RequestACMECertificate(name, common_name, vs_identifier, acme_type, params)
+
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Client.RequestACMECertificate() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(rs, tt.want) {
+				t.Errorf("Client.RequestACMECertificate() = %v, want %v", rs, tt.want)
+			}
+		})
+	}
+}
+
+func TestClient_DeleteACMECertificate(t *testing.T) {
+	testCases := []struct {
+		name      string
+		arguments []any
+		response  string
+		want      *LoadMasterResponse
+		wantErr   bool
+	}{
+		{"success response", []any{"name", "1"}, `{"code": 200, "message": "OK", "status": "success"}`, &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, false},
+		{"fail response", []any{"name", "1"}, `{"code": 400, "message": "NOK", "message": "error"}`, nil, true},
+	}
+	for _, tt := range testCases {
+		t.Run(tt.name, func(t *testing.T) {
+			server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+				_, err := rw.Write([]byte(tt.response))
+				if err != nil {
+					fmt.Printf("Write failed: %v", err)
+				}
+			}))
+
+			defer server.Close()
+			client := Client{server.Client(), "bar", "foo", "baz", server.URL, 0}
+
+			name, _ := tt.arguments[0].(string)
+			acme_type, _ := tt.arguments[1].(string)
+
+			rs, err := client.DeleteACMECertificate(name, acme_type)
+
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Client.RequestACMECertificate() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(rs, tt.want) {
+				t.Errorf("Client.RequestACMECertificate() = %v, want %v", rs, tt.want)
 			}
 		})
 	}

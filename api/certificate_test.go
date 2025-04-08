@@ -15,7 +15,7 @@ func TestClient_ListCertificate(t *testing.T) {
 		want     *ListCertResponse
 		wantErr  bool
 	}{
-		{"success response", `{"code": 200, "message": "OK", "status": "success", "cert": [ { "name": "Example", "type": "RSA", "modulus": "EXAMPLE" } ]}`, &ListCertResponse{LoadMasterResponse: &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, Cert: []CertInfo{CertInfo{Name: "Example", Type: "RSA", Modulus: "EXAMPLE"}}}, false},
+		{"success response", `{"code": 200, "message": "OK", "status": "success", "cert": [ { "name": "Example", "type": "RSA", "modulus": "EXAMPLE" } ]}`, &ListCertResponse{LoadMasterResponse: &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, Cert: []CertInfo{{Name: "Example", Type: "RSA", Modulus: "EXAMPLE"}}}, false},
 		{"fail response", `{"code": 400, "message": "NOK", "message": "error"}`, nil, true},
 	}
 	for _, tt := range testCases {
