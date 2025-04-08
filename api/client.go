@@ -167,6 +167,8 @@ func (c *Client) newRequest(payload AuthInjectable) (*http.Request, error) {
 		slog.Error("Error marshalling payload to json: ", "Error", err)
 		return nil, err
 	}
+	slog.Debug("Payload marshalled successfully", "Payload", string(b))
+
 	req, err := http.NewRequest("POST", fmt.Sprintf("%s/accessv2", c.restUrl), bytes.NewBuffer(b))
 	if err != nil {
 		return nil, err

@@ -30,7 +30,7 @@ func TestClient_AddRealServerRuleAssignment(t *testing.T) {
 			defer server.Close()
 			client := Client{server.Client(), "bar", "foo", "baz", server.URL, 0}
 
-			rs, err := client.AddRealServerRule("test", "test")
+			rs, err := client.AddRealServerRule("test", "test", "test")
 
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Client.AddRealServerRule() error = %v, wantErr %v", err, tt.wantErr)

@@ -3,12 +3,14 @@ package api
 import "log/slog"
 
 type VirtualService struct {
-	Index      int    `json:"Index"`
-	Protocol   string `json:"Protocol"`
-	Address    string `json:"VSAddress"`
-	Port       string `json:"VSPort"`
-	MasterVS   *int   `json:"MasterVS"`
-	MasterVSID int    `json:"MasterVSID,omitempty"`
+	Index          int      `json:"Index"`
+	Protocol       string   `json:"Protocol"`
+	Address        string   `json:"VSAddress"`
+	Port           string   `json:"VSPort"`
+	MasterVS       *int     `json:"MasterVS"`
+	MasterVSID     int      `json:"MasterVSID,omitempty"`
+	MatchRules     []string `json:"MatchRules,omitempty"`
+	MatchBodyRules []string `json:"MatchBodyRules,omitempty"`
 	*VirtualServiceParameters
 }
 

@@ -8,19 +8,20 @@ type ListRealServerResponse struct {
 }
 
 type RealServer struct {
-	VSIndex   int    `json:"VSIndex,omitempty"`
-	RsIndex   int    `json:"RSIndex,omitempty"`
-	Address   string `json:"Addr,omitempty"`
-	Port      int    `json:"Port,omitempty"`
-	DnsName   string `json:"DnsName,omitempty"`
-	Forward   string `json:"Forward,omitempty"`
-	Weight    int    `json:"Weight,omitempty"`
-	Limit     int    `json:"Limit,omitempty"`
-	RateLimit int    `json:"RateLimit,omitempty"`
-	Follow    int    `json:"Follow,omitempty"`
-	Enable    *bool  `json:"Enable,omitempty"`
-	Critical  *bool  `json:"Critical,omitempty"`
-	Nrules    int    `json:"Nrules,omitempty"`
+	VSIndex    int      `json:"VSIndex,omitempty"`
+	RsIndex    int      `json:"RSIndex,omitempty"`
+	Address    string   `json:"Addr,omitempty"`
+	Port       int      `json:"Port,omitempty"`
+	DnsName    string   `json:"DnsName,omitempty"`
+	Forward    string   `json:"Forward,omitempty"`
+	Weight     int      `json:"Weight,omitempty"`
+	Limit      int      `json:"Limit,omitempty"`
+	RateLimit  int      `json:"RateLimit,omitempty"`
+	Follow     int      `json:"Follow,omitempty"`
+	Enable     *bool    `json:"Enable,omitempty"`
+	Critical   *bool    `json:"Critical,omitempty"`
+	Nrules     int      `json:"Nrules,omitempty"`
+	MatchRules []string `json:"MatchRules,omitempty"`
 }
 
 type RealServerParameters struct {

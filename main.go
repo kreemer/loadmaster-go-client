@@ -310,6 +310,22 @@ func main() {
 							return nil
 						},
 					},
+					{
+						Name:  "show",
+						Usage: "show a real server",
+						Flags: []cli.Flag{
+							&cli.StringFlag{Name: "virtual-service", Aliases: []string{"vs"}},
+							&cli.StringFlag{Name: "real-server", Aliases: []string{"rs"}},
+						},
+						Action: func(c context.Context, cmd *cli.Command) error {
+							response, err := client.ShowRealServer(cmd.String("virtual-service"), cmd.String("real-server"))
+							if err != nil {
+								return err
+							}
+							fmt.Println(prettyPrint(response))
+							return nil
+						},
+					},
 				},
 			},
 			{
@@ -338,7 +354,6 @@ func main() {
 							&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
 						},
 						Action: func(c context.Context, cmd *cli.Command) error {
-
 							bytes := []byte(cmd.String("data"))
 							params := api.GeneralRule{}
 							json.Unmarshal(bytes, &params)
@@ -365,6 +380,471 @@ func main() {
 							}
 							fmt.Println(prettyPrint(response))
 							return nil
+						},
+					},
+				},
+			},
+			{
+				Name:    "rule-assignment",
+				Aliases: []string{"ra"},
+				Usage:   "Manage rule assignments",
+				Commands: []*cli.Command{
+					{
+						Name:    "real-server",
+						Aliases: []string{"rs"},
+						Usage:   "Manage rule assignments for real servers",
+						Commands: []*cli.Command{
+							{
+								Name:  "add",
+								Usage: "Add a rule to a real server",
+								Flags: []cli.Flag{
+									&cli.StringFlag{Name: "virtual-service", Aliases: []string{"vs"}},
+									&cli.StringFlag{Name: "real-server", Aliases: []string{"rs"}},
+									&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+								},
+								Action: func(c context.Context, cmd *cli.Command) error {
+									virtual_service := cmd.String("virtual-service")
+									real_server := cmd.String("real-server")
+									name := cmd.String("name")
+
+									if virtual_service == "" || real_server == "" || name == "" {
+										return fmt.Errorf("missing virtual service, real server or rule name")
+									}
+									response, err := client.AddRealServerRule(virtual_service, real_server, name)
+									if err != nil {
+										return err
+									}
+									fmt.Println(prettyPrint(response))
+									return nil
+								},
+							},
+							{
+								Name:  "del",
+								Usage: "Delete a rule from a real server",
+								Flags: []cli.Flag{
+									&cli.StringFlag{Name: "virtual-service", Aliases: []string{"vs"}},
+									&cli.StringFlag{Name: "real-server", Aliases: []string{"rs"}},
+									&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+								},
+								Action: func(c context.Context, cmd *cli.Command) error {
+									virtual_service := cmd.String("virtual-service")
+									real_server := cmd.String("real-server")
+									name := cmd.String("name")
+
+									if virtual_service == "" || real_server == "" || name == "" {
+										return fmt.Errorf("missing virtual service, real server or rule name")
+									}
+									response, err := client.DeleteRealServerRule(virtual_service, real_server, name)
+									if err != nil {
+										return err
+									}
+									fmt.Println(prettyPrint(response))
+									return nil
+								},
+							},
+							{
+								Name:  "show",
+								Usage: "Show a rule assignment from a real server",
+								Flags: []cli.Flag{
+									&cli.StringFlag{Name: "virtual-service", Aliases: []string{"vs"}},
+									&cli.StringFlag{Name: "real-server", Aliases: []string{"rs"}},
+									&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+								},
+								Action: func(c context.Context, cmd *cli.Command) error {
+									virtual_service := cmd.String("virtual-service")
+									real_server := cmd.String("real-server")
+									name := cmd.String("name")
+
+									if virtual_service == "" || real_server == "" || name == "" {
+										return fmt.Errorf("missing virtual service, real server or rule name")
+									}
+									response, err := client.ShowRealServerRule(virtual_service, real_server, name)
+									if err != nil {
+										return err
+									}
+									fmt.Println(prettyPrint(response))
+									return nil
+								},
+							},
+						},
+					},
+					{
+						Name:    "sub-virtual-service",
+						Aliases: []string{"subvs"},
+						Usage:   "Manage rule assignments for sub virtual services",
+						Commands: []*cli.Command{
+							{
+								Name:  "add",
+								Usage: "Add a rule to a sub virtual service",
+								Flags: []cli.Flag{
+									&cli.StringFlag{Name: "virtual-service", Aliases: []string{"vs"}},
+									&cli.StringFlag{Name: "sub-virtual-service", Aliases: []string{"subvs"}},
+									&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+								},
+								Action: func(c context.Context, cmd *cli.Command) error {
+									virtual_service := cmd.String("virtual-service")
+									sub_virtual_service := cmd.String("sub-virtual-service")
+									name := cmd.String("name")
+
+									if virtual_service == "" || sub_virtual_service == "" || name == "" {
+										return fmt.Errorf("missing virtual service, sub virtual service or rule name")
+									}
+									response, err := client.AddSubVirtualServiceRule(virtual_service, sub_virtual_service, name)
+									if err != nil {
+										return err
+									}
+									fmt.Println(prettyPrint(response))
+									return nil
+								},
+							},
+							{
+								Name:  "del",
+								Usage: "Delete a rule from a sub virtual service",
+								Flags: []cli.Flag{
+									&cli.StringFlag{Name: "virtual-service", Aliases: []string{"vs"}},
+									&cli.StringFlag{Name: "sub-virtual-service", Aliases: []string{"subvs"}},
+									&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+								},
+								Action: func(c context.Context, cmd *cli.Command) error {
+									virtual_service := cmd.String("virtual-service")
+									sub_virtual_service := cmd.String("sub-virtual-service")
+									name := cmd.String("name")
+
+									if virtual_service == "" || sub_virtual_service == "" || name == "" {
+										return fmt.Errorf("missing virtual service, sub virtual service or rule name")
+									}
+									response, err := client.DeleteSubVirtualServiceRule(virtual_service, sub_virtual_service, name)
+									if err != nil {
+										return err
+									}
+									fmt.Println(prettyPrint(response))
+									return nil
+								},
+							},
+							{
+								Name:  "show",
+								Usage: "Show a rule assignment from a sub virtual service",
+								Flags: []cli.Flag{
+									&cli.StringFlag{Name: "virtual-service", Aliases: []string{"vs"}},
+									&cli.StringFlag{Name: "sub-virtual-service", Aliases: []string{"subvs"}},
+									&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+								},
+								Action: func(c context.Context, cmd *cli.Command) error {
+									virtual_service := cmd.String("virtual-service")
+									sub_virtual_service := cmd.String("sub-virtual-service")
+									name := cmd.String("name")
+
+									if virtual_service == "" || sub_virtual_service == "" || name == "" {
+										return fmt.Errorf("missing virtual service, sub virtual service or rule name")
+									}
+									response, err := client.ShowSubVirtualServiceRule(virtual_service, sub_virtual_service, name)
+									if err != nil {
+										return err
+									}
+									fmt.Println(prettyPrint(response))
+									return nil
+								},
+							},
+						},
+					},
+					{
+						Name:    "virtual-service",
+						Aliases: []string{"vs"},
+						Usage:   "Manage rule assignments for virtual services",
+						Commands: []*cli.Command{
+							{
+								Name:    "pre-rule",
+								Aliases: []string{"pre"},
+								Usage:   "Manage pre rule assignments for virtual services",
+								Commands: []*cli.Command{
+									{
+										Name:  "add",
+										Usage: "Add a prerule to a virtual service",
+										Flags: []cli.Flag{
+											&cli.StringFlag{Name: "virtual-service", Aliases: []string{"vs"}},
+											&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+										},
+										Action: func(c context.Context, cmd *cli.Command) error {
+											virtual_service := cmd.String("virtual-service")
+											name := cmd.String("name")
+
+											if virtual_service == "" || name == "" {
+												return fmt.Errorf("missing virtual service or rule name")
+											}
+											response, err := client.AddVirtualServicePreRule(virtual_service, name)
+											if err != nil {
+												return err
+											}
+											fmt.Println(prettyPrint(response))
+											return nil
+										},
+									},
+									{
+										Name:  "show",
+										Usage: "Show a prerule from a virtual service",
+										Flags: []cli.Flag{
+											&cli.StringFlag{Name: "virtual-service", Aliases: []string{"vs"}},
+											&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+										},
+										Action: func(c context.Context, cmd *cli.Command) error {
+											virtual_service := cmd.String("virtual-service")
+											name := cmd.String("name")
+
+											if virtual_service == "" || name == "" {
+												return fmt.Errorf("missing virtual service or rule name")
+											}
+											response, err := client.ShowVirtualServicePreRule(virtual_service, name)
+											if err != nil {
+												return err
+											}
+											fmt.Println(prettyPrint(response))
+											return nil
+										},
+									},
+									{
+										Name:  "del",
+										Usage: "Delete a prerule from a virtual service",
+										Flags: []cli.Flag{
+											&cli.StringFlag{Name: "virtual-service", Aliases: []string{"vs"}},
+											&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+										},
+										Action: func(c context.Context, cmd *cli.Command) error {
+											virtual_service := cmd.String("virtual-service")
+											name := cmd.String("name")
+
+											if virtual_service == "" || name == "" {
+												return fmt.Errorf("missing virtual service or rule name")
+											}
+											response, err := client.DeleteVirtualServicePreRule(virtual_service, name)
+											if err != nil {
+												return err
+											}
+											fmt.Println(prettyPrint(response))
+											return nil
+										},
+									},
+								},
+							},
+							{
+								Name:    "req-rule",
+								Aliases: []string{"rq"},
+								Usage:   "Manage request rule assignments for virtual services",
+								Commands: []*cli.Command{
+									{
+										Name:  "add",
+										Usage: "Add a reqrule to a virtual service",
+										Flags: []cli.Flag{
+											&cli.StringFlag{Name: "virtual-service", Aliases: []string{"vs"}},
+											&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+										},
+										Action: func(c context.Context, cmd *cli.Command) error {
+											virtual_service := cmd.String("virtual-service")
+											name := cmd.String("name")
+
+											if virtual_service == "" || name == "" {
+												return fmt.Errorf("missing virtual service or rule name")
+											}
+											response, err := client.AddVirtualServiceRequestRule(virtual_service, name)
+											if err != nil {
+												return err
+											}
+											fmt.Println(prettyPrint(response))
+											return nil
+										},
+									},
+									{
+										Name:  "show",
+										Usage: "Show a reqrule from a virtual service",
+										Flags: []cli.Flag{
+											&cli.StringFlag{Name: "virtual-service", Aliases: []string{"vs"}},
+											&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+										},
+										Action: func(c context.Context, cmd *cli.Command) error {
+											virtual_service := cmd.String("virtual-service")
+											name := cmd.String("name")
+
+											if virtual_service == "" || name == "" {
+												return fmt.Errorf("missing virtual service or rule name")
+											}
+											response, err := client.ShowVirtualServiceRequestRule(virtual_service, name)
+											if err != nil {
+												return err
+											}
+											fmt.Println(prettyPrint(response))
+											return nil
+										},
+									},
+									{
+										Name:  "del",
+										Usage: "Delete a reqrule from a virtual service",
+										Flags: []cli.Flag{
+											&cli.StringFlag{Name: "virtual-service", Aliases: []string{"vs"}},
+											&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+										},
+										Action: func(c context.Context, cmd *cli.Command) error {
+											virtual_service := cmd.String("virtual-service")
+											name := cmd.String("name")
+
+											if virtual_service == "" || name == "" {
+												return fmt.Errorf("missing virtual service or rule name")
+											}
+											response, err := client.DeleteVirtualServiceRequestRule(virtual_service, name)
+											if err != nil {
+												return err
+											}
+											fmt.Println(prettyPrint(response))
+											return nil
+										},
+									},
+								},
+							},
+							{
+								Name:    "res-rule",
+								Aliases: []string{"re"},
+								Usage:   "Manage response rule assignments for virtual services",
+								Commands: []*cli.Command{
+									{
+										Name:  "add",
+										Usage: "Add a response rule to a virtual service",
+										Flags: []cli.Flag{
+											&cli.StringFlag{Name: "virtual-service", Aliases: []string{"vs"}},
+											&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+										},
+										Action: func(c context.Context, cmd *cli.Command) error {
+											virtual_service := cmd.String("virtual-service")
+											name := cmd.String("name")
+
+											if virtual_service == "" || name == "" {
+												return fmt.Errorf("missing virtual service or rule name")
+											}
+											response, err := client.AddVirtualServiceResponseRule(virtual_service, name)
+											if err != nil {
+												return err
+											}
+											fmt.Println(prettyPrint(response))
+											return nil
+										},
+									},
+									{
+										Name:  "show",
+										Usage: "Show a response rule from a virtual service",
+										Flags: []cli.Flag{
+											&cli.StringFlag{Name: "virtual-service", Aliases: []string{"vs"}},
+											&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+										},
+										Action: func(c context.Context, cmd *cli.Command) error {
+											virtual_service := cmd.String("virtual-service")
+											name := cmd.String("name")
+
+											if virtual_service == "" || name == "" {
+												return fmt.Errorf("missing virtual service or rule name")
+											}
+											response, err := client.ShowVirtualServiceResponseRule(virtual_service, name)
+											if err != nil {
+												return err
+											}
+											fmt.Println(prettyPrint(response))
+											return nil
+										},
+									},
+									{
+										Name:  "del",
+										Usage: "Delete a response rule from a virtual service",
+										Flags: []cli.Flag{
+											&cli.StringFlag{Name: "virtual-service", Aliases: []string{"vs"}},
+											&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+										},
+										Action: func(c context.Context, cmd *cli.Command) error {
+											virtual_service := cmd.String("virtual-service")
+											name := cmd.String("name")
+
+											if virtual_service == "" || name == "" {
+												return fmt.Errorf("missing virtual service or rule name")
+											}
+											response, err := client.DeleteVirtualServiceResponseRule(virtual_service, name)
+											if err != nil {
+												return err
+											}
+											fmt.Println(prettyPrint(response))
+											return nil
+										},
+									},
+								},
+							},
+							{
+								Name:    "res-body-rule",
+								Aliases: []string{"rb"},
+								Usage:   "Manage response body rule assignments for virtual services",
+								Commands: []*cli.Command{
+
+									{
+										Name:  "add",
+										Usage: "Add a response body rule to a virtual service",
+										Flags: []cli.Flag{
+											&cli.StringFlag{Name: "virtual-service", Aliases: []string{"vs"}},
+											&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+										},
+										Action: func(c context.Context, cmd *cli.Command) error {
+											virtual_service := cmd.String("virtual-service")
+											name := cmd.String("name")
+
+											if virtual_service == "" || name == "" {
+												return fmt.Errorf("missing virtual service or rule name")
+											}
+											response, err := client.AddVirtualServiceResponseBodyRule(virtual_service, name)
+											if err != nil {
+												return err
+											}
+											fmt.Println(prettyPrint(response))
+											return nil
+										},
+									},
+									{
+										Name:  "show",
+										Usage: "Show a response body rule from a virtual service",
+										Flags: []cli.Flag{
+											&cli.StringFlag{Name: "virtual-service", Aliases: []string{"vs"}},
+											&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+										},
+										Action: func(c context.Context, cmd *cli.Command) error {
+											virtual_service := cmd.String("virtual-service")
+											name := cmd.String("name")
+
+											if virtual_service == "" || name == "" {
+												return fmt.Errorf("missing virtual service or rule name")
+											}
+											response, err := client.ShowVirtualServiceResponseBodyRule(virtual_service, name)
+											if err != nil {
+												return err
+											}
+											fmt.Println(prettyPrint(response))
+											return nil
+										},
+									},
+									{
+										Name:  "del",
+										Usage: "Delete a response body rule from a virtual service",
+										Flags: []cli.Flag{
+											&cli.StringFlag{Name: "virtual-service", Aliases: []string{"vs"}},
+											&cli.StringFlag{Name: "name", Aliases: []string{"n"}},
+										},
+										Action: func(c context.Context, cmd *cli.Command) error {
+											virtual_service := cmd.String("virtual-service")
+											name := cmd.String("name")
+
+											if virtual_service == "" || name == "" {
+												return fmt.Errorf("missing virtual service or rule name")
+											}
+											response, err := client.DeleteVirtualServiceResponseBodyRule(virtual_service, name)
+											if err != nil {
+												return err
+											}
+											fmt.Println(prettyPrint(response))
+											return nil
+										},
+									},
+								},
+							},
 						},
 					},
 				},
