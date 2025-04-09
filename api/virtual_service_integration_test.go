@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestSomething(t *testing.T) {
+func TestIntegration_VirtualService(t *testing.T) {
 	client, function := createClientForIntegration()
 	if client == nil || function == nil {
 		t.Skip("Skipping test because LOADMASTER_API_KEY or LOADMASTER_IP is not set")

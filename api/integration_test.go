@@ -16,7 +16,13 @@ func createClientForIntegration() (*Client, closerFunc) {
 		return nil, nil
 	}
 	client := NewClientWithApiKey(ip, api_key)
-	client.SetLogger(slog.New(slog.DiscardHandler))
+	// logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+	// 	AddSource: true,
+	// 	Level:     slog.LevelDebug,
+	// }))
+	logger := slog.New(slog.DiscardHandler)
+
+	client.SetLogger(logger)
 
 	data, _ := client.Backup()
 
