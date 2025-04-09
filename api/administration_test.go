@@ -29,7 +29,7 @@ func TestClient_Backup(t *testing.T) {
 			}))
 
 			defer server.Close()
-			client := Client{server.Client(), "bar", "foo", "baz", server.URL, 0}
+			client := createClientForUnit(server, "baz")
 
 			rs, err := client.Backup()
 
@@ -65,7 +65,7 @@ func TestClient_Restore(t *testing.T) {
 			}))
 
 			defer server.Close()
-			client := Client{server.Client(), "bar", "foo", "baz", server.URL, 0}
+			client := createClientForUnit(server, "baz")
 
 			data, _ := tt.arguments[0].(string)
 			restore_type, _ := tt.arguments[1].(string)

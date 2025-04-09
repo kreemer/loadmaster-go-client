@@ -8,6 +8,7 @@ import (
 	"io"
 	"log/slog"
 	"net/http"
+	"os"
 	"strconv"
 )
 
@@ -17,7 +18,7 @@ type Client struct {
 	apiUser    string
 	apiPass    string
 	restUrl    string
-	debug      uint8
+	logger     *slog.Logger
 }
 
 type LoadMasterResponse struct {
@@ -48,9 +49,9 @@ type AuthInjectable interface {
 }
 
 func (r *LoadMasterRequest) injectAuth(c *Client) (err error) {
-	slog.Debug("Injecting authentication credentials in payload")
+	c.logger.Debug("Injecting authentication credentials in payload")
 	if c.apiUser != "" && c.apiPass != "" {
-		slog.Debug("Using username and password authentication")
+		c.logger.Debug("Using username and password authentication")
 
 		r.ApiUser = c.apiUser
 		r.ApiPass = c.apiPass
@@ -58,7 +59,7 @@ func (r *LoadMasterRequest) injectAuth(c *Client) (err error) {
 	}
 
 	if c.apiKey != "" {
-		slog.Debug("Using API key authentication")
+		c.logger.Debug("Using API key authentication")
 		r.ApiKey = c.apiKey
 		return nil
 	}
@@ -92,7 +93,7 @@ func NewClient(restUrl string, apiKey string, apiUser string, apiPass string) *C
 		apiUser:    apiUser,
 		apiPass:    apiPass,
 		restUrl:    restUrl,
-		debug:      0,
+		logger:     slog.New(slog.NewTextHandler(os.Stdout, nil)),
 	}
 }
 
@@ -104,7 +105,7 @@ func NewClientWithUsernamePassword(restUrl string, apiUser string, apiPass strin
 		apiUser:    apiUser,
 		apiPass:    apiPass,
 		restUrl:    restUrl,
-		debug:      0,
+		logger:     slog.New(slog.NewTextHandler(os.Stdout, nil)),
 	}
 }
 
@@ -115,16 +116,16 @@ func NewClientWithApiKey(restUrl string, apiKey string) *Client {
 		httpClient: http.DefaultClient,
 		apiKey:     apiKey,
 		restUrl:    restUrl,
-		debug:      0,
+		logger:     slog.New(slog.NewTextHandler(os.Stdout, nil)),
 	}
 }
 
-func (c *Client) SetDebugLevel(level uint8) {
-	c.debug = level
+func (c *Client) SetLogger(logger *slog.Logger) {
+	c.logger = logger
 }
 
 func sendRequest[T HTTPWithResponseCode](c *Client, payload AuthInjectable, response T) (*T, error) {
-	slog.Info("Initiate communication with LoadMaster API")
+	c.logger.Info("Initiate communication with LoadMaster API")
 	request, err := c.newRequest(payload)
 	if err != nil {
 		return nil, err
@@ -135,10 +136,10 @@ func sendRequest[T HTTPWithResponseCode](c *Client, payload AuthInjectable, resp
 		return nil, err
 	}
 
-	slog.Debug("Unmarshalling response")
+	c.logger.Debug("Unmarshalling response")
 	err = json.Unmarshal(http_response, &response)
 	if err != nil {
-		slog.Error("Error unmarshalling response: ", "Error", err)
+		c.logger.Error("Error unmarshalling response: ", "Error", err)
 		return nil, err
 	}
 
@@ -153,21 +154,21 @@ func sendRequest[T HTTPWithResponseCode](c *Client, payload AuthInjectable, resp
 }
 
 func (c *Client) newRequest(payload AuthInjectable) (*http.Request, error) {
-	slog.Info("Creating new request for LoadMaster API", "Request", payload)
+	c.logger.Info("Creating new request for LoadMaster API", "Request", payload)
 	err := payload.injectAuth(c)
 
 	if err != nil {
-		slog.Error("Error injecting authentication credentials in payload", "Error", err)
+		c.logger.Error("Error injecting authentication credentials in payload", "Error", err)
 		return nil, err
 	}
 
-	slog.Debug("Marshalling payload before sending")
+	c.logger.Debug("Marshalling payload before sending")
 	b, err := json.Marshal(payload)
 	if err != nil {
-		slog.Error("Error marshalling payload to json: ", "Error", err)
+		c.logger.Error("Error marshalling payload to json: ", "Error", err)
 		return nil, err
 	}
-	slog.Debug("Payload marshalled successfully", "Payload", string(b))
+	c.logger.Debug("Payload marshalled successfully", "Payload", string(b))
 
 	req, err := http.NewRequest("POST", fmt.Sprintf("%s/accessv2", c.restUrl), bytes.NewBuffer(b))
 	if err != nil {
@@ -178,24 +179,24 @@ func (c *Client) newRequest(payload AuthInjectable) (*http.Request, error) {
 }
 
 func (c *Client) doRequest(req *http.Request) ([]byte, error) {
-	slog.Info("Sending request to LoadMaster API", "URL", req.URL.String(), "Method", req.Method)
+	c.logger.Info("Sending request to LoadMaster API", "URL", req.URL.String(), "Method", req.Method)
 
 	res, err := c.httpClient.Do(req)
 	if err != nil {
-		slog.Error("Error sending request:", "Error", err)
+		c.logger.Error("Error sending request:", "Error", err)
 		return nil, err
 	}
 	defer res.Body.Close()
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		slog.Error("Error reading body of response:", "Error", err)
+		c.logger.Error("Error reading body of response:", "Error", err)
 		return nil, err
 	}
 	if res.StatusCode == http.StatusOK || res.StatusCode == http.StatusNoContent || res.StatusCode == http.StatusUnprocessableEntity {
-		slog.Debug("Response", "Status", res.Status, "Headers", res.Header, "Body", string(body))
+		c.logger.Debug("Response", "Status", res.Status, "Headers", res.Header, "Body", string(body))
 		return body, err
 	} else {
-		slog.Error("Error in response:", slog.String("status", res.Status), slog.String("body", string(body)))
+		c.logger.Error("Error in response:", slog.String("status", res.Status), slog.String("body", string(body)))
 
 		return body, fmt.Errorf("status: %d, body: %s", res.StatusCode, body)
 	}

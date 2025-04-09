@@ -1,6 +1,7 @@
 package api
 
 import (
+	"log/slog"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -21,11 +22,11 @@ func TestLoadMasterRequest_injectAuth(t *testing.T) {
 		args     args
 		wantErr  bool
 	}{
-		{"Take api key if defined", fields{ApiUser: "", ApiPass: "", ApiKey: "test"}, args{&Client{apiKey: "test"}}, false},
-		{"Take api username / password if defined", fields{ApiUser: "user", ApiPass: "pass", ApiKey: ""}, args{&Client{apiUser: "user", apiPass: "pass"}}, false},
-		{"Error if no authentication", fields{}, args{&Client{}}, true},
-		{"Error if no username but password", fields{}, args{&Client{apiPass: "pass"}}, true},
-		{"Error if no password but username", fields{}, args{&Client{apiUser: "user"}}, true},
+		{"Take api key if defined", fields{ApiUser: "", ApiPass: "", ApiKey: "test"}, args{&Client{apiKey: "test", logger: slog.Default()}}, false},
+		{"Take api username / password if defined", fields{ApiUser: "user", ApiPass: "pass", ApiKey: ""}, args{&Client{apiUser: "user", apiPass: "pass", logger: slog.Default()}}, false},
+		{"Error if no authentication", fields{}, args{&Client{logger: slog.Default()}}, true},
+		{"Error if no username but password", fields{}, args{&Client{apiPass: "pass", logger: slog.Default()}}, true},
+		{"Error if no password but username", fields{}, args{&Client{apiUser: "user", logger: slog.Default()}}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

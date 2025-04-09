@@ -8,8 +8,6 @@ import (
 type closerFunc func() error
 
 func createClientForIntegration() (*Client, closerFunc) {
-	slog.SetLogLoggerLevel(slog.LevelDebug)
-	slog.Debug("Creating client for integration tests")
 
 	api_key := os.Getenv("LOADMASTER_API_KEY")
 	ip := os.Getenv("LOADMASTER_IP")
@@ -18,7 +16,7 @@ func createClientForIntegration() (*Client, closerFunc) {
 		return nil, nil
 	}
 	client := NewClientWithApiKey(ip, api_key)
-	client.SetDebugLevel(0)
+	client.SetLogger(slog.New(slog.DiscardHandler))
 
 	data, _ := client.Backup()
 

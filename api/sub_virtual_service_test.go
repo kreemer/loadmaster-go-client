@@ -28,7 +28,7 @@ func TestClient_AddSubVirtualService(t *testing.T) {
 			}))
 
 			defer server.Close()
-			client := Client{server.Client(), "bar", "foo", "baz", server.URL, 0}
+			client := createClientForUnit(server, "baz")
 
 			rs, err := client.AddSubVirtualService(1, VirtualServiceParameters{})
 

@@ -41,8 +41,6 @@ func main() {
 
 					slog.Info("Verbose mode enabled", "Level", count)
 
-					client.SetDebugLevel(uint8(count))
-
 					return nil
 				},
 			},

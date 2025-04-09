@@ -30,7 +30,7 @@ func TestClient_RegisterLetsEncryptAccount(t *testing.T) {
 			}))
 
 			defer server.Close()
-			client := Client{server.Client(), "bar", "foo", "baz", server.URL, 0}
+			client := createClientForUnit(server, "baz")
 
 			email, _ := tt.arguments[0].(*string)
 
@@ -68,7 +68,7 @@ func TestClient_FetchLetsEncryptAccount(t *testing.T) {
 			}))
 
 			defer server.Close()
-			client := Client{server.Client(), "bar", "foo", "baz", server.URL, 0}
+			client := createClientForUnit(server, "baz")
 
 			password, _ := tt.arguments[0].(string)
 			data, _ := tt.arguments[1].(string)
@@ -107,7 +107,7 @@ func TestClient_SetDigicertKeyId(t *testing.T) {
 			}))
 
 			defer server.Close()
-			client := Client{server.Client(), "bar", "foo", "baz", server.URL, 0}
+			client := createClientForUnit(server, "baz")
 
 			key, _ := tt.arguments[0].(string)
 
@@ -145,7 +145,7 @@ func TestClient_SetDigicertHMAC(t *testing.T) {
 			}))
 
 			defer server.Close()
-			client := Client{server.Client(), "bar", "foo", "baz", server.URL, 0}
+			client := createClientForUnit(server, "baz")
 
 			hmac, _ := tt.arguments[0].(string)
 
@@ -184,7 +184,7 @@ func TestClient_RequestACMECertificate(t *testing.T) {
 			}))
 
 			defer server.Close()
-			client := Client{server.Client(), "bar", "foo", "baz", server.URL, 0}
+			client := createClientForUnit(server, "baz")
 
 			name, _ := tt.arguments[0].(string)
 			common_name, _ := tt.arguments[1].(string)
@@ -226,7 +226,7 @@ func TestClient_DeleteACMECertificate(t *testing.T) {
 			}))
 
 			defer server.Close()
-			client := Client{server.Client(), "bar", "foo", "baz", server.URL, 0}
+			client := createClientForUnit(server, "baz")
 
 			name, _ := tt.arguments[0].(string)
 			acme_type, _ := tt.arguments[1].(string)
