@@ -926,7 +926,6 @@ func main() {
 					},
 				},
 			},
-
 			{
 				Name:    "intermediate-certificate",
 				Aliases: []string{"ic"},
@@ -988,6 +987,47 @@ func main() {
 							}
 
 							response, err := client.ShowIntermediateCertificate(name)
+							if err != nil {
+								return err
+							}
+							fmt.Println(prettyPrint(response))
+							return nil
+						},
+					},
+				},
+			},
+			{
+				Name:    "administration",
+				Aliases: []string{"a"},
+				Usage:   "Administration tasks",
+				Commands: []*cli.Command{
+					{
+						Name:  "backup",
+						Usage: "Backup the current configuration",
+						Action: func(c context.Context, cmd *cli.Command) error {
+							response, err := client.Backup()
+							if err != nil {
+								return err
+							}
+							fmt.Println(prettyPrint(response))
+							return nil
+						},
+					},
+					{
+						Name:  "restore",
+						Usage: "Restore configuration",
+						Flags: []cli.Flag{
+							&cli.StringFlag{Name: "data", Aliases: []string{"d"}},
+							&cli.StringFlag{Name: "type", Aliases: []string{"t"}},
+						},
+						Action: func(c context.Context, cmd *cli.Command) error {
+							data := cmd.String("data")
+							backup_type := cmd.String("type")
+							if data == "" || backup_type == "" {
+								return fmt.Errorf("missing data or type")
+							}
+
+							response, err := client.Restore(data, backup_type)
 							if err != nil {
 								return err
 							}
