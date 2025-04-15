@@ -45,3 +45,6 @@ jobs:
       - run: go mod download
       - run: go test -v -cover ./api
         timeout-minutes: 10
+        env:
+          LOADMASTER_IP: ${{ secrets.LOADMASTER_IP }}
+          LOADMASTER_API_KEY: ${{ secrets.LOADMASTER_API_KEY }}
