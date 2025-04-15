@@ -34,6 +34,11 @@ type LoadMasterRequest struct {
 	ApiKey  string `json:"apikey,omitempty"`
 }
 
+type LoadMasterDataResponse struct {
+	*LoadMasterResponse
+	Data string `json:"data,omitempty"`
+}
+
 type LoadMasterError struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`

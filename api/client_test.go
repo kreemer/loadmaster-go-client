@@ -27,18 +27,18 @@ func createClientForIntegration() (*Client, closerFunc) {
 		return nil, nil
 	}
 	client := NewClientWithApiKey(ip, api_key)
-	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
-		AddSource: true,
-		Level:     slog.LevelDebug,
-	}))
-	// logger := slog.New(slog.DiscardHandler)
+	// logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+	// 	AddSource: true,
+	// 	Level:     slog.LevelDebug,
+	// }))
+	logger := slog.New(slog.DiscardHandler)
 
 	client.SetLogger(logger)
 
 	data, _ := client.Backup()
 
 	cleanup := func() error {
-		_, err := client.Restore(data.Data, "14")
+		_, err := client.Restore(data.Data, "15")
 
 		return err
 	}

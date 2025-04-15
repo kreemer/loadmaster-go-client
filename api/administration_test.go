@@ -13,10 +13,10 @@ func TestClient_Backup(t *testing.T) {
 		name      string
 		arguments []any
 		response  string
-		want      *BackupResponse
+		want      *LoadMasterDataResponse
 		wantErr   bool
 	}{
-		{"success response", []any{}, `{"code": 200, "message": "OK", "status": "success", "data": "..."}`, &BackupResponse{LoadMasterResponse: &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, Data: "..."}, false},
+		{"success response", []any{}, `{"code": 200, "message": "OK", "status": "success", "data": "..."}`, &LoadMasterDataResponse{LoadMasterResponse: &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, Data: "..."}, false},
 		{"fail response", []any{}, `{"code": 400, "message": "NOK", "message": "error"}`, nil, true},
 	}
 	for _, tt := range testCases {

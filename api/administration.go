@@ -6,12 +6,7 @@ import (
 	"log/slog"
 )
 
-type BackupResponse struct {
-	*LoadMasterResponse
-	Data string `json:"data,omitempty"`
-}
-
-func (c *Client) Backup() (*BackupResponse, error) {
+func (c *Client) Backup() (*LoadMasterDataResponse, error) {
 	slog.Debug("Backup")
 	payload := struct {
 		*LoadMasterRequest
@@ -31,7 +26,7 @@ func (c *Client) Backup() (*BackupResponse, error) {
 		return nil, err
 	}
 
-	response := &BackupResponse{}
+	response := &LoadMasterDataResponse{}
 	err = json.Unmarshal(http_response, response)
 	if err != nil {
 		return nil, err
