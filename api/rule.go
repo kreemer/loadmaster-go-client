@@ -22,9 +22,9 @@ type GeneralRule struct {
 	Negate          *bool   `json:"negate,omitempty"`
 	IncQuery        *bool   `json:"incquery,omitempty"`
 	Header          *string `json:"header,omitempty"`
-	SetOnMatch      *int    `json:"setonmatch,omitempty"`
-	OnlyOnFlag      *int    `json:"onlyonflag,omitempty"`
-	OnlyOnNoFlag    *int    `json:"onlyonnoflag,omitempty"`
+	SetOnMatch      *int32  `json:"setonmatch,omitempty"`
+	OnlyOnFlag      *int32  `json:"onlyonflag,omitempty"`
+	OnlyOnNoFlag    *int32  `json:"onlyonnoflag,omitempty"`
 	MustFail        *bool   `json:"mustfail,omitempty"`
 }
 
@@ -37,9 +37,9 @@ type MatchContentRule struct {
 	IncQuery        *bool   `json:"IncludeQuery,omitempty"`
 	Header          *string `json:"header,omitempty"`
 	Pattern         string  `json:"pattern,omitempty"`
-	SetOnMatch      *int    `json:"SetFlagOnMatch,omitempty"`
-	OnlyOnFlag      *int    `json:"onlyonflag,omitempty"`
-	OnlyOnNoFlag    *int    `json:"onlyonnoflag,omitempty"`
+	SetOnMatch      *int32  `json:"SetFlagOnMatch,omitempty"`
+	OnlyOnFlag      *int32  `json:"onlyonflag,omitempty"`
+	OnlyOnNoFlag    *int32  `json:"onlyonnoflag,omitempty"`
 	MustFail        *bool   `json:"mustfail,omitempty"`
 }
 
@@ -47,15 +47,15 @@ type AddHeaderRule struct {
 	Name         string  `json:"name,omitempty"`
 	Header       *string `json:"header,omitempty"`
 	Replacement  string  `json:"HeaderValue,omitempty"`
-	OnlyOnFlag   *int    `json:"onlyonflag,omitempty"`
-	OnlyOnNoFlag *int    `json:"onlyonnoflag,omitempty"`
+	OnlyOnFlag   *int32  `json:"onlyonflag,omitempty"`
+	OnlyOnNoFlag *int32  `json:"onlyonnoflag,omitempty"`
 }
 
 type DeleteHeaderRule struct {
 	Name         string `json:"name,omitempty"`
 	Pattern      string `json:"pattern,omitempty"`
-	OnlyOnFlag   *int   `json:"onlyonflag,omitempty"`
-	OnlyOnNoFlag *int   `json:"onlyonnoflag,omitempty"`
+	OnlyOnFlag   *int32 `json:"onlyonflag,omitempty"`
+	OnlyOnNoFlag *int32 `json:"onlyonnoflag,omitempty"`
 }
 
 type ReplaceHeaderRule struct {
@@ -63,24 +63,24 @@ type ReplaceHeaderRule struct {
 	Header       *string `json:"header,omitempty"`
 	Replacement  string  `json:"replacement,omitempty"`
 	Pattern      string  `json:"pattern,omitempty"`
-	OnlyOnFlag   *int    `json:"onlyonflag,omitempty"`
-	OnlyOnNoFlag *int    `json:"onlyonnoflag,omitempty"`
+	OnlyOnFlag   *int32  `json:"onlyonflag,omitempty"`
+	OnlyOnNoFlag *int32  `json:"onlyonnoflag,omitempty"`
 }
 
 type ModifyURLRule struct {
 	Name         string `json:"name,omitempty"`
 	Replacement  string `json:"replacement,omitempty"`
 	Pattern      string `json:"pattern,omitempty"`
-	OnlyOnFlag   *int   `json:"onlyonflag,omitempty"`
-	OnlyOnNoFlag *int   `json:"onlyonnoflag,omitempty"`
+	OnlyOnFlag   *int32 `json:"onlyonflag,omitempty"`
+	OnlyOnNoFlag *int32 `json:"onlyonnoflag,omitempty"`
 }
 
 type ReplaceBodyRule struct {
 	Name            string `json:"name,omitempty"`
 	Replacement     string `json:"replacement,omitempty"`
 	Pattern         string `json:"pattern,omitempty"`
-	OnlyOnFlag      *int   `json:"onlyonflag,omitempty"`
-	OnlyOnNoFlag    *int   `json:"onlyonnoflag,omitempty"`
+	OnlyOnFlag      *int32 `json:"onlyonflag,omitempty"`
+	OnlyOnNoFlag    *int32 `json:"onlyonnoflag,omitempty"`
 	CaseIndependent *bool  `json:"caseindependent,omitempty"`
 }
 

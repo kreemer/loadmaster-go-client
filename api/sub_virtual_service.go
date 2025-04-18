@@ -6,7 +6,7 @@ type SubVirtualService struct {
 	*VirtualService
 	Name    string `json:"Name,omitempty"`
 	Forward string `json:"Forward,omitempty"`
-	VSIndex int    `json:"VSIndex,omitempty"`
+	VSIndex int32  `json:"VSIndex,omitempty"`
 }
 
 type ShowSubVirtualServiceResponse struct {
@@ -14,11 +14,11 @@ type ShowSubVirtualServiceResponse struct {
 	*SubVirtualService
 }
 
-func (c *Client) ShowSubVirtualService(identifier int) (*ShowSubVirtualServiceResponse, error) {
+func (c *Client) ShowSubVirtualService(identifier string) (*ShowSubVirtualServiceResponse, error) {
 	slog.Debug("Showing sub virtual service", "identifier", identifier)
 	payload := struct {
 		*LoadMasterRequest
-		VS int `json:"vs"`
+		VS string `json:"vs"`
 	}{
 		LoadMasterRequest: &LoadMasterRequest{
 			Command: "showvs",
@@ -34,12 +34,12 @@ func (c *Client) ShowSubVirtualService(identifier int) (*ShowSubVirtualServiceRe
 	return response, nil
 }
 
-func (c *Client) AddSubVirtualService(vs_identifier int, parameters VirtualServiceParameters) (*ShowSubVirtualServiceResponse, error) {
+func (c *Client) AddSubVirtualService(vs_identifier string, parameters VirtualServiceParameters) (*ShowSubVirtualServiceResponse, error) {
 	slog.Debug("Adding sub virtual service", "vs_identifier", vs_identifier)
 	payload := struct {
 		*LoadMasterRequest
 		*VirtualServiceParameters
-		VS          int    `json:"vs"`
+		VS          string `json:"vs"`
 		CreateSubVS string `json:"createsubvs"`
 	}{
 		LoadMasterRequest: &LoadMasterRequest{
@@ -58,12 +58,12 @@ func (c *Client) AddSubVirtualService(vs_identifier int, parameters VirtualServi
 	return response, nil
 }
 
-func (c *Client) ModifySubVirtualService(identifier int, parameters VirtualServiceParameters) (*ShowSubVirtualServiceResponse, error) {
+func (c *Client) ModifySubVirtualService(identifier string, parameters VirtualServiceParameters) (*ShowSubVirtualServiceResponse, error) {
 	slog.Debug("Modifying sub virtual service", "identifier", identifier)
 	payload := struct {
 		*LoadMasterRequest
 		*VirtualServiceParameters
-		VS int `json:"vs"`
+		VS string `json:"vs"`
 	}{
 		LoadMasterRequest: &LoadMasterRequest{
 			Command: "modvs",
@@ -80,12 +80,12 @@ func (c *Client) ModifySubVirtualService(identifier int, parameters VirtualServi
 	return response, nil
 }
 
-func (c *Client) DeleteSubVirtualService(identifier int) (*LoadMasterResponse, error) {
+func (c *Client) DeleteSubVirtualService(identifier string) (*LoadMasterResponse, error) {
 	slog.Debug("Deleting sub virtual service", "identifier", identifier)
 
 	payload := struct {
 		*LoadMasterRequest
-		VS int `json:"vs"`
+		VS string `json:"vs"`
 	}{
 		LoadMasterRequest: &LoadMasterRequest{
 			Command: "delvs",

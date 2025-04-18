@@ -13,7 +13,7 @@ type RequestACMECertificateParameters struct {
 	Company      string `json:"company,omitempty"`
 	Organization string `json:"organization,omitempty"`
 	Email        string `json:"email,omitempty"`
-	KeySize      int    `json:"key_size,omitempty"`
+	KeySize      int32  `json:"key_size,omitempty"`
 
 	DnsApi       string `json:"dnsapi,omitempty"`
 	DnsApiParams string `json:"dnsapiparams,omitempty"`

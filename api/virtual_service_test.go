@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"reflect"
+	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -109,7 +110,7 @@ func TestIntegration_VirtualService(t *testing.T) {
 		assert.Equal(t, "", init_response.NickName)
 		assert.True(t, *init_response.Enable)
 
-		response, err := client.ModifyVirtualService(init_response.Index, VirtualServiceParameters{VirtualServiceParametersBasicProperties: &VirtualServiceParametersBasicProperties{Enable: convert2Ptr(false), NickName: "test4"}})
+		response, err := client.ModifyVirtualService(strconv.Itoa(int(init_response.Index)), VirtualServiceParameters{VirtualServiceParametersBasicProperties: &VirtualServiceParametersBasicProperties{Enable: convert2Ptr(false), NickName: "test4"}})
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -131,7 +132,7 @@ func TestIntegration_VirtualService(t *testing.T) {
 		assert.Equal(t, "20005", init_response.Port)
 		assert.Equal(t, "tcp", init_response.Protocol)
 
-		response, err := client.DeleteVirtualService(init_response.Index)
+		response, err := client.DeleteVirtualService(strconv.Itoa(int(init_response.Index)))
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -160,7 +161,7 @@ func TestIntegration_VirtualService(t *testing.T) {
 		assert.Equal(t, "20006", init_response.Port)
 		assert.Equal(t, "tcp", init_response.Protocol)
 
-		response, err := client.ShowVirtualService(init_response.Index)
+		response, err := client.ShowVirtualService(strconv.Itoa(int(init_response.Index)))
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}

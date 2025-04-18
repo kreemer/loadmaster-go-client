@@ -20,13 +20,13 @@ func TestIntegration_OwaspRuleVirtualService(t *testing.T) {
 		t.Fatalf("expected no error, got %v", err)
 	}
 
-	_, err = client.ModifyVirtualService(vs.Index, VirtualServiceParameters{VirtualServiceParametersWAFSettings: &VirtualServiceParametersWAFSettings{InterceptMode: convert2Ptr(2)}})
+	_, err = client.ModifyVirtualService(strconv.Itoa(int(vs.Index)), VirtualServiceParameters{VirtualServiceParametersWAFSettings: &VirtualServiceParametersWAFSettings{InterceptMode: convert2Ptr(int32(2))}})
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
 
 	t.Run("Assign an owasp custom rule to a virtual service", func(t *testing.T) {
-		response, err := client.AddVirtualServiceOwaspRule(strconv.Itoa(vs.Index), "913100")
+		response, err := client.AddVirtualServiceOwaspRule(strconv.Itoa(int(vs.Index)), "913100")
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -35,7 +35,7 @@ func TestIntegration_OwaspRuleVirtualService(t *testing.T) {
 			t.Fatalf("expected 200, got %d", response.Code)
 		}
 
-		response_rule, err := client.ShowVirtualServiceOwaspRule(strconv.Itoa(vs.Index), "913100")
+		response_rule, err := client.ShowVirtualServiceOwaspRule(strconv.Itoa(int(vs.Index)), "913100")
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -47,12 +47,12 @@ func TestIntegration_OwaspRuleVirtualService(t *testing.T) {
 	})
 
 	t.Run("Unassign an owasp custom rule to a virtual service", func(t *testing.T) {
-		_, err = client.AddVirtualServiceOwaspRule(strconv.Itoa(vs.Index), "913100")
+		_, err = client.AddVirtualServiceOwaspRule(strconv.Itoa(int(vs.Index)), "913100")
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
 
-		response, err := client.ShowVirtualServiceOwaspRule(strconv.Itoa(vs.Index), "913100")
+		response, err := client.ShowVirtualServiceOwaspRule(strconv.Itoa(int(vs.Index)), "913100")
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -62,12 +62,12 @@ func TestIntegration_OwaspRuleVirtualService(t *testing.T) {
 		assert.Equal(t, "CRS", response.Rule.Type)
 		assert.Equal(t, "yes", response.Rule.Enabled)
 
-		_, err = client.DeleteVirtualServiceOwaspRule(strconv.Itoa(vs.Index), "913100")
+		_, err = client.DeleteVirtualServiceOwaspRule(strconv.Itoa(int(vs.Index)), "913100")
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
 
-		response, err = client.ShowVirtualServiceOwaspRule(strconv.Itoa(vs.Index), "913100")
+		response, err = client.ShowVirtualServiceOwaspRule(strconv.Itoa(int(vs.Index)), "913100")
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -93,7 +93,7 @@ func TestIntegration_OwaspCustomRuleVirtualService(t *testing.T) {
 		t.Fatalf("expected no error, got %v", err)
 	}
 
-	_, err = client.ModifyVirtualService(vs.Index, VirtualServiceParameters{VirtualServiceParametersWAFSettings: &VirtualServiceParametersWAFSettings{InterceptMode: convert2Ptr(2)}})
+	_, err = client.ModifyVirtualService(strconv.Itoa(int(vs.Index)), VirtualServiceParameters{VirtualServiceParametersWAFSettings: &VirtualServiceParametersWAFSettings{InterceptMode: convert2Ptr(int32(2))}})
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
@@ -178,7 +178,7 @@ SecMarker END_ALLOWLIST_login
 			t.Fatalf("expected no error, got %v", err)
 		}
 
-		response, err := client.AddVirtualServiceOwaspCustomRule(strconv.Itoa(vs.Index), "test", true)
+		response, err := client.AddVirtualServiceOwaspCustomRule(strconv.Itoa(int(vs.Index)), "test", true)
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -194,12 +194,12 @@ SecMarker END_ALLOWLIST_login
 			t.Fatalf("expected no error, got %v", err)
 		}
 
-		_, err = client.AddVirtualServiceOwaspCustomRule(strconv.Itoa(vs.Index), "test", false)
+		_, err = client.AddVirtualServiceOwaspCustomRule(strconv.Itoa(int(vs.Index)), "test", false)
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
 
-		response, err := client.ShowVirtualServiceOwaspRule(strconv.Itoa(vs.Index), "test")
+		response, err := client.ShowVirtualServiceOwaspRule(strconv.Itoa(int(vs.Index)), "test")
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -217,12 +217,12 @@ SecMarker END_ALLOWLIST_login
 			t.Fatalf("expected no error, got %v", err)
 		}
 
-		_, err = client.AddVirtualServiceOwaspCustomRule(strconv.Itoa(vs.Index), "test", true)
+		_, err = client.AddVirtualServiceOwaspCustomRule(strconv.Itoa(int(vs.Index)), "test", true)
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
 
-		response, err := client.ShowVirtualServiceOwaspRule(strconv.Itoa(vs.Index), "test")
+		response, err := client.ShowVirtualServiceOwaspRule(strconv.Itoa(int(vs.Index)), "test")
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -233,12 +233,12 @@ SecMarker END_ALLOWLIST_login
 		assert.Equal(t, response.Rule.Enabled, "yes")
 		assert.Equal(t, response.Rule.RunFirst, "yes")
 
-		_, err = client.DeleteVirtualServiceOwaspCustomRule(strconv.Itoa(vs.Index), "test")
+		_, err = client.DeleteVirtualServiceOwaspCustomRule(strconv.Itoa(int(vs.Index)), "test")
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
 
-		response, err = client.ShowVirtualServiceOwaspRule(strconv.Itoa(vs.Index), "test")
+		response, err = client.ShowVirtualServiceOwaspRule(strconv.Itoa(int(vs.Index)), "test")
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -324,18 +324,18 @@ func TestIntegration_OwaspRuleSubVirtualService(t *testing.T) {
 		t.Fatalf("expected no error, got %v", err)
 	}
 
-	subvs, err := client.AddSubVirtualService(vs.Index, VirtualServiceParameters{})
+	subvs, err := client.AddSubVirtualService(strconv.Itoa(int(vs.Index)), VirtualServiceParameters{})
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
 
-	_, err = client.ModifySubVirtualService(subvs.Index, VirtualServiceParameters{VirtualServiceParametersWAFSettings: &VirtualServiceParametersWAFSettings{InterceptMode: convert2Ptr(2)}})
+	_, err = client.ModifySubVirtualService(strconv.Itoa(int(subvs.Index)), VirtualServiceParameters{VirtualServiceParametersWAFSettings: &VirtualServiceParametersWAFSettings{InterceptMode: convert2Ptr(int32(2))}})
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
 
 	t.Run("Assign an owasp custom rule to a sub virtual service", func(t *testing.T) {
-		response, err := client.AddVirtualServiceOwaspRule(strconv.Itoa(subvs.Index), "913100")
+		response, err := client.AddVirtualServiceOwaspRule(strconv.Itoa(int(subvs.Index)), "913100")
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -344,7 +344,7 @@ func TestIntegration_OwaspRuleSubVirtualService(t *testing.T) {
 			t.Fatalf("expected 200, got %d", response.Code)
 		}
 
-		response_rule, err := client.ShowVirtualServiceOwaspRule(strconv.Itoa(subvs.Index), "913100")
+		response_rule, err := client.ShowVirtualServiceOwaspRule(strconv.Itoa(int(subvs.Index)), "913100")
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -356,12 +356,12 @@ func TestIntegration_OwaspRuleSubVirtualService(t *testing.T) {
 	})
 
 	t.Run("Unassign an owasp custom rule to a sub virtual service", func(t *testing.T) {
-		_, err = client.AddVirtualServiceOwaspRule(strconv.Itoa(subvs.Index), "913100")
+		_, err = client.AddVirtualServiceOwaspRule(strconv.Itoa(int(subvs.Index)), "913100")
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
 
-		response, err := client.ShowVirtualServiceOwaspRule(strconv.Itoa(subvs.Index), "913100")
+		response, err := client.ShowVirtualServiceOwaspRule(strconv.Itoa(int(subvs.Index)), "913100")
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -371,12 +371,12 @@ func TestIntegration_OwaspRuleSubVirtualService(t *testing.T) {
 		assert.Equal(t, "CRS", response.Rule.Type)
 		assert.Equal(t, "yes", response.Rule.Enabled)
 
-		_, err = client.DeleteVirtualServiceOwaspRule(strconv.Itoa(subvs.Index), "913100")
+		_, err = client.DeleteVirtualServiceOwaspRule(strconv.Itoa(int(subvs.Index)), "913100")
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
 
-		response, err = client.ShowVirtualServiceOwaspRule(strconv.Itoa(subvs.Index), "913100")
+		response, err = client.ShowVirtualServiceOwaspRule(strconv.Itoa(int(subvs.Index)), "913100")
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -402,12 +402,12 @@ func TestIntegration_OwaspCustomRuleSubVirtualService(t *testing.T) {
 		t.Fatalf("expected no error, got %v", err)
 	}
 
-	subvs, err := client.AddSubVirtualService(vs.Index, VirtualServiceParameters{})
+	subvs, err := client.AddSubVirtualService(strconv.Itoa(int(vs.Index)), VirtualServiceParameters{})
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
 
-	_, err = client.ModifySubVirtualService(subvs.Index, VirtualServiceParameters{VirtualServiceParametersWAFSettings: &VirtualServiceParametersWAFSettings{InterceptMode: convert2Ptr(2)}})
+	_, err = client.ModifySubVirtualService(strconv.Itoa(int(subvs.Index)), VirtualServiceParameters{VirtualServiceParametersWAFSettings: &VirtualServiceParametersWAFSettings{InterceptMode: convert2Ptr(int32(2))}})
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
@@ -484,7 +484,7 @@ SecMarker END_ALLOWLIST_login
 			t.Fatalf("expected no error, got %v", err)
 		}
 
-		response, err := client.AddVirtualServiceOwaspCustomRule(strconv.Itoa(subvs.Index), "test", true)
+		response, err := client.AddVirtualServiceOwaspCustomRule(strconv.Itoa(int(subvs.Index)), "test", true)
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -500,12 +500,12 @@ SecMarker END_ALLOWLIST_login
 			t.Fatalf("expected no error, got %v", err)
 		}
 
-		_, err = client.AddVirtualServiceOwaspCustomRule(strconv.Itoa(subvs.Index), "test", false)
+		_, err = client.AddVirtualServiceOwaspCustomRule(strconv.Itoa(int(subvs.Index)), "test", false)
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
 
-		response, err := client.ShowVirtualServiceOwaspRule(strconv.Itoa(subvs.Index), "test")
+		response, err := client.ShowVirtualServiceOwaspRule(strconv.Itoa(int(subvs.Index)), "test")
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -523,12 +523,12 @@ SecMarker END_ALLOWLIST_login
 			t.Fatalf("expected no error, got %v", err)
 		}
 
-		_, err = client.AddVirtualServiceOwaspCustomRule(strconv.Itoa(subvs.Index), "test", true)
+		_, err = client.AddVirtualServiceOwaspCustomRule(strconv.Itoa(int(subvs.Index)), "test", true)
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
 
-		response, err := client.ShowVirtualServiceOwaspRule(strconv.Itoa(subvs.Index), "test")
+		response, err := client.ShowVirtualServiceOwaspRule(strconv.Itoa(int(subvs.Index)), "test")
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -539,12 +539,12 @@ SecMarker END_ALLOWLIST_login
 		assert.Equal(t, response.Rule.Enabled, "yes")
 		assert.Equal(t, response.Rule.RunFirst, "yes")
 
-		_, err = client.DeleteVirtualServiceOwaspCustomRule(strconv.Itoa(subvs.Index), "test")
+		_, err = client.DeleteVirtualServiceOwaspCustomRule(strconv.Itoa(int(subvs.Index)), "test")
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
 
-		response, err = client.ShowVirtualServiceOwaspRule(strconv.Itoa(subvs.Index), "test")
+		response, err = client.ShowVirtualServiceOwaspRule(strconv.Itoa(int(subvs.Index)), "test")
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}

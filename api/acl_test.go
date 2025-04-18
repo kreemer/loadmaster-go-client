@@ -122,7 +122,7 @@ func TestIntegration_AclVirtualService(t *testing.T) {
 		t.Fatalf("expected no error, got %v", err)
 	}
 
-	vs_identifier := strconv.Itoa(vs.Index)
+	vs_identifier := strconv.Itoa(int(vs.Index))
 
 	t.Run("Add an ip to allowlist", func(t *testing.T) {
 		init_response, err := client.AddVirtualServiceAclAllow(vs_identifier, "192.168.2.100/32")

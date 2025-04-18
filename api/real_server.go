@@ -8,34 +8,34 @@ type ListRealServerResponse struct {
 }
 
 type RealServer struct {
-	VSIndex    int      `json:"VSIndex,omitempty"`
-	RsIndex    int      `json:"RSIndex,omitempty"`
+	VSIndex    int32    `json:"VSIndex,omitempty"`
+	RsIndex    int32    `json:"RSIndex,omitempty"`
 	Address    string   `json:"Addr,omitempty"`
-	Port       int      `json:"Port,omitempty"`
+	Port       int32    `json:"Port,omitempty"`
 	DnsName    string   `json:"DnsName,omitempty"`
 	Forward    string   `json:"Forward,omitempty"`
-	Weight     int      `json:"Weight,omitempty"`
-	Limit      int      `json:"Limit,omitempty"`
-	RateLimit  int      `json:"RateLimit,omitempty"`
-	Follow     int      `json:"Follow,omitempty"`
+	Weight     int32    `json:"Weight,omitempty"`
+	Limit      int32    `json:"Limit,omitempty"`
+	RateLimit  int32    `json:"RateLimit,omitempty"`
+	Follow     int32    `json:"Follow,omitempty"`
 	Enable     *bool    `json:"Enable,omitempty"`
 	Critical   *bool    `json:"Critical,omitempty"`
-	Nrules     int      `json:"Nrules,omitempty"`
+	Nrules     int32    `json:"Nrules,omitempty"`
 	MatchRules []string `json:"MatchRules,omitempty"`
 }
 
 type RealServerParameters struct {
 	Address   string `json:"Addr,omitempty"`
-	Port      int    `json:"Port,omitempty"`
+	Port      int32  `json:"Port,omitempty"`
 	DnsName   string `json:"DnsName,omitempty"`
 	Forward   string `json:"Forward,omitempty"`
-	Weight    int    `json:"Weight,omitempty"`
-	Limit     int    `json:"Limit,omitempty"`
-	RateLimit int    `json:"RateLimit,omitempty"`
-	Follow    int    `json:"Follow,omitempty"`
+	Weight    int32  `json:"Weight,omitempty"`
+	Limit     int32  `json:"Limit,omitempty"`
+	RateLimit int32  `json:"RateLimit,omitempty"`
+	Follow    int32  `json:"Follow,omitempty"`
 	Enable    *bool  `json:"Enable,omitempty"`
 	Critical  *bool  `json:"Critical,omitempty"`
-	Nrules    int    `json:"Nrules,omitempty"`
+	Nrules    int32  `json:"Nrules,omitempty"`
 }
 
 func (c *Client) AddRealServer(vs_identifier string, address string, port string, params RealServerParameters) (*ListRealServerResponse, error) {

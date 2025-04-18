@@ -63,7 +63,7 @@ func TestIntegration_RealServerRuleAssignment(t *testing.T) {
 		t.Fatalf("expected no error, got %v", err)
 	}
 
-	subvs, err := client.AddSubVirtualService(vs1.Index, VirtualServiceParameters{})
+	subvs, err := client.AddSubVirtualService(strconv.Itoa(int(vs1.Index)), VirtualServiceParameters{})
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
@@ -72,14 +72,14 @@ func TestIntegration_RealServerRuleAssignment(t *testing.T) {
 	assert.NotEqual(t, "0", subvs_id)
 	assert.NotEqual(t, vs1.Index, subvs_id)
 
-	real_server1, err := client.AddRealServer(strconv.Itoa(subvs_id), "10.0.0.100", "80", RealServerParameters{})
+	real_server1, err := client.AddRealServer(strconv.Itoa(int(subvs_id)), "10.0.0.100", "80", RealServerParameters{})
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
 
 	assert.Equal(t, 200, real_server1.Code)
 
-	real_server2, err := client.AddRealServer(strconv.Itoa(vs2.Index), "10.0.0.101", "80", RealServerParameters{})
+	real_server2, err := client.AddRealServer(strconv.Itoa(int(vs2.Index)), "10.0.0.101", "80", RealServerParameters{})
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
@@ -120,14 +120,14 @@ func TestIntegration_RealServerRuleAssignment(t *testing.T) {
 	assert.Equal(t, 200, modify_response_body.Code)
 
 	t.Run("Show a new match content rule assignment for real server", func(t *testing.T) {
-		init_rule_assignment, err := client.AddRealServerRule(strconv.Itoa(vs2.Index), "!"+strconv.Itoa(real_server2.Rs[0].RsIndex), match_content_rule1.MatchContentRules[0].Name)
+		init_rule_assignment, err := client.AddRealServerRule(strconv.Itoa(int(vs2.Index)), "!"+strconv.Itoa(int(real_server2.Rs[0].RsIndex)), match_content_rule1.MatchContentRules[0].Name)
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
 		assert.Equal(t, 200, init_rule_assignment.Code)
 		assert.Equal(t, "ok", init_rule_assignment.Status)
 
-		rule_assignment, err := client.ShowRealServerRule(strconv.Itoa(vs2.Index), "!"+strconv.Itoa(real_server2.Rs[0].RsIndex), match_content_rule1.MatchContentRules[0].Name)
+		rule_assignment, err := client.ShowRealServerRule(strconv.Itoa(int(vs2.Index)), "!"+strconv.Itoa(int(real_server2.Rs[0].RsIndex)), match_content_rule1.MatchContentRules[0].Name)
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -136,34 +136,34 @@ func TestIntegration_RealServerRuleAssignment(t *testing.T) {
 	})
 
 	t.Run("Deleting a new match content rule assignment for real server", func(t *testing.T) {
-		init_rule_assignment, err := client.AddRealServerRule(strconv.Itoa(vs2.Index), "!"+strconv.Itoa(real_server2.Rs[0].RsIndex), match_content_rule2.MatchContentRules[0].Name)
+		init_rule_assignment, err := client.AddRealServerRule(strconv.Itoa(int(vs2.Index)), "!"+strconv.Itoa(int(real_server2.Rs[0].RsIndex)), match_content_rule2.MatchContentRules[0].Name)
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
 		assert.Equal(t, 200, init_rule_assignment.Code)
 		assert.Equal(t, "ok", init_rule_assignment.Status)
 
-		rule_assignment, err := client.DeleteRealServerRule(strconv.Itoa(vs2.Index), "!"+strconv.Itoa(real_server2.Rs[0].RsIndex), match_content_rule2.MatchContentRules[0].Name)
+		rule_assignment, err := client.DeleteRealServerRule(strconv.Itoa(int(vs2.Index)), "!"+strconv.Itoa(int(real_server2.Rs[0].RsIndex)), match_content_rule2.MatchContentRules[0].Name)
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
 		assert.Equal(t, 200, rule_assignment.Code)
 		assert.Equal(t, "ok", rule_assignment.Status)
 
-		_, err = client.ShowRealServerRule(strconv.Itoa(vs2.Index), "!"+strconv.Itoa(real_server2.Rs[0].RsIndex), match_content_rule2.MatchContentRules[0].Name)
+		_, err = client.ShowRealServerRule(strconv.Itoa(int(vs2.Index)), "!"+strconv.Itoa(int(real_server2.Rs[0].RsIndex)), match_content_rule2.MatchContentRules[0].Name)
 		if err == nil {
 			t.Fatalf("expected error, got no error")
 		}
 	})
 
 	t.Run("Adding a new add header rule assignment for real server fails", func(t *testing.T) {
-		_, err := client.AddRealServerRule(strconv.Itoa(vs2.Index), "!"+strconv.Itoa(real_server2.Rs[0].RsIndex), add_header_rule.AddHeaderRules[0].Name)
+		_, err := client.AddRealServerRule(strconv.Itoa(int(vs2.Index)), "!"+strconv.Itoa(int(real_server2.Rs[0].RsIndex)), add_header_rule.AddHeaderRules[0].Name)
 		if err == nil {
 			t.Fatalf("expected error, got no error")
 		}
 	})
 	t.Run("Adding a new modify response body rule assignment for real server fails", func(t *testing.T) {
-		_, err := client.AddRealServerRule(strconv.Itoa(vs2.Index), "!"+strconv.Itoa(real_server2.Rs[0].RsIndex), modify_response_body.ReplaceBodyRules[0].Name)
+		_, err := client.AddRealServerRule(strconv.Itoa(int(vs2.Index)), "!"+strconv.Itoa(int(real_server2.Rs[0].RsIndex)), modify_response_body.ReplaceBodyRules[0].Name)
 		if err == nil {
 			t.Fatalf("expected error, got no error")
 		}

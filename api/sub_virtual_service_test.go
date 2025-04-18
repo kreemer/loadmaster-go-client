@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"reflect"
+	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -32,7 +33,7 @@ func TestClient_AddSubVirtualService(t *testing.T) {
 			defer server.Close()
 			client := createClientForUnit(server, "baz")
 
-			rs, err := client.AddSubVirtualService(1, VirtualServiceParameters{})
+			rs, err := client.AddSubVirtualService(strconv.Itoa(int(1)), VirtualServiceParameters{})
 
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Client.AddSubVirtualService() error = %v, wantErr %v", err, tt.wantErr)
@@ -59,7 +60,7 @@ func TestIntegration_SubVirtualService(t *testing.T) {
 	}
 
 	t.Run("Adding new sub virtual service", func(t *testing.T) {
-		response, err := client.AddSubVirtualService(vs.Index, VirtualServiceParameters{})
+		response, err := client.AddSubVirtualService(strconv.Itoa(int(vs.Index)), VirtualServiceParameters{})
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -72,7 +73,7 @@ func TestIntegration_SubVirtualService(t *testing.T) {
 		assert.Equal(t, "gen", response.VSType)
 	})
 	t.Run("Adding new sub virtual service with defined type", func(t *testing.T) {
-		init_response, err := client.AddSubVirtualService(vs.Index, VirtualServiceParameters{VirtualServiceParametersBasicProperties: &VirtualServiceParametersBasicProperties{VSType: "http"}})
+		init_response, err := client.AddSubVirtualService(strconv.Itoa(int(vs.Index)), VirtualServiceParameters{VirtualServiceParametersBasicProperties: &VirtualServiceParametersBasicProperties{VSType: "http"}})
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -80,7 +81,7 @@ func TestIntegration_SubVirtualService(t *testing.T) {
 		subvs_id := init_response.SubVS[len(init_response.SubVS)-1].VSIndex
 		assert.NotEqual(t, "0", subvs_id)
 		assert.NotEqual(t, vs.Index, subvs_id)
-		response, err := client.ShowSubVirtualService(subvs_id)
+		response, err := client.ShowSubVirtualService(strconv.Itoa(int(subvs_id)))
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -90,7 +91,7 @@ func TestIntegration_SubVirtualService(t *testing.T) {
 		assert.Equal(t, "http", response.VSType)
 	})
 	t.Run("Modify sub virtual service with defined type", func(t *testing.T) {
-		init_response, err := client.AddSubVirtualService(vs.Index, VirtualServiceParameters{VirtualServiceParametersBasicProperties: &VirtualServiceParametersBasicProperties{NickName: "subvs1", VSType: "gen"}})
+		init_response, err := client.AddSubVirtualService(strconv.Itoa(int(vs.Index)), VirtualServiceParameters{VirtualServiceParametersBasicProperties: &VirtualServiceParametersBasicProperties{NickName: "subvs1", VSType: "gen"}})
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -102,7 +103,7 @@ func TestIntegration_SubVirtualService(t *testing.T) {
 		assert.NotEqual(t, "0", subvs_id)
 		assert.NotEqual(t, vs.Index, subvs_id)
 
-		response, err := client.ModifySubVirtualService(subvs_id, VirtualServiceParameters{VirtualServiceParametersBasicProperties: &VirtualServiceParametersBasicProperties{NickName: "subvs2", VSType: "http"}})
+		response, err := client.ModifySubVirtualService(strconv.Itoa(int(subvs_id)), VirtualServiceParameters{VirtualServiceParametersBasicProperties: &VirtualServiceParametersBasicProperties{NickName: "subvs2", VSType: "http"}})
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -115,7 +116,7 @@ func TestIntegration_SubVirtualService(t *testing.T) {
 		assert.Equal(t, "subvs2", response.NickName)
 	})
 	t.Run("Delete sub virtual service", func(t *testing.T) {
-		init_response, err := client.AddSubVirtualService(vs.Index, VirtualServiceParameters{})
+		init_response, err := client.AddSubVirtualService(strconv.Itoa(int(vs.Index)), VirtualServiceParameters{})
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -130,7 +131,7 @@ func TestIntegration_SubVirtualService(t *testing.T) {
 		assert.NotEqual(t, "0", subvs_id)
 		assert.NotEqual(t, vs.Index, subvs_id)
 
-		response, err := client.DeleteSubVirtualService(subvs_id)
+		response, err := client.DeleteSubVirtualService(strconv.Itoa(int(subvs_id)))
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -138,7 +139,7 @@ func TestIntegration_SubVirtualService(t *testing.T) {
 		assert.Equal(t, 200, response.Code)
 	})
 	t.Run("Show sub virtual service", func(t *testing.T) {
-		init_response, err := client.AddSubVirtualService(vs.Index, VirtualServiceParameters{})
+		init_response, err := client.AddSubVirtualService(strconv.Itoa(int(vs.Index)), VirtualServiceParameters{})
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
@@ -150,7 +151,7 @@ func TestIntegration_SubVirtualService(t *testing.T) {
 		assert.NotEqual(t, "0", subvs_id)
 		assert.NotEqual(t, vs.Index, subvs_id)
 
-		response, err := client.ShowSubVirtualService(subvs_id)
+		response, err := client.ShowSubVirtualService(strconv.Itoa(int(subvs_id)))
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}

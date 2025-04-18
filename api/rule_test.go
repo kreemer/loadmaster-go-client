@@ -61,7 +61,7 @@ func TestIntegration_MatchContentRules(t *testing.T) {
 			IncQuery:   convert2Ptr(true),
 			NoCase:     convert2Ptr(true),
 			Negate:     convert2Ptr(false),
-			SetOnMatch: convert2Ptr(4),
+			SetOnMatch: convert2Ptr(int32(4)),
 			MustFail:   convert2Ptr(false),
 		})
 
@@ -146,9 +146,9 @@ func TestIntegration_MatchContentRules(t *testing.T) {
 			NoCase:       convert2Ptr(true),
 			Negate:       convert2Ptr(false),
 			MustFail:     convert2Ptr(true),
-			SetOnMatch:   convert2Ptr(8),
-			OnlyOnFlag:   convert2Ptr(2),
-			OnlyOnNoFlag: convert2Ptr(3),
+			SetOnMatch:   convert2Ptr(int32(8)),
+			OnlyOnFlag:   convert2Ptr(int32(2)),
+			OnlyOnNoFlag: convert2Ptr(int32(3)),
 		})
 
 		if err != nil {
@@ -202,8 +202,8 @@ func TestIntegration_AddHeaderRules(t *testing.T) {
 		rule, err := client.AddRule("1", "rule4", GeneralRule{
 			Header:       convert2Ptr("X-HEADER"),
 			Replacement:  convert2Ptr("test"),
-			OnlyOnFlag:   convert2Ptr(1),
-			OnlyOnNoFlag: convert2Ptr(2),
+			OnlyOnFlag:   convert2Ptr(int32(1)),
+			OnlyOnNoFlag: convert2Ptr(int32(2)),
 		})
 
 		if err != nil {
@@ -229,8 +229,8 @@ func TestIntegration_AddHeaderRules(t *testing.T) {
 		init_rule, err := client.AddRule("1", "rule5", GeneralRule{
 			Header:       convert2Ptr("X-HEADER"),
 			Replacement:  convert2Ptr("test"),
-			OnlyOnFlag:   convert2Ptr(1),
-			OnlyOnNoFlag: convert2Ptr(2),
+			OnlyOnFlag:   convert2Ptr(int32(1)),
+			OnlyOnNoFlag: convert2Ptr(int32(2)),
 		})
 
 		if err != nil {
@@ -242,8 +242,8 @@ func TestIntegration_AddHeaderRules(t *testing.T) {
 		rule, err := client.ModifyRule("rule5", GeneralRule{
 			Header:       convert2Ptr("X-HEADER-MOD"),
 			Replacement:  convert2Ptr("test-modified"),
-			OnlyOnFlag:   convert2Ptr(3),
-			OnlyOnNoFlag: convert2Ptr(4),
+			OnlyOnFlag:   convert2Ptr(int32(3)),
+			OnlyOnNoFlag: convert2Ptr(int32(4)),
 		})
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
@@ -268,7 +268,7 @@ func TestIntegration_AddHeaderRules(t *testing.T) {
 		init_rule, err := client.AddRule("1", "rule6", GeneralRule{
 			Header:       convert2Ptr("X-HEADER"),
 			Replacement:  convert2Ptr("test"),
-			OnlyOnNoFlag: convert2Ptr(5),
+			OnlyOnNoFlag: convert2Ptr(int32(5)),
 		})
 
 		if err != nil {
@@ -299,7 +299,7 @@ func TestIntegration_AddHeaderRules(t *testing.T) {
 		init_rule, err := client.AddRule("1", "rule7", GeneralRule{
 			Header:       convert2Ptr("X-HEADER"),
 			Replacement:  convert2Ptr("test"),
-			OnlyOnNoFlag: convert2Ptr(5),
+			OnlyOnNoFlag: convert2Ptr(int32(5)),
 		})
 
 		if err != nil {
@@ -332,8 +332,8 @@ func TestIntegration_DeleteHeaderRules(t *testing.T) {
 	t.Run("Adding a new delete header rule", func(t *testing.T) {
 		rule, err := client.AddRule("2", "rule8", GeneralRule{
 			Pattern:      convert2Ptr("X-HEADER"),
-			OnlyOnFlag:   convert2Ptr(1),
-			OnlyOnNoFlag: convert2Ptr(2),
+			OnlyOnFlag:   convert2Ptr(int32(1)),
+			OnlyOnNoFlag: convert2Ptr(int32(2)),
 		})
 
 		if err != nil {
@@ -357,8 +357,8 @@ func TestIntegration_DeleteHeaderRules(t *testing.T) {
 	t.Run("Modifying an delete header rule", func(t *testing.T) {
 		init_rule, err := client.AddRule("2", "rule9", GeneralRule{
 			Pattern:      convert2Ptr("X-HEADER"),
-			OnlyOnFlag:   convert2Ptr(1),
-			OnlyOnNoFlag: convert2Ptr(2),
+			OnlyOnFlag:   convert2Ptr(int32(1)),
+			OnlyOnNoFlag: convert2Ptr(int32(2)),
 		})
 
 		if err != nil {
@@ -369,8 +369,8 @@ func TestIntegration_DeleteHeaderRules(t *testing.T) {
 
 		rule, err := client.ModifyRule("rule9", GeneralRule{
 			Pattern:      convert2Ptr("X-HEADER-MOD"),
-			OnlyOnFlag:   convert2Ptr(3),
-			OnlyOnNoFlag: convert2Ptr(4),
+			OnlyOnFlag:   convert2Ptr(int32(3)),
+			OnlyOnNoFlag: convert2Ptr(int32(4)),
 		})
 
 		if err != nil {
@@ -394,7 +394,7 @@ func TestIntegration_DeleteHeaderRules(t *testing.T) {
 	t.Run("Show an delete header rule", func(t *testing.T) {
 		init_rule, err := client.AddRule("2", "rule10", GeneralRule{
 			Pattern:      convert2Ptr("X-HEADER"),
-			OnlyOnNoFlag: convert2Ptr(2),
+			OnlyOnNoFlag: convert2Ptr(int32(2)),
 		})
 
 		if err != nil {
@@ -423,7 +423,7 @@ func TestIntegration_DeleteHeaderRules(t *testing.T) {
 	t.Run("Delete an delete header rule", func(t *testing.T) {
 		init_rule, err := client.AddRule("2", "rule11", GeneralRule{
 			Pattern:      convert2Ptr("X-HEADER"),
-			OnlyOnNoFlag: convert2Ptr(2),
+			OnlyOnNoFlag: convert2Ptr(int32(2)),
 		})
 
 		if err != nil {
@@ -573,8 +573,8 @@ func TestIntegration_ModifyURLRules(t *testing.T) {
 		rule, err := client.AddRule("4", "rule13", GeneralRule{
 			Pattern:      convert2Ptr("old-path"),
 			Replacement:  convert2Ptr("new-path"),
-			OnlyOnFlag:   convert2Ptr(1),
-			OnlyOnNoFlag: convert2Ptr(2),
+			OnlyOnFlag:   convert2Ptr(int32(1)),
+			OnlyOnNoFlag: convert2Ptr(int32(2)),
 		})
 
 		if err != nil {
@@ -686,8 +686,8 @@ func TestIntegration_ReplaceResponseBodyRules(t *testing.T) {
 		rule, err := client.AddRule("5", "rule14", GeneralRule{
 			Pattern:      convert2Ptr("old-body"),
 			Replacement:  convert2Ptr("new-body"),
-			OnlyOnFlag:   convert2Ptr(3),
-			OnlyOnNoFlag: convert2Ptr(4),
+			OnlyOnFlag:   convert2Ptr(int32(3)),
+			OnlyOnNoFlag: convert2Ptr(int32(4)),
 		})
 
 		if err != nil {
