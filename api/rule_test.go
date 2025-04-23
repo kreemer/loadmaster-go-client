@@ -88,7 +88,7 @@ func TestIntegration_MatchContentRules(t *testing.T) {
 		assert.False(t, *rule.MatchContentRules[0].Negate)
 
 		require.NotNil(t, rule.MatchContentRules[0].SetOnMatch)
-		assert.Equal(t, 4, *rule.MatchContentRules[0].SetOnMatch)
+		assert.Equal(t, int32(4), *rule.MatchContentRules[0].SetOnMatch)
 
 		require.NotNil(t, rule.MatchContentRules[0].MustFail)
 		assert.False(t, *rule.MatchContentRules[0].MustFail)
@@ -180,13 +180,13 @@ func TestIntegration_MatchContentRules(t *testing.T) {
 		assert.True(t, *rule.MatchContentRules[0].MustFail)
 
 		require.NotNil(t, rule.MatchContentRules[0].SetOnMatch)
-		assert.Equal(t, 8, *rule.MatchContentRules[0].SetOnMatch)
+		assert.Equal(t, int32(8), *rule.MatchContentRules[0].SetOnMatch)
 
 		require.NotNil(t, rule.MatchContentRules[0].OnlyOnFlag)
-		assert.Equal(t, 2, *rule.MatchContentRules[0].OnlyOnFlag)
+		assert.Equal(t, int32(2), *rule.MatchContentRules[0].OnlyOnFlag)
 
 		require.NotNil(t, rule.MatchContentRules[0].OnlyOnNoFlag)
-		assert.Equal(t, 3, *rule.MatchContentRules[0].OnlyOnNoFlag)
+		assert.Equal(t, int32(3), *rule.MatchContentRules[0].OnlyOnNoFlag)
 	})
 
 }
@@ -219,10 +219,10 @@ func TestIntegration_AddHeaderRules(t *testing.T) {
 		assert.Equal(t, "test", rule.AddHeaderRules[0].Replacement)
 
 		require.NotNil(t, rule.AddHeaderRules[0].OnlyOnFlag)
-		assert.Equal(t, 1, *rule.AddHeaderRules[0].OnlyOnFlag)
+		assert.Equal(t, int32(1), *rule.AddHeaderRules[0].OnlyOnFlag)
 
 		require.NotNil(t, rule.AddHeaderRules[0].OnlyOnNoFlag)
-		assert.Equal(t, 2, *rule.AddHeaderRules[0].OnlyOnNoFlag)
+		assert.Equal(t, int32(2), *rule.AddHeaderRules[0].OnlyOnNoFlag)
 	})
 
 	t.Run("Modifying an add header rule", func(t *testing.T) {
@@ -258,10 +258,10 @@ func TestIntegration_AddHeaderRules(t *testing.T) {
 		assert.Equal(t, "test-modified", rule.AddHeaderRules[0].Replacement)
 
 		require.NotNil(t, rule.AddHeaderRules[0].OnlyOnFlag)
-		assert.Equal(t, 3, *rule.AddHeaderRules[0].OnlyOnFlag)
+		assert.Equal(t, int32(3), *rule.AddHeaderRules[0].OnlyOnFlag)
 
 		require.NotNil(t, rule.AddHeaderRules[0].OnlyOnNoFlag)
-		assert.Equal(t, 4, *rule.AddHeaderRules[0].OnlyOnNoFlag)
+		assert.Equal(t, int32(4), *rule.AddHeaderRules[0].OnlyOnNoFlag)
 	})
 
 	t.Run("Show an add header rule", func(t *testing.T) {
@@ -293,7 +293,7 @@ func TestIntegration_AddHeaderRules(t *testing.T) {
 		require.Nil(t, rule.AddHeaderRules[0].OnlyOnFlag)
 
 		require.NotNil(t, rule.AddHeaderRules[0].OnlyOnNoFlag)
-		assert.Equal(t, 5, *rule.AddHeaderRules[0].OnlyOnNoFlag)
+		assert.Equal(t, int32(5), *rule.AddHeaderRules[0].OnlyOnNoFlag)
 	})
 	t.Run("Delete an add header rule", func(t *testing.T) {
 		init_rule, err := client.AddRule("1", "rule7", GeneralRule{
@@ -348,10 +348,10 @@ func TestIntegration_DeleteHeaderRules(t *testing.T) {
 		assert.Equal(t, "X-HEADER", rule.DeleteHeaderRules[0].Pattern)
 
 		require.NotNil(t, rule.DeleteHeaderRules[0].OnlyOnFlag)
-		assert.Equal(t, 1, *rule.DeleteHeaderRules[0].OnlyOnFlag)
+		assert.Equal(t, int32(1), *rule.DeleteHeaderRules[0].OnlyOnFlag)
 
 		require.NotNil(t, rule.DeleteHeaderRules[0].OnlyOnNoFlag)
-		assert.Equal(t, 2, *rule.DeleteHeaderRules[0].OnlyOnNoFlag)
+		assert.Equal(t, int32(2), *rule.DeleteHeaderRules[0].OnlyOnNoFlag)
 	})
 
 	t.Run("Modifying an delete header rule", func(t *testing.T) {
@@ -385,10 +385,10 @@ func TestIntegration_DeleteHeaderRules(t *testing.T) {
 		assert.Equal(t, "X-HEADER-MOD", rule.DeleteHeaderRules[0].Pattern)
 
 		require.NotNil(t, rule.DeleteHeaderRules[0].OnlyOnFlag)
-		assert.Equal(t, 3, *rule.DeleteHeaderRules[0].OnlyOnFlag)
+		assert.Equal(t, int32(3), *rule.DeleteHeaderRules[0].OnlyOnFlag)
 
 		require.NotNil(t, rule.DeleteHeaderRules[0].OnlyOnNoFlag)
-		assert.Equal(t, 4, *rule.DeleteHeaderRules[0].OnlyOnNoFlag)
+		assert.Equal(t, int32(4), *rule.DeleteHeaderRules[0].OnlyOnNoFlag)
 	})
 
 	t.Run("Show an delete header rule", func(t *testing.T) {
@@ -417,7 +417,7 @@ func TestIntegration_DeleteHeaderRules(t *testing.T) {
 		require.Nil(t, rule.DeleteHeaderRules[0].OnlyOnFlag)
 
 		require.NotNil(t, rule.DeleteHeaderRules[0].OnlyOnNoFlag)
-		assert.Equal(t, 2, *rule.DeleteHeaderRules[0].OnlyOnNoFlag)
+		assert.Equal(t, int32(2), *rule.DeleteHeaderRules[0].OnlyOnNoFlag)
 	})
 
 	t.Run("Delete an delete header rule", func(t *testing.T) {
@@ -589,10 +589,10 @@ func TestIntegration_ModifyURLRules(t *testing.T) {
 		assert.Equal(t, "new-path", rule.ModifyURLRules[0].Replacement)
 
 		require.NotNil(t, rule.ModifyURLRules[0].OnlyOnFlag)
-		assert.Equal(t, 1, *rule.ModifyURLRules[0].OnlyOnFlag)
+		assert.Equal(t, int32(1), *rule.ModifyURLRules[0].OnlyOnFlag)
 
 		require.NotNil(t, rule.ModifyURLRules[0].OnlyOnNoFlag)
-		assert.Equal(t, 2, *rule.ModifyURLRules[0].OnlyOnNoFlag)
+		assert.Equal(t, int32(2), *rule.ModifyURLRules[0].OnlyOnNoFlag)
 	})
 
 	t.Run("Modifying a modify URL rule", func(t *testing.T) {
@@ -702,10 +702,10 @@ func TestIntegration_ReplaceResponseBodyRules(t *testing.T) {
 		assert.Equal(t, "new-body", rule.ReplaceBodyRules[0].Replacement)
 
 		require.NotNil(t, rule.ReplaceBodyRules[0].OnlyOnFlag)
-		assert.Equal(t, 3, *rule.ReplaceBodyRules[0].OnlyOnFlag)
+		assert.Equal(t, int32(3), *rule.ReplaceBodyRules[0].OnlyOnFlag)
 
 		require.NotNil(t, rule.ReplaceBodyRules[0].OnlyOnNoFlag)
-		assert.Equal(t, 4, *rule.ReplaceBodyRules[0].OnlyOnNoFlag)
+		assert.Equal(t, int32(4), *rule.ReplaceBodyRules[0].OnlyOnNoFlag)
 	})
 
 	t.Run("Modifying a replace body rule", func(t *testing.T) {
