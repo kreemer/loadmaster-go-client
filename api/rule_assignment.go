@@ -199,7 +199,7 @@ func (c *Client) ShowVirtualServicePreRule(vs_identifier string, rule_name strin
 		VirtualService: vs_identifier,
 	}
 
-	response, err := sendRequest(c, payload, ShowVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, VirtualServiceResponse{})
 
 	if err != nil {
 		return nil, err
@@ -271,7 +271,7 @@ func (c *Client) ShowVirtualServiceRequestRule(vs_identifier string, rule_name s
 		VirtualService: vs_identifier,
 	}
 
-	response, err := sendRequest(c, payload, ShowVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, VirtualServiceResponse{})
 
 	if err != nil {
 		return nil, err
@@ -343,7 +343,7 @@ func (c *Client) ShowVirtualServiceResponseRule(vs_identifier string, rule_name 
 		VirtualService: vs_identifier,
 	}
 
-	response, err := sendRequest(c, payload, ShowVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, VirtualServiceResponse{})
 
 	if err != nil {
 		return nil, err
@@ -415,7 +415,7 @@ func (c *Client) ShowVirtualServiceResponseBodyRule(vs_identifier string, rule_n
 		VirtualService: vs_identifier,
 	}
 
-	response, err := sendRequest(c, payload, ShowVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, VirtualServiceResponse{})
 
 	if err != nil {
 		return nil, err

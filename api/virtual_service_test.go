@@ -15,10 +15,10 @@ func TestClient_AddVirtualService(t *testing.T) {
 	testCases := []struct {
 		name     string
 		response string
-		want     *AddVirtualServiceResponse
+		want     *VirtualServiceResponse
 		wantErr  bool
 	}{
-		{"success response", `{"code": 200, "message": "OK", "status": "success"}`, &AddVirtualServiceResponse{LoadMasterResponse: &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}}, false},
+		{"success response", `{"code": 200, "message": "OK", "status": "success"}`, &VirtualServiceResponse{LoadMasterResponse: &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}}, false},
 		{"fail response", `{"code": 400, "message": "NOK", "message": "error"}`, nil, true},
 	}
 	for _, tt := range testCases {

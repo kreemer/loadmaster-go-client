@@ -198,23 +198,13 @@ type ListVirtualServiceResponse struct {
 	VS []VirtualService `json:"VS"`
 }
 
-type ShowVirtualServiceResponse struct {
-	*LoadMasterResponse
-	*VirtualService
-}
-
-type AddVirtualServiceResponse struct {
+type VirtualServiceResponse struct {
 	*LoadMasterResponse
 	*VirtualService
 }
 
 type DeleteVirtualServiceResponse struct {
 	*LoadMasterResponse
-}
-
-type ModifyVirtualServiceResponse struct {
-	*LoadMasterResponse
-	*VirtualService
 }
 
 func (c *Client) ListVirtualService() (*ListVirtualServiceResponse, error) {
@@ -235,7 +225,7 @@ func (c *Client) ListVirtualService() (*ListVirtualServiceResponse, error) {
 	return response, nil
 }
 
-func (c *Client) ShowVirtualService(vs_identifier string) (*ShowVirtualServiceResponse, error) {
+func (c *Client) ShowVirtualService(vs_identifier string) (*VirtualServiceResponse, error) {
 	slog.Debug("Showing virtual service", "vs_identifier", vs_identifier)
 
 	payload := struct {
@@ -248,7 +238,7 @@ func (c *Client) ShowVirtualService(vs_identifier string) (*ShowVirtualServiceRe
 		VS: vs_identifier,
 	}
 
-	response, err := sendRequest(c, payload, ShowVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, VirtualServiceResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -256,7 +246,7 @@ func (c *Client) ShowVirtualService(vs_identifier string) (*ShowVirtualServiceRe
 	return response, nil
 }
 
-func (c *Client) AddVirtualService(address string, port string, protocol string, parameters VirtualServiceParameters) (*AddVirtualServiceResponse, error) {
+func (c *Client) AddVirtualService(address string, port string, protocol string, parameters VirtualServiceParameters) (*VirtualServiceResponse, error) {
 	slog.Debug("Adding virtual service", "address", address, "port", port, "protocol", protocol)
 	payload := struct {
 		*LoadMasterRequest
@@ -274,7 +264,7 @@ func (c *Client) AddVirtualService(address string, port string, protocol string,
 		VirtualServiceParameters: &parameters,
 	}
 
-	response, err := sendRequest(c, payload, AddVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, VirtualServiceResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -302,7 +292,7 @@ func (c *Client) DeleteVirtualService(vs_identifier string) (*DeleteVirtualServi
 	return response, nil
 }
 
-func (c *Client) ModifyVirtualService(vs_identifier string, parameters VirtualServiceParameters) (*ModifyVirtualServiceResponse, error) {
+func (c *Client) ModifyVirtualService(vs_identifier string, parameters VirtualServiceParameters) (*VirtualServiceResponse, error) {
 	slog.Debug("Modifying virtual service", "vs_identifier", vs_identifier)
 	payload := struct {
 		*LoadMasterRequest
@@ -316,7 +306,7 @@ func (c *Client) ModifyVirtualService(vs_identifier string, parameters VirtualSe
 		VirtualServiceParameters: &parameters,
 	}
 
-	response, err := sendRequest(c, payload, ModifyVirtualServiceResponse{})
+	response, err := sendRequest(c, payload, VirtualServiceResponse{})
 	if err != nil {
 		return nil, err
 	}
