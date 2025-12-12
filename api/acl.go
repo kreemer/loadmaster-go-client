@@ -1,7 +1,6 @@
 package api
 
 import (
-	"encoding/json"
 	"log/slog"
 )
 
@@ -77,18 +76,7 @@ func (c *Client) aclGlobalList(allow_or_block string) (*ListAclResponse, error) 
 		},
 		List: allow_or_block,
 	}
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &ListAclResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, ListAclResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -126,19 +114,7 @@ func (c *Client) aclGlobal(allow_or_block string, add_or_delete string, ip_addr 
 			Address: ip_addr,
 		}
 	}
-
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &LoadMasterResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -160,18 +136,7 @@ func (c *Client) aclVirtualServiceList(allow_or_block string, vs_identifier stri
 		List: allow_or_block,
 		VS:   vs_identifier,
 	}
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &ListAclResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, ListAclResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -213,19 +178,7 @@ func (c *Client) aclVirtualService(allow_or_block string, add_or_delete string, 
 			Address: ip_addr,
 		}
 	}
-
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &LoadMasterResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 	if err != nil {
 		return nil, err
 	}

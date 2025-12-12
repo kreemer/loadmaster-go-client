@@ -214,7 +214,7 @@ func TestClient_DeleteACMECertificate(t *testing.T) {
 		wantErr   bool
 	}{
 		{"success response", []any{"name", "1"}, `{"code": 200, "message": "OK", "status": "success"}`, &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, false},
-		{"fail response", []any{"name", "1"}, `{"code": 400, "message": "NOK", "message": "error"}`, nil, true},
+		{"fail response", []any{"name", "1"}, `{"code": 400, "message": "NOK", "status": "error"}`, nil, true},
 	}
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {

@@ -1,7 +1,6 @@
 package api
 
 import (
-	"encoding/json"
 	"log/slog"
 )
 
@@ -34,18 +33,7 @@ func (c *Client) ListApiKey() (*ListApiKeyResponse, error) {
 		},
 	}
 
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &ListApiKeyResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, ListApiKeyResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -62,18 +50,7 @@ func (c *Client) GenerateApiKey() (*GenerateApiKeyResponse, error) {
 			Command: "addapikey",
 		},
 	}
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GenerateApiKeyResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, GenerateApiKeyResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -93,18 +70,7 @@ func (c *Client) DeleteApiKey(request DeleteApiKeyRequest) (*DeleteApiKeyRespons
 		Key: request.Key,
 	}
 
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &DeleteApiKeyResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, DeleteApiKeyResponse{})
 	if err != nil {
 		return nil, err
 	}

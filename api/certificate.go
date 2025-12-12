@@ -1,7 +1,6 @@
 package api
 
 import (
-	"encoding/json"
 	"log/slog"
 )
 
@@ -30,18 +29,7 @@ func (c *Client) ListCertificate() (*ListCertResponse, error) {
 		},
 	}
 
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &ListCertResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, ListCertResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -58,18 +46,7 @@ func (c *Client) ListIntermediateCertificate() (*ListCertResponse, error) {
 			Command: "listintermediate",
 		},
 	}
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &ListCertResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, ListCertResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -89,18 +66,7 @@ func (c *Client) ShowCertificate(name string) (*ShowCertResponse, error) {
 		Cert: name,
 	}
 
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &ShowCertResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, ShowCertResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -120,18 +86,7 @@ func (c *Client) ShowIntermediateCertificate(name string) (*ShowCertResponse, er
 		Cert: name,
 	}
 
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &ShowCertResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, ShowCertResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -155,18 +110,7 @@ func (c *Client) AddCertificate(name string, password *string, data string) (*Lo
 		Password: password,
 	}
 
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &LoadMasterResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -188,18 +132,7 @@ func (c *Client) AddIntermediateCertificate(name string, data string) (*LoadMast
 		Data: data,
 	}
 
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &LoadMasterResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -221,18 +154,7 @@ func (c *Client) DeleteCertificate(name string) (*LoadMasterResponse, error) {
 		Cert: name,
 	}
 
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &LoadMasterResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -252,18 +174,7 @@ func (c *Client) DeleteIntermediateCertificate(name string) (*LoadMasterResponse
 		Cert: name,
 	}
 
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &LoadMasterResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 	if err != nil {
 		return nil, err
 	}

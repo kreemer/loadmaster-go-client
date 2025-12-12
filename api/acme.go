@@ -166,18 +166,8 @@ func (c *Client) RequestACMECertificate(name string, common_name string, vs_iden
 		VS:                               vs_identifier,
 		AcmeType:                         acme_type,
 	}
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
 
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &LoadMasterResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -198,18 +188,7 @@ func (c *Client) DeleteACMECertificate(name string, acme_type string) (*LoadMast
 		Name:     name,
 		AcmeType: acme_type,
 	}
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-
-	response := &LoadMasterResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 	if err != nil {
 		return nil, err
 	}
