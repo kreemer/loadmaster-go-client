@@ -260,6 +260,18 @@ SecMarker END_ALLOWLIST_login
 			t.Fatalf("expected no error, got %v", err)
 		}
 	})
+
+	t.Run("Downloading a owasp custom rule which does not exist", func(t *testing.T) {
+		_, err := client.ShowOwaspCustomRule("randomRule123")
+		if err == nil {
+			t.Fatalf("expected an error, got nil")
+		}
+		if serr, ok := err.(*LoadMasterError); ok {
+			assert.Equal(t, 404, serr.Code)
+		} else {
+			t.Fatalf("expected a LoadMasterError, got %T", err)
+		}
+	})
 }
 
 func TestIntegration_OwaspCustomData(t *testing.T) {
@@ -309,6 +321,18 @@ func TestIntegration_OwaspCustomData(t *testing.T) {
 
 		assert.Equal(t, response_data.Code, 200)
 		assert.NotEmpty(t, response_data.Data)
+	})
+
+	t.Run("Downloading a owasp custom data which does not exist", func(t *testing.T) {
+		_, err := client.ShowOwaspCustomData("randomData123")
+		if err == nil {
+			t.Fatalf("expected an error, got nil")
+		}
+		if serr, ok := err.(*LoadMasterError); ok {
+			assert.Equal(t, 404, serr.Code)
+		} else {
+			t.Fatalf("expected a LoadMasterError, got %T", err)
+		}
 	})
 }
 

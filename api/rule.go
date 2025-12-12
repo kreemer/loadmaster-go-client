@@ -100,13 +100,6 @@ func (c *Client) ListRule() (*RuleResponse, error) {
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
-
 	return response, nil
 }
 
@@ -125,13 +118,6 @@ func (c *Client) ShowRule(name string) (*RuleResponse, error) {
 	response, err := sendRequest(c, payload, RuleResponse{})
 	if err != nil {
 		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
 	}
 
 	return response, nil
@@ -158,12 +144,6 @@ func (c *Client) AddRule(rule_type string, name string, params GeneralRule) (*Ru
 	if err != nil {
 		return nil, err
 	}
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
 
 	return response, nil
 }
@@ -186,12 +166,6 @@ func (c *Client) ModifyRule(name string, params GeneralRule) (*RuleResponse, err
 	if err != nil {
 		return nil, err
 	}
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
 
 	return response, nil
 }
@@ -212,12 +186,6 @@ func (c *Client) DeleteRule(name string) (*LoadMasterResponse, error) {
 
 	if err != nil {
 		return nil, err
-	}
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
 	}
 
 	return response, nil

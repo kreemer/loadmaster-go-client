@@ -30,12 +30,6 @@ func (c *Client) Backup() (*LoadMasterDataResponse, error) {
 	if err != nil {
 		return nil, err
 	}
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
 
 	return response, nil
 }
@@ -67,12 +61,6 @@ func (c *Client) Restore(data string, restore_type string) (*LoadMasterResponse,
 	err = json.Unmarshal(http_response, response)
 	if err != nil {
 		return nil, err
-	}
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
 	}
 
 	return response, nil

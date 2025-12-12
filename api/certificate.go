@@ -46,13 +46,6 @@ func (c *Client) ListCertificate() (*ListCertResponse, error) {
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
-
 	return response, nil
 }
 
@@ -79,13 +72,6 @@ func (c *Client) ListIntermediateCertificate() (*ListCertResponse, error) {
 	err = json.Unmarshal(http_response, response)
 	if err != nil {
 		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
 	}
 
 	return response, nil
@@ -119,13 +105,6 @@ func (c *Client) ShowCertificate(name string) (*ShowCertResponse, error) {
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
-
 	return response, nil
 }
 
@@ -155,13 +134,6 @@ func (c *Client) ShowIntermediateCertificate(name string) (*ShowCertResponse, er
 	err = json.Unmarshal(http_response, response)
 	if err != nil {
 		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
 	}
 
 	return response, nil
@@ -199,13 +171,6 @@ func (c *Client) AddCertificate(name string, password *string, data string) (*Lo
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
-
 	return response, nil
 }
 
@@ -237,13 +202,6 @@ func (c *Client) AddIntermediateCertificate(name string, data string) (*LoadMast
 	err = json.Unmarshal(http_response, response)
 	if err != nil {
 		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
 	}
 
 	return response, nil
@@ -279,13 +237,6 @@ func (c *Client) DeleteCertificate(name string) (*LoadMasterResponse, error) {
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
-
 	return response, nil
 }
 
@@ -315,13 +266,6 @@ func (c *Client) DeleteIntermediateCertificate(name string) (*LoadMasterResponse
 	err = json.Unmarshal(http_response, response)
 	if err != nil {
 		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
 	}
 
 	return response, nil

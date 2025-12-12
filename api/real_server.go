@@ -62,13 +62,6 @@ func (c *Client) AddRealServer(vs_identifier string, address string, port string
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
-
 	return response, nil
 }
 
@@ -91,13 +84,6 @@ func (c *Client) ShowRealServer(vs_identifier string, rs_identifier string) (*Li
 
 	if err != nil {
 		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
 	}
 
 	return response, nil
@@ -125,13 +111,6 @@ func (c *Client) ModifyRealServer(vs_identifier string, rs_identifier string, pa
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
-
 	return response, nil
 }
 
@@ -154,13 +133,6 @@ func (c *Client) DeleteRealServer(vs_identifier string, rs_identifier string) (*
 
 	if err != nil {
 		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
 	}
 
 	return response, nil

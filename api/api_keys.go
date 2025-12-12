@@ -50,13 +50,6 @@ func (c *Client) ListApiKey() (*ListApiKeyResponse, error) {
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
-
 	return response, nil
 }
 
@@ -83,13 +76,6 @@ func (c *Client) GenerateApiKey() (*GenerateApiKeyResponse, error) {
 	err = json.Unmarshal(http_response, response)
 	if err != nil {
 		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
 	}
 
 	return response, nil
@@ -121,13 +107,6 @@ func (c *Client) DeleteApiKey(request DeleteApiKeyRequest) (*DeleteApiKeyRespons
 	err = json.Unmarshal(http_response, response)
 	if err != nil {
 		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
 	}
 
 	return response, nil

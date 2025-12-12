@@ -48,13 +48,6 @@ func (c *Client) RegisterLetsEncryptAccount(email *string) (*LoadMasterResponse,
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
-
 	return response, nil
 }
 
@@ -85,13 +78,6 @@ func (c *Client) FetchLetsEncryptAccount(password string, data string) (*LoadMas
 	err = json.Unmarshal(http_response, response)
 	if err != nil {
 		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
 	}
 
 	return response, nil
@@ -126,13 +112,6 @@ func (c *Client) SetDigicertKeyId(key_id string) (*LoadMasterResponse, error) {
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
-
 	return response, nil
 }
 
@@ -163,13 +142,6 @@ func (c *Client) SetDigicertHMAC(hmac string) (*LoadMasterResponse, error) {
 	err = json.Unmarshal(http_response, response)
 	if err != nil {
 		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
 	}
 
 	return response, nil
@@ -210,13 +182,6 @@ func (c *Client) RequestACMECertificate(name string, common_name string, vs_iden
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
-
 	return response, nil
 }
 
@@ -247,13 +212,6 @@ func (c *Client) DeleteACMECertificate(name string, acme_type string) (*LoadMast
 	err = json.Unmarshal(http_response, response)
 	if err != nil {
 		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
 	}
 
 	return response, nil

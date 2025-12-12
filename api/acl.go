@@ -93,13 +93,6 @@ func (c *Client) aclGlobalList(allow_or_block string) (*ListAclResponse, error) 
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
-
 	return response, nil
 }
 
@@ -150,13 +143,6 @@ func (c *Client) aclGlobal(allow_or_block string, add_or_delete string, ip_addr 
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
-
 	return response, nil
 }
 
@@ -188,13 +174,6 @@ func (c *Client) aclVirtualServiceList(allow_or_block string, vs_identifier stri
 	err = json.Unmarshal(http_response, response)
 	if err != nil {
 		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
 	}
 
 	return response, nil
@@ -249,13 +228,6 @@ func (c *Client) aclVirtualService(allow_or_block string, add_or_delete string, 
 	err = json.Unmarshal(http_response, response)
 	if err != nil {
 		return nil, err
-	}
-
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
 	}
 
 	return response, nil

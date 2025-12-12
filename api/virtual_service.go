@@ -221,12 +221,6 @@ func (c *Client) ListVirtualService() (*ListVirtualServiceResponse, error) {
 	if err != nil {
 		return nil, err
 	}
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
 
 	return response, nil
 }
@@ -247,12 +241,6 @@ func (c *Client) ShowVirtualService(vs_identifier string) (*VirtualServiceRespon
 	response, err := sendRequest(c, payload, VirtualServiceResponse{})
 	if err != nil {
 		return nil, err
-	}
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
 	}
 
 	return response, nil
@@ -280,12 +268,6 @@ func (c *Client) AddVirtualService(address string, port string, protocol string,
 	if err != nil {
 		return nil, err
 	}
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
 
 	return response, nil
 }
@@ -305,12 +287,6 @@ func (c *Client) DeleteVirtualService(vs_identifier string) (*DeleteVirtualServi
 	response, err := sendRequest(c, payload, DeleteVirtualServiceResponse{})
 	if err != nil {
 		return nil, err
-	}
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
 	}
 
 	return response, nil
@@ -333,12 +309,6 @@ func (c *Client) ModifyVirtualService(vs_identifier string, parameters VirtualSe
 	response, err := sendRequest(c, payload, VirtualServiceResponse{})
 	if err != nil {
 		return nil, err
-	}
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
 	}
 
 	return response, nil

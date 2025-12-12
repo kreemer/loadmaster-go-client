@@ -1,7 +1,6 @@
 package api
 
 import (
-	"encoding/json"
 	"log/slog"
 )
 
@@ -32,24 +31,9 @@ func (c *Client) AddOwaspCustomRule(filename string, data string) (*LoadMasterRe
 		data,
 	}
 
-	http, err := c.newRequest(payload)
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 	if err != nil {
 		return nil, err
-	}
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-	response := &LoadMasterResponse{}
-	err = json.Unmarshal(http_response, response)
-	if err != nil {
-		return nil, err
-	}
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
 	}
 	return response, nil
 }
@@ -66,26 +50,11 @@ func (c *Client) DeleteOwaspCustomRule(filename string) (*LoadMasterResponse, er
 		filename,
 	}
 
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-	response := &LoadMasterResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 	if err != nil {
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
 
 	return response, nil
 }
@@ -102,26 +71,11 @@ func (c *Client) ShowOwaspCustomRule(filename string) (*LoadMasterDataResponse, 
 		filename,
 	}
 
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-	response := &LoadMasterDataResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, LoadMasterDataResponse{})
 	if err != nil {
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
 
 	return response, nil
 }
@@ -142,26 +96,11 @@ func (c *Client) AddOwaspCustomData(filename string, data string) (*LoadMasterRe
 		data,
 	}
 
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-	response := &LoadMasterResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 	if err != nil {
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
 
 	return response, nil
 }
@@ -181,26 +120,11 @@ func (c *Client) DeleteOwaspCustomData(filename string) (*LoadMasterResponse, er
 		filename,
 	}
 
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-	response := &LoadMasterResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 	if err != nil {
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
 
 	return response, nil
 }
@@ -217,26 +141,11 @@ func (c *Client) ShowOwaspCustomData(filename string) (*LoadMasterDataResponse, 
 		filename,
 	}
 
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-	response := &LoadMasterDataResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, LoadMasterDataResponse{})
 	if err != nil {
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
 
 	return response, nil
 }
@@ -263,26 +172,11 @@ func (c *Client) AddVirtualServiceOwaspCustomRule(vs_identifier string, rule str
 		run_first_str,
 	}
 
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-	response := &LoadMasterResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 	if err != nil {
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
 
 	return response, nil
 }
@@ -303,26 +197,11 @@ func (c *Client) DeleteVirtualServiceOwaspCustomRule(vs_identifier string, rule 
 		"no",
 	}
 
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-	response := &LoadMasterResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 	if err != nil {
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
 
 	return response, nil
 }
@@ -341,26 +220,11 @@ func (c *Client) ShowVirtualServiceOwaspRule(vs_identifier string, rule string) 
 		rule,
 	}
 
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-	response := &OwaspRuleResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, OwaspRuleResponse{})
 	if err != nil {
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
 
 	return response, nil
 }
@@ -381,26 +245,11 @@ func (c *Client) AddVirtualServiceOwaspRule(vs_identifier string, rule string) (
 		"yes",
 	}
 
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-	response := &LoadMasterResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 	if err != nil {
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
 
 	return response, nil
 }
@@ -421,26 +270,11 @@ func (c *Client) DeleteVirtualServiceOwaspRule(vs_identifier string, rule string
 		"no",
 	}
 
-	http, err := c.newRequest(payload)
-	if err != nil {
-		return nil, err
-	}
-	http_response, err := c.doRequest(http)
-	if err != nil {
-		return nil, err
-	}
-	response := &LoadMasterResponse{}
-	err = json.Unmarshal(http_response, response)
+	response, err := sendRequest(c, payload, LoadMasterResponse{})
 	if err != nil {
 		return nil, err
 	}
 
-	if response.Code >= 400 {
-		return nil, &LoadMasterError{
-			Code:    response.Code,
-			Message: response.Message,
-		}
-	}
 
 	return response, nil
 }

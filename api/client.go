@@ -148,13 +148,6 @@ func sendRequest[T HTTPWithResponseCode](c *Client, payload AuthInjectable, resp
 		return nil, err
 	}
 
-	if response.getResponseCode() != http.StatusOK && response.getResponseCode() != http.StatusNoContent {
-		return nil, &LoadMasterError{
-			Code:    response.getResponseCode(),
-			Message: response.getResponseMessage(),
-		}
-	}
-
 	return &response, nil
 }
 
@@ -197,13 +190,14 @@ func (c *Client) doRequest(req *http.Request) ([]byte, error) {
 		c.logger.Error("Error reading body of response:", "Error", err)
 		return nil, err
 	}
-	if res.StatusCode == http.StatusOK || res.StatusCode == http.StatusNoContent || res.StatusCode == http.StatusUnprocessableEntity {
+	if res.StatusCode < 400 {
 		c.logger.Debug("Response", "Status", res.Status, "Headers", res.Header, "Body", string(body))
-		return body, err
+
+		return body, nil
 	} else {
 		c.logger.Error("Error in response:", slog.String("status", res.Status), slog.String("body", string(body)))
 
-		return body, fmt.Errorf("status: %d, body: %s", res.StatusCode, body)
+		return nil, &LoadMasterError{Code: res.StatusCode, Message: string(body)}
 	}
 }
 
