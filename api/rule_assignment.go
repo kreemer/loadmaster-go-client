@@ -28,6 +28,13 @@ func (c *Client) AddRealServerRule(vs_identifier string, rs_index string, rule_n
 		return nil, err
 	}
 
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
+	}
+
 	return response, nil
 }
 
@@ -49,6 +56,13 @@ func (c *Client) ShowRealServerRule(vs_identifier string, rs_index string, rule_
 
 	if err != nil {
 		return nil, err
+	}
+
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	rules := response.Rs[len(response.Rs)-1].MatchRules
@@ -82,6 +96,13 @@ func (c *Client) DeleteRealServerRule(vs_identifier string, rs_index string, rul
 		return nil, err
 	}
 
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
+	}
+
 	return response, nil
 }
 
@@ -107,6 +128,13 @@ func (c *Client) AddSubVirtualServiceRule(vs_identifier string, subvs_identifier
 		return nil, err
 	}
 
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
+	}
+
 	return response, nil
 }
 
@@ -128,6 +156,13 @@ func (c *Client) ShowSubVirtualServiceRule(vs_identifier string, subvs_identifie
 
 	if err != nil {
 		return nil, err
+	}
+
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	rules := response.SubVS[len(response.SubVS)-1].MatchRules
@@ -161,6 +196,13 @@ func (c *Client) DeleteSubVirtualServiceRule(vs_identifier string, subvs_identif
 		return nil, err
 	}
 
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
+	}
+
 	return response, nil
 }
 
@@ -184,6 +226,13 @@ func (c *Client) AddVirtualServicePreRule(vs_identifier string, rule_name string
 		return nil, err
 	}
 
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
+	}
+
 	return response, nil
 }
 
@@ -203,6 +252,13 @@ func (c *Client) ShowVirtualServicePreRule(vs_identifier string, rule_name strin
 
 	if err != nil {
 		return nil, err
+	}
+
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	rules := response.MatchRules
@@ -233,6 +289,13 @@ func (c *Client) DeleteVirtualServicePreRule(vs_identifier string, rule_name str
 		return nil, err
 	}
 
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
+	}
+
 	return response, nil
 }
 
@@ -256,6 +319,13 @@ func (c *Client) AddVirtualServiceRequestRule(vs_identifier string, rule_name st
 		return nil, err
 	}
 
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
+	}
+
 	return response, nil
 }
 
@@ -275,6 +345,13 @@ func (c *Client) ShowVirtualServiceRequestRule(vs_identifier string, rule_name s
 
 	if err != nil {
 		return nil, err
+	}
+
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	rules := response.RequestRules
@@ -305,6 +382,13 @@ func (c *Client) DeleteVirtualServiceRequestRule(vs_identifier string, rule_name
 		return nil, err
 	}
 
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
+	}
+
 	return response, nil
 }
 
@@ -328,6 +412,13 @@ func (c *Client) AddVirtualServiceResponseRule(vs_identifier string, rule_name s
 		return nil, err
 	}
 
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
+	}
+
 	return response, nil
 }
 
@@ -347,6 +438,13 @@ func (c *Client) ShowVirtualServiceResponseRule(vs_identifier string, rule_name 
 
 	if err != nil {
 		return nil, err
+	}
+
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	rules := response.ResponseRules
@@ -377,6 +475,13 @@ func (c *Client) DeleteVirtualServiceResponseRule(vs_identifier string, rule_nam
 		return nil, err
 	}
 
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
+	}
+
 	return response, nil
 }
 
@@ -400,6 +505,13 @@ func (c *Client) AddVirtualServiceResponseBodyRule(vs_identifier string, rule_na
 		return nil, err
 	}
 
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
+	}
+
 	return response, nil
 }
 
@@ -419,6 +531,13 @@ func (c *Client) ShowVirtualServiceResponseBodyRule(vs_identifier string, rule_n
 
 	if err != nil {
 		return nil, err
+	}
+
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	rules := response.MatchBodyRules
@@ -447,6 +566,13 @@ func (c *Client) DeleteVirtualServiceResponseBodyRule(vs_identifier string, rule
 
 	if err != nil {
 		return nil, err
+	}
+
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil

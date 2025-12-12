@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"log/slog"
 )
 
@@ -95,7 +94,10 @@ func (c *Client) aclGlobalList(allow_or_block string) (*ListAclResponse, error) 
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil
@@ -149,7 +151,10 @@ func (c *Client) aclGlobal(allow_or_block string, add_or_delete string, ip_addr 
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil
@@ -186,7 +191,10 @@ func (c *Client) aclVirtualServiceList(allow_or_block string, vs_identifier stri
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil
@@ -244,7 +252,10 @@ func (c *Client) aclVirtualService(allow_or_block string, add_or_delete string, 
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil

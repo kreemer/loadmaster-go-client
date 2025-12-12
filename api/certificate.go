@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"log/slog"
 )
 
@@ -48,7 +47,10 @@ func (c *Client) ListCertificate() (*ListCertResponse, error) {
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil
@@ -80,7 +82,10 @@ func (c *Client) ListIntermediateCertificate() (*ListCertResponse, error) {
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil
@@ -115,7 +120,10 @@ func (c *Client) ShowCertificate(name string) (*ShowCertResponse, error) {
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil
@@ -150,7 +158,10 @@ func (c *Client) ShowIntermediateCertificate(name string) (*ShowCertResponse, er
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil
@@ -189,7 +200,10 @@ func (c *Client) AddCertificate(name string, password *string, data string) (*Lo
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil
@@ -226,7 +240,10 @@ func (c *Client) AddIntermediateCertificate(name string, data string) (*LoadMast
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil
@@ -263,7 +280,10 @@ func (c *Client) DeleteCertificate(name string) (*LoadMasterResponse, error) {
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil
@@ -298,7 +318,10 @@ func (c *Client) DeleteIntermediateCertificate(name string) (*LoadMasterResponse
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil

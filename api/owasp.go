@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"log/slog"
 )
 
@@ -47,7 +46,10 @@ func (c *Client) AddOwaspCustomRule(filename string, data string) (*LoadMasterRe
 		return nil, err
 	}
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 	return response, nil
 }
@@ -77,9 +79,14 @@ func (c *Client) DeleteOwaspCustomRule(filename string) (*LoadMasterResponse, er
 	if err != nil {
 		return nil, err
 	}
+
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
+
 	return response, nil
 }
 
@@ -108,9 +115,14 @@ func (c *Client) ShowOwaspCustomRule(filename string) (*LoadMasterDataResponse, 
 	if err != nil {
 		return nil, err
 	}
+
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
+
 	return response, nil
 }
 
@@ -143,9 +155,14 @@ func (c *Client) AddOwaspCustomData(filename string, data string) (*LoadMasterRe
 	if err != nil {
 		return nil, err
 	}
+
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
+
 	return response, nil
 }
 
@@ -177,9 +194,14 @@ func (c *Client) DeleteOwaspCustomData(filename string) (*LoadMasterResponse, er
 	if err != nil {
 		return nil, err
 	}
+
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
+
 	return response, nil
 }
 
@@ -208,9 +230,14 @@ func (c *Client) ShowOwaspCustomData(filename string) (*LoadMasterDataResponse, 
 	if err != nil {
 		return nil, err
 	}
+
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
+
 	return response, nil
 }
 
@@ -249,9 +276,14 @@ func (c *Client) AddVirtualServiceOwaspCustomRule(vs_identifier string, rule str
 	if err != nil {
 		return nil, err
 	}
+
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
+
 	return response, nil
 }
 
@@ -284,9 +316,14 @@ func (c *Client) DeleteVirtualServiceOwaspCustomRule(vs_identifier string, rule 
 	if err != nil {
 		return nil, err
 	}
+
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
+
 	return response, nil
 }
 
@@ -317,9 +354,14 @@ func (c *Client) ShowVirtualServiceOwaspRule(vs_identifier string, rule string) 
 	if err != nil {
 		return nil, err
 	}
+
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
+
 	return response, nil
 }
 
@@ -352,9 +394,14 @@ func (c *Client) AddVirtualServiceOwaspRule(vs_identifier string, rule string) (
 	if err != nil {
 		return nil, err
 	}
+
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
+
 	return response, nil
 }
 
@@ -387,8 +434,13 @@ func (c *Client) DeleteVirtualServiceOwaspRule(vs_identifier string, rule string
 	if err != nil {
 		return nil, err
 	}
+
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
+
 	return response, nil
 }

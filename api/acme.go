@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"log/slog"
 )
 
@@ -50,7 +49,10 @@ func (c *Client) RegisterLetsEncryptAccount(email *string) (*LoadMasterResponse,
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil
@@ -86,7 +88,10 @@ func (c *Client) FetchLetsEncryptAccount(password string, data string) (*LoadMas
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil
@@ -122,7 +127,10 @@ func (c *Client) SetDigicertKeyId(key_id string) (*LoadMasterResponse, error) {
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil
@@ -158,7 +166,10 @@ func (c *Client) SetDigicertHMAC(hmac string) (*LoadMasterResponse, error) {
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil
@@ -200,7 +211,10 @@ func (c *Client) RequestACMECertificate(name string, common_name string, vs_iden
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil
@@ -236,7 +250,10 @@ func (c *Client) DeleteACMECertificate(name string, acme_type string) (*LoadMast
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil

@@ -30,6 +30,12 @@ func (c *Client) ShowSubVirtualService(identifier string) (*ShowSubVirtualServic
 	if err != nil {
 		return nil, err
 	}
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
+	}
 
 	return response, nil
 }
@@ -54,6 +60,12 @@ func (c *Client) AddSubVirtualService(vs_identifier string, parameters VirtualSe
 	if err != nil {
 		return nil, err
 	}
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
+	}
 
 	return response, nil
 }
@@ -76,6 +88,12 @@ func (c *Client) ModifySubVirtualService(identifier string, parameters VirtualSe
 	if err != nil {
 		return nil, err
 	}
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
+	}
 
 	return response, nil
 }
@@ -95,6 +113,12 @@ func (c *Client) DeleteSubVirtualService(identifier string) (*LoadMasterResponse
 	response, err := sendRequest(c, payload, LoadMasterResponse{})
 	if err != nil {
 		return nil, err
+	}
+	if response.Code >= 400 {
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil

@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"log/slog"
 )
 
@@ -52,7 +51,10 @@ func (c *Client) ListApiKey() (*ListApiKeyResponse, error) {
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil
@@ -84,7 +86,10 @@ func (c *Client) GenerateApiKey() (*GenerateApiKeyResponse, error) {
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil
@@ -119,7 +124,10 @@ func (c *Client) DeleteApiKey(request DeleteApiKeyRequest) (*DeleteApiKeyRespons
 	}
 
 	if response.Code >= 400 {
-		return nil, fmt.Errorf("error: %s", response.Message)
+		return nil, &LoadMasterError{
+			Code:    response.Code,
+			Message: response.Message,
+		}
 	}
 
 	return response, nil
