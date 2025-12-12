@@ -18,7 +18,7 @@ func TestClient_RegisterLetsEncryptAccount(t *testing.T) {
 	}{
 		{"success response", []any{func(i string) *string { return &i }("mail")}, `{"code": 200, "message": "OK", "status": "success"}`, &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, false},
 		{"success response", []any{nil}, `{"code": 200, "message": "OK", "status": "success"}`, &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, false},
-		{"fail response", []any{func(i string) *string { return &i }("mail")}, `{"code": 400, "message": "NOK", "message": "error"}`, nil, true},
+		{"fail response", []any{func(i string) *string { return &i }("mail")}, `fail`, nil, true},
 	}
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
@@ -56,7 +56,7 @@ func TestClient_FetchLetsEncryptAccount(t *testing.T) {
 		wantErr   bool
 	}{
 		{"success response", []any{"password", "data"}, `{"code": 200, "message": "OK", "status": "success"}`, &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, false},
-		{"fail response", []any{"password", "data"}, `{"code": 400, "message": "NOK", "message": "error"}`, nil, true},
+		{"fail response", []any{"password", "data"}, `fail`, nil, true},
 	}
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
@@ -95,7 +95,7 @@ func TestClient_SetDigicertKeyId(t *testing.T) {
 		wantErr   bool
 	}{
 		{"success response", []any{"key"}, `{"code": 200, "message": "OK", "status": "success"}`, &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, false},
-		{"fail response", []any{"key"}, `{"code": 400, "message": "NOK", "message": "error"}`, nil, true},
+		{"fail response", []any{"key"}, `fail`, nil, true},
 	}
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
@@ -133,7 +133,7 @@ func TestClient_SetDigicertHMAC(t *testing.T) {
 		wantErr   bool
 	}{
 		{"success response", []any{"hmac"}, `{"code": 200, "message": "OK", "status": "success"}`, &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, false},
-		{"fail response", []any{"hmac"}, `{"code": 400, "message": "NOK", "message": "error"}`, nil, true},
+		{"fail response", []any{"hmac"}, `fail`, nil, true},
 	}
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
@@ -172,7 +172,7 @@ func TestClient_RequestACMECertificate(t *testing.T) {
 	}{
 		{"success response", []any{"name", "common", "1", "1", nil}, `{"code": 200, "message": "OK", "status": "success"}`, &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, false},
 		{"success response with params", []any{"name", "common", "1", "1", &RequestACMECertificateParameters{KeySize: 2048}}, `{"code": 200, "message": "OK", "status": "success"}`, &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, false},
-		{"fail response", []any{"name", "common", "1", "1", nil}, `{"code": 400, "message": "NOK", "message": "error"}`, nil, true},
+		{"fail response", []any{"name", "common", "1", "1", nil}, `fail`, nil, true},
 	}
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
@@ -214,7 +214,7 @@ func TestClient_DeleteACMECertificate(t *testing.T) {
 		wantErr   bool
 	}{
 		{"success response", []any{"name", "1"}, `{"code": 200, "message": "OK", "status": "success"}`, &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, false},
-		{"fail response", []any{"name", "1"}, `{"code": 400, "message": "NOK", "status": "error"}`, nil, true},
+		{"fail response", []any{"name", "1"}, `fail`, nil, true},
 	}
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {

@@ -10,18 +10,20 @@ import (
 
 func TestClient_Backup(t *testing.T) {
 	testCases := []struct {
-		name      string
-		arguments []any
-		response  string
-		want      *LoadMasterDataResponse
-		wantErr   bool
+		name         string
+		arguments    []any
+		response     string
+		responseCode int
+		want         *LoadMasterDataResponse
+		wantErr      bool
 	}{
-		{"success response", []any{}, `{"code": 200, "message": "OK", "status": "success", "data": "..."}`, &LoadMasterDataResponse{LoadMasterResponse: &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, Data: "..."}, false},
-		{"fail response", []any{}, `{"code": 400, "message": "NOK", "message": "error"}`, nil, true},
+		{"success response", []any{}, `{"code": 200, "message": "OK", "status": "success", "data": "..."}`, 200, &LoadMasterDataResponse{LoadMasterResponse: &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, Data: "..."}, false},
+		{"fail response", []any{}, `{"code": 400, "message": "NOK", "message": "error"}`, 400, nil, true},
 	}
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
 			server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+				rw.WriteHeader(tt.responseCode)
 				_, err := rw.Write([]byte(tt.response))
 				if err != nil {
 					fmt.Printf("Write failed: %v", err)
@@ -46,22 +48,25 @@ func TestClient_Backup(t *testing.T) {
 
 func TestClient_Restore(t *testing.T) {
 	testCases := []struct {
-		name      string
-		arguments []any
-		response  string
-		want      *LoadMasterResponse
-		wantErr   bool
+		name         string
+		arguments    []any
+		response     string
+		responseCode int
+		want         *LoadMasterResponse
+		wantErr      bool
 	}{
-		{"success response", []any{"data", "14"}, `{"code": 200, "message": "OK", "status": "success"}`, &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, false},
-		{"fail response", []any{"data", "14"}, `{"code": 400, "message": "NOK", "message": "error"}`, nil, true},
+		{"success response", []any{"data", "14"}, `{"code": 200, "message": "OK", "status": "success"}`, 200, &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, false},
+		{"fail response", []any{"data", "14"}, `{"code": 400, "message": "NOK", "message": "error"}`, 400, nil, true},
 	}
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
 			server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+				rw.WriteHeader(tt.responseCode)
 				_, err := rw.Write([]byte(tt.response))
 				if err != nil {
 					fmt.Printf("Write failed: %v", err)
 				}
+
 			}))
 
 			defer server.Close()

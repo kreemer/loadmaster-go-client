@@ -10,17 +10,19 @@ import (
 
 func TestClient_ListApiKey(t *testing.T) {
 	testCases := []struct {
-		name     string
-		response string
-		want     *ListApiKeyResponse
-		wantErr  bool
+		name         string
+		response     string
+		responseCode int
+		want         *ListApiKeyResponse
+		wantErr      bool
 	}{
-		{"success response", `{"code": 200, "message": "OK", "status": "success", "apikeys": ["foo", "bar"]}`, &ListApiKeyResponse{LoadMasterResponse: &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, ApiKeys: []string{"foo", "bar"}}, false},
-		{"fail response", `{"code": 400, "message": "NOK", "message": "error"}`, nil, true},
+		{"success response", `{"code": 200, "message": "OK", "status": "success", "apikeys": ["foo", "bar"]}`, 200, &ListApiKeyResponse{LoadMasterResponse: &LoadMasterResponse{Code: 200, Message: "OK", Status: "success"}, ApiKeys: []string{"foo", "bar"}}, false},
+		{"fail response", `{"code": 400, "message": "NOK", "message": "error"}`, 400, nil, true},
 	}
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
 			server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+				rw.WriteHeader(tt.responseCode)
 				_, err := rw.Write([]byte(tt.response))
 				if err != nil {
 					fmt.Printf("Write failed: %v", err)
